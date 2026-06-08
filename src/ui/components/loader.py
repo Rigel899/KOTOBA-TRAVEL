@@ -63,17 +63,13 @@ class TrainProgress:
     def build(self) -> ft.Control:
         n_stations = min(self.total, 10)
 
-        # Primo figlio NON-positioned: definisce le dimensioni della Stack in Flutter.
-        # Senza almeno un figlio non-positioned, una Stack con soli Positioned children
-        # può non calcolare le dimensioni correttamente in Flet 0.85.
-        spacer = ft.Container(width=self.tw, height=28)
-
         track_line = ft.Container(
             top=11, left=0, width=self.tw, height=6,
             bgcolor=KotobaTheme.BORDER, border_radius=3,
         )
 
-        # Wrapper con dimensioni esplicite: impedisce espansione indesiderata nel Stack
+        # Il Container esterno dà vincoli TIGHT allo Stack (width/height espliciti).
+        # Così lo Stack non può espandersi, indipendentemente dai vincoli del genitore.
         fill_wrapper = ft.Container(
             top=11, left=0, width=self.tw, height=6,
             clip_behavior=ft.ClipBehavior.HARD_EDGE,
@@ -91,9 +87,14 @@ class TrainProgress:
             for i in range(n_stations)
         ]
 
-        # Stack della rotaia: spacer (sizing) + rotaia + fill + dots + treno
-        track_stack = ft.Stack(
-            controls=[spacer, track_line, fill_wrapper, *dot_controls, self._train],
+        # Container con dimensioni esplicite → Stack riceve vincoli tight → non si espande
+        track_section = ft.Container(
+            width=self.tw,
+            height=28,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            content=ft.Stack(
+                controls=[track_line, fill_wrapper, *dot_controls, self._train],
+            ),
         )
 
         header_row = ft.Row(
@@ -105,7 +106,7 @@ class TrainProgress:
             width=self.tw,
         )
 
-        col_controls: list[ft.Control] = [header_row, track_stack]
+        col_controls: list[ft.Control] = [header_row, track_section]
 
         # Nomi città in uno Stack separato sotto la rotaia
         if self._stations_labels:
