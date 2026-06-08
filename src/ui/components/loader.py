@@ -68,11 +68,10 @@ class TrainProgress:
             bgcolor=KotobaTheme.BORDER, border_radius=3,
         )
 
-        # Il Container esterno dà vincoli TIGHT allo Stack (width/height espliciti).
-        # Così lo Stack non può espandersi, indipendentemente dai vincoli del genitore.
+        # Wrapper fill: dimensioni esplicite ma senza clip_behavior
+        # (clip_behavior su Container senza bgcolor crea layer Material bianco in Flet 0.85)
         fill_wrapper = ft.Container(
             top=11, left=0, width=self.tw, height=6,
-            clip_behavior=ft.ClipBehavior.HARD_EDGE,
             content=self._fill,
         )
 
@@ -88,10 +87,10 @@ class TrainProgress:
         ]
 
         # Container con dimensioni esplicite → Stack riceve vincoli tight → non si espande
+        # Nessun clip_behavior: evita layer Material bianco su sfondo trasparente
         track_section = ft.Container(
             width=self.tw,
             height=28,
-            clip_behavior=ft.ClipBehavior.HARD_EDGE,
             content=ft.Stack(
                 controls=[track_line, fill_wrapper, *dot_controls, self._train],
             ),
