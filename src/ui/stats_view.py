@@ -157,7 +157,7 @@ class StatsView:
             [
                 metrics,
                 ft.Container(height=2),
-                ft.Text("Modalità quiz", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
+                ft.Text("Modalità Quiz", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
                 *mode_rows,
                 exploration,
             ],

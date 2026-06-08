@@ -116,14 +116,20 @@ class CultureView:
         return str(number)
 
     def _select_topic(self, index: int):
+        prev_index = self.selected_index
         self.selected_index = index
-        
-        # Aggiorna l'aspetto visivo di tutte le card della lista
-        for i, card in self.card_containers.items():
-            is_active = (i == index)
-            card.border = ft.border.all(1, T.GOLD) if is_active else ft.border.all(1, T.BORDER)
-            card.bgcolor = T.BG_SURF if is_active else T.BG_CARD
-            card.update()
+        # O(1): aggiorna solo la card precedente e quella nuova
+        if prev_index is not None and prev_index != index:
+            prev_card = self.card_containers.get(prev_index)
+            if prev_card is not None:
+                prev_card.border = ft.border.all(1, T.BORDER)
+                prev_card.bgcolor = T.BG_CARD
+                prev_card.update()
+        new_card = self.card_containers.get(index)
+        if new_card is not None:
+            new_card.border = ft.border.all(1, T.GOLD)
+            new_card.bgcolor = T.BG_SURF
+            new_card.update()
         
         # Rigenera e aggiorna il contenuto del pannello di destra
         topic = self.culture_data[index]

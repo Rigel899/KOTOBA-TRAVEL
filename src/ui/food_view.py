@@ -3,6 +3,7 @@ FoodView – catalogo cucina giapponese.
 (Rifattorizzato con Layout Split-Screen Desktop, ricerca per ingredienti e lettura estesa)
 """
 from __future__ import annotations
+import asyncio
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
@@ -33,8 +34,10 @@ class FoodView:
         
         # Elemento attualmente selezionato per la colonna di destra
         self.selected_item: dict | None = None
-        self._card_controls: list[tuple[dict, ft.Container]] = []
+        self._item_to_card: dict[int, ft.Container] = {}
         
+        self._search_task: asyncio.Future | None = None
+
         self._load_data()
 
         self.grid = ft.ResponsiveRow(
@@ -133,9 +136,27 @@ class FoodView:
     # ── Selezione e Aggiornamento UI ──────────────────────────────────────────
 
     def _select_food(self, item: dict):
+        prev_item = self.selected_item
         self.selected_item = item
+        # O(1): aggiorna solo la card deselezionata e quella appena selezionata
+        if prev_item is not None and prev_item is not item:
+            prev_card = self._item_to_card.get(id(prev_item))
+            if prev_card is not None:
+                self._apply_food_card_style(prev_card, prev_item)
+                try:
+                    if prev_card.page:
+                        prev_card.update()
+                except RuntimeError:
+                    pass
+        new_card = self._item_to_card.get(id(item))
+        if new_card is not None:
+            self._apply_food_card_style(new_card, item)
+            try:
+                if new_card.page:
+                    new_card.update()
+            except RuntimeError:
+                pass
         self._set_right_content(self._build_right_content(item))
-        self._refresh_card_selection()
         food_id = item.get("word") or item.get("pronunciation") or item.get("meaning", "")
         show_achievements(self.page, DBManager.increment_stat(self.username, "food_viewed", unique_id=food_id))
 
@@ -144,19 +165,10 @@ class FoodView:
         card.border = ft.border.all(1.5, T.GOLD) if is_active else ft.border.all(1, T.BORDER)
         card.bgcolor = T.BG_SURF if is_active else T.BG_CARD
 
-    def _refresh_card_selection(self) -> None:
-        for item, card in self._card_controls:
-            self._apply_food_card_style(card, item)
-            try:
-                if card.page:
-                    card.update()
-            except RuntimeError:
-                pass
-
     def _refresh_grid(self):
         items = self._filtered()
         self.grid.controls.clear()
-        self._card_controls.clear()
+        self._item_to_card.clear()
         if items and self.selected_item not in items:
             self.selected_item = items[0]
             self._set_right_content(self._build_right_content(self.selected_item))
@@ -167,7 +179,7 @@ class FoodView:
         if items:
             for item in items:
                 card = self._food_card(item)
-                self._card_controls.append((item, card))
+                self._item_to_card[id(item)] = card
                 self.grid.controls.append(card)
         else:
             self.grid.controls.append(
@@ -407,6 +419,15 @@ class FoodView:
     # ── Costruzione Vista Principale ──────────────────────────────────────────
 
     def _on_search(self, value: str):
+        if self._search_task:
+            self._search_task.cancel()
+        self._search_task = self.page.run_task(self._debounced_search, value)
+
+    async def _debounced_search(self, value: str):
+        try:
+            await asyncio.sleep(0.2)
+        except asyncio.CancelledError:
+            return
         self.search_text = value
         self._refresh_grid()
 

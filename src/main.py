@@ -1,6 +1,7 @@
 # main.py
 import src.core.compat  # Shim obbligatorio per ripristinare le vecchie API rimosse in Flet 0.80+
 import importlib
+import logging
 import os
 import flet as ft
 from src.core.settings import KotobaTheme as T
@@ -243,6 +244,17 @@ def main(page: ft.Page):
     from src.core.db_manager import DBManager
 
     DBManager.data_dir()
+    try:
+        log_path = os.path.join(DBManager.user_data_dir(), "kotoba.log")
+        logging.basicConfig(
+            filename=log_path,
+            level=logging.WARNING,
+            format="%(asctime)s %(name)s %(levelname)s %(message)s",
+            encoding="utf-8",
+        )
+    except Exception:
+        pass  # log setup failure must never crash the app
+
     routes = {
         "splash": ("src.ui.splash_view", "SplashView"),
         "dashboard": ("src.ui.dashboard_view", "DashboardView"),

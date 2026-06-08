@@ -7,6 +7,7 @@ import asyncio
 import flet as ft
 from src.core.settings import KotobaTheme
 from src.core.db_manager import DBManager
+from src.core.app_state import set_user
 
 T = KotobaTheme
 
@@ -128,12 +129,11 @@ class LoginView:
                 return
             if DBManager.verify_login(user, pwd):
                 DBManager.clear_failed_attempts(user, "login")
-                DBManager.current_username = user
+                set_user(self.state, user)
                 import datetime
                 data = DBManager.get_user_data(user) or {}
                 data["last_login"] = datetime.datetime.now().isoformat()
                 DBManager.update_user_data(user, data)
-                self.state["user"] = user
                 self.navigate("dashboard")
             else:
                 self.pwd_field.border_color = T.ERR
@@ -185,9 +185,8 @@ class LoginView:
             self._show_msg(str(exc), T.ERR)
             self.page.update(); return
         self._pending_pwd = ""
-        DBManager.current_username = self._pending_user
+        set_user(self.state, self._pending_user)
         DBManager.unlock_achievement(self._pending_user, "first_steps")
-        self.state["user"] = self._pending_user
         self.state["just_registered"] = True
         self.navigate("dashboard")
 
@@ -254,9 +253,8 @@ class LoginView:
         if self._recovery_data.get("recovery_answer_hash"):
             data["recovery_answer_hash"] = self._recovery_data["recovery_answer_hash"]
         DBManager.update_user_data(self._pending_user, data)
-        DBManager.current_username = self._pending_user
+        set_user(self.state, self._pending_user)
         self._recovery_data = {}
-        self.state["user"] = self._pending_user
         self.navigate("dashboard")
 
     def _clear_errors(self):

@@ -3,6 +3,7 @@ StudyHub – Hub di studio.
 (Caricamento dinamico da JSON + Design System Sumi-e + Vocabolario a Griglia Verticale Impilata)
 """
 from __future__ import annotations
+import asyncio
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
@@ -27,7 +28,8 @@ class StudyHub:
         self.vocab_page_size = 40
         self.kanji_page = 0
         self.kanji_page_size = 40
-        
+        self._search_task: asyncio.Future | None = None
+
         self.tab_row = ft.Row(spacing=8, scroll=ft.ScrollMode.AUTO)
         self.content_area = ft.Container(expand=True)
         self.search_field = self._tf_search()
@@ -51,6 +53,15 @@ class StudyHub:
         )
 
     def _on_search(self, value: str):
+        if self._search_task:
+            self._search_task.cancel()
+        self._search_task = self.page.run_task(self._debounced_search, value)
+
+    async def _debounced_search(self, value: str):
+        try:
+            await asyncio.sleep(0.2)
+        except asyncio.CancelledError:
+            return
         self.search_text = value or ""
         self.vocab_page = 0
         self.kanji_page = 0
@@ -485,98 +496,6 @@ class StudyHub:
             ink=False,
         )
 
-    def _kanji_tab_legacy(self) -> ft.Control:
-        filtered_data = [
-            item for item in self.kanji_data
-            if self._matches_search(item, ("word", "reading", "meaning", "group"))
-        ]
-        if not filtered_data:
-            return ft.Container(content=ft.Text("Nessun Kanji trovato nel json.", color=T.TEXT_M), padding=16)
-
-        group_order = []
-        for item in filtered_data:
-            group = item.get("group", "Essenziali")
-            if group not in group_order:
-                group_order.append(group)
-
-        def make_card(item: dict) -> ft.Container:
-            card_content = ft.Column([
-                ft.Container(
-                    width=62,
-                    height=46,
-                    alignment=ft.Alignment.CENTER,
-                    border=ft.border.all(1.5, T.GOLD),
-                    border_radius=4,
-                    content=ft.Text(
-                        item.get("word", ""),
-                        size=26,
-                        font_family=T.FONT_JP,
-                        color=T.GOLD,
-                        weight=ft.FontWeight.W_700,
-                        text_align=ft.TextAlign.CENTER,
-                    ),
-                ),
-                ft.Text(
-                    item.get("reading", ""),
-                    size=11,
-                    font_family=T.FONT_BODY,
-                    color=T.RED,
-                    italic=True,
-                    overflow=ft.TextOverflow.ELLIPSIS,
-                    text_align=ft.TextAlign.CENTER,
-                ),
-                ft.Text(
-                    item.get("meaning", "").capitalize(),
-                    size=13,
-                    font_family=T.FONT_DISPLAY,
-                    weight=ft.FontWeight.BOLD,
-                    color=T.TEXT,
-                    overflow=ft.TextOverflow.ELLIPSIS,
-                    text_align=ft.TextAlign.CENTER,
-                ),
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=4, alignment=ft.MainAxisAlignment.CENTER)
-
-            return ft.Container(
-                content=card_content,
-                bgcolor=T.BG_CARD,
-                border_radius=T.RADIUS,
-                border=ft.border.all(1, T.BORDER),
-                padding=ft.padding.symmetric(vertical=12, horizontal=8),
-                alignment=ft.Alignment.CENTER,
-                height=112,
-                animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
-            )
-
-        def chunk(items: list[dict], size: int = 6) -> list[list[dict]]:
-            return [items[i:i + size] for i in range(0, len(items), size)]
-
-        sections = []
-        for group_name in group_order:
-            group_items = [item for item in filtered_data if item.get("group", "Essenziali") == group_name]
-            rows = []
-            for row_items in chunk(group_items):
-                controls = [ft.Container(content=make_card(item), expand=True) for item in row_items]
-                while len(controls) < 6:
-                    controls.append(ft.Container(expand=True, opacity=0))
-                rows.append(ft.Row(controls, spacing=10))
-
-            sections.append(
-                ft.Column([
-                    ft.Row([
-                        ft.Text(group_name, size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
-                        ft.Container(expand=True),
-                        ft.Text(f"{len(group_items)} kanji", size=12, font_family=T.FONT_BODY, color=T.GOLD),
-                    ], vertical_alignment=ft.CrossAxisAlignment.CENTER),
-                    *rows,
-                ], spacing=10)
-            )
-
-        return ft.Column([
-            ft.Text("Kanji base – 基本漢字", size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
-            ft.Divider(color=T.BORDER, height=14),
-            ft.ListView(sections, expand=True, spacing=16, padding=ft.padding.only(top=2, bottom=14)),
-        ], expand=True)
-
     def _kanji_tab(self) -> ft.Control:
         filtered_data = [
             item for item in self.kanji_data
@@ -707,85 +626,6 @@ class StudyHub:
             actions_alignment=ft.MainAxisAlignment.END,
         )
         self._open_dialog(dialog)
-
-    def _vocab_tab_legacy(self) -> ft.Control:
-        grid_cards = []
-        filtered_data = [
-            item for item in self.vocabolario_data
-            if self._matches_search(item, ("word", "reading", "meaning", "group", "category", "example"))
-        ]
-        for item in filtered_data:
-            # Layout perfettamente impilato in verticale (ft.Column anziché ft.Row)
-            card_content = ft.Column([
-                # 1. IN ALTO: Il quadrato dorato contenente la parola giapponese
-                ft.Container(
-                    width=130, height=46, alignment=ft.Alignment.CENTER,
-                    border=ft.border.all(1.5, T.GOLD), border_radius=4,
-                    padding=ft.padding.symmetric(horizontal=8),
-                    content=ft.Text(
-                        item.get("word", ""), 
-                        size=15, 
-                        font_family=T.FONT_DISPLAY, 
-                        color=T.GOLD, 
-                        weight=ft.FontWeight.W_700,
-                        overflow=ft.TextOverflow.ELLIPSIS,
-                        text_align=ft.TextAlign.CENTER
-                    )
-                ),
-                # Spazio protettivo interno
-                ft.Container(height=2),
-                # 2. IN MEZZO: Pronuncia Romaji in rosso corsivo
-                ft.Text(
-                    item.get("reading", ""), 
-                    size=11, 
-                    font_family=T.FONT_BODY, 
-                    color=T.RED, 
-                    italic=True, 
-                    overflow=ft.TextOverflow.ELLIPSIS,
-                    text_align=ft.TextAlign.CENTER
-                ),
-                # 3. IN BASSO: Traduzione italiana in grassetto chiaro
-                ft.Text(
-                    item.get("meaning", "").capitalize(), 
-                    size=13, 
-                    font_family=T.FONT_DISPLAY, 
-                    weight=ft.FontWeight.BOLD, 
-                    color=T.TEXT, 
-                    overflow=ft.TextOverflow.ELLIPSIS,
-                    text_align=ft.TextAlign.CENTER
-                ),
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=4, alignment=ft.MainAxisAlignment.CENTER)
-            
-            # Box esterno della griglia che cattura l'hover dorato
-            grid_cards.append(
-                ft.Container(
-                    content=card_content,
-                    bgcolor=T.BG_CARD,
-                    border_radius=T.RADIUS,
-                    border=ft.border.all(1, T.BORDER),
-                    padding=ft.padding.symmetric(vertical=14, horizontal=10),
-                    alignment=ft.Alignment(0, 0),
-                    clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
-                    animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
-                    on_hover=lambda e: self._handle_cell_hover(e),
-                    on_click=lambda e, selected=item: self._show_vocab_detail(selected),
-                    ink=False,
-                )
-            )
-
-        if not grid_cards:
-            return ft.Container(content=ft.Text("Nessun vocabolo trovato nel json.", color=T.TEXT_M), padding=16)
-
-        # Griglia a 4 colonne simmetriche per Desktop (perfetta per le box verticali)
-        return ft.GridView(
-            controls=grid_cards,
-            expand=True,
-            runs_count=4,
-            max_extent=220, 
-            spacing=14, 
-            run_spacing=14,
-            padding=ft.padding.only(top=8, bottom=16)
-        )
 
     def _vocab_tab(self) -> ft.Control:
         filtered_data = [

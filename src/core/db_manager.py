@@ -6,6 +6,7 @@ I profili utente scrivibili sono salvati fuori da asset, nella cartella utente.
 """
 
 import json
+import logging
 import os
 import shutil
 import hashlib
@@ -16,6 +17,8 @@ import tempfile
 import threading
 import time
 from datetime import datetime
+
+_log = logging.getLogger("kotoba.db")
 
 
 class DBManager:
@@ -223,8 +226,8 @@ class DBManager:
                 os.fsync(f.fileno())
             os.replace(tmp_path, path)
             tmp_path = None
-        except OSError:
-            pass
+        except OSError as exc:
+            _log.warning("lockouts write failed: %s", exc)
         finally:
             if tmp_path and os.path.exists(tmp_path):
                 try:
@@ -321,7 +324,8 @@ class DBManager:
         try:
             with open(path, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except (json.JSONDecodeError, OSError):
+        except (json.JSONDecodeError, OSError) as exc:
+            _log.warning("profile read failed for %s: %s", username, exc)
             return None
 
     @staticmethod
@@ -522,7 +526,8 @@ class DBManager:
                 data = json.load(f)
             DBManager._json_cache[path] = (mtime_ns, data)
             return data
-        except (json.JSONDecodeError, OSError):
+        except (json.JSONDecodeError, OSError) as exc:
+            _log.warning("json load failed for %s: %s", path, exc)
             DBManager._json_cache.pop(path, None)
             return None
 

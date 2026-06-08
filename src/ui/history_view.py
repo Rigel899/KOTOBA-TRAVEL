@@ -101,26 +101,29 @@ class HistoryView:
             return data
         return []
 
+    def _apply_era_style(self, refs: dict, is_active: bool) -> None:
+        refs["card"].border = ft.border.all(1, T.GOLD) if is_active else ft.border.all(1, T.BORDER)
+        refs["card"].bgcolor = T.BG_SURF if is_active else T.BG_CARD
+        refs["dot"].bgcolor = T.GOLD if is_active else T.BG_MAIN
+        refs["dot"].border = ft.border.all(4, T.GOLD) if is_active else ft.border.all(2, T.GOLD)
+
     def _select_era(self, index: int):
+        prev_index = self.selected_index
         self.selected_index = index
-        
-        # Aggiorna l'aspetto di tutti i nodi e le card della timeline
-        for i, refs in self.timeline_refs.items():
-            is_active = (i == index)
-            stack = refs["stack"]
-            card = refs["card"]
-            dot = refs["dot"]
-            
-            # Aggiornamento Card
-            card.border = ft.border.all(1, T.GOLD) if is_active else ft.border.all(1, T.BORDER)
-            card.bgcolor = T.BG_SURF if is_active else T.BG_CARD
-            
-            # Aggiornamento Nodo Cronologico
-            dot.bgcolor = T.GOLD if is_active else T.BG_MAIN
-            dot.border = ft.border.all(4, T.GOLD) if is_active else ft.border.all(2, T.GOLD)
-            
+        # O(1): aggiorna solo il nodo precedente e quello nuovo
+        if prev_index is not None and prev_index != index:
+            prev_refs = self.timeline_refs.get(prev_index)
+            if prev_refs is not None:
+                self._apply_era_style(prev_refs, is_active=False)
+                try:
+                    prev_refs["stack"].update()
+                except RuntimeError:
+                    pass
+        new_refs = self.timeline_refs.get(index)
+        if new_refs is not None:
+            self._apply_era_style(new_refs, is_active=True)
             try:
-                stack.update()
+                new_refs["stack"].update()
             except RuntimeError:
                 pass
         
