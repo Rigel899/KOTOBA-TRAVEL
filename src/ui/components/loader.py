@@ -48,8 +48,8 @@ class TrainProgress:
         self._train = ft.Container(
             content=ft.Text("🚄", size=22),
             width=28, height=28,
-            alignment=ft.alignment.center,
-            transform=ft.Scale(scale_x=-1, scale_y=1, alignment=ft.alignment.center),
+            alignment=ft.Alignment(0, 0),
+            transform=ft.Scale(scale_x=-1, scale_y=1),
             left=0,
             top=0,
             animate=ft.Animation(350, ft.AnimationCurve.EASE_OUT),
