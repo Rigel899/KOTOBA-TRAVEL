@@ -36,9 +36,7 @@ class TrainProgress:
         self._header = header
 
         # ── Controlli interni ─────────────────────────────────────────────
-        # top/left settati qui così vengono usati direttamente nel Stack
         self._fill = ft.Container(
-            top=11, left=0,
             width=0, height=6,
             bgcolor=KotobaTheme.RED,
             border_radius=3,
@@ -65,9 +63,21 @@ class TrainProgress:
     def build(self) -> ft.Control:
         n_stations = min(self.total, 10)
 
-        track_bg = ft.Container(
+        # Primo figlio NON-positioned: definisce le dimensioni della Stack in Flutter.
+        # Senza almeno un figlio non-positioned, una Stack con soli Positioned children
+        # può non calcolare le dimensioni correttamente in Flet 0.85.
+        spacer = ft.Container(width=self.tw, height=28)
+
+        track_line = ft.Container(
             top=11, left=0, width=self.tw, height=6,
             bgcolor=KotobaTheme.BORDER, border_radius=3,
+        )
+
+        # Wrapper con dimensioni esplicite: impedisce espansione indesiderata nel Stack
+        fill_wrapper = ft.Container(
+            top=11, left=0, width=self.tw, height=6,
+            clip_behavior=ft.ClipBehavior.HARD_EDGE,
+            content=self._fill,
         )
 
         # Pallini stazione: ricreati ad ogni build (controlli statici, nessuno stato)
@@ -81,11 +91,9 @@ class TrainProgress:
             for i in range(n_stations)
         ]
 
-        # Stack dedicato alla rotaia: track + fill + dots + treno (altezza = 28px = treno)
+        # Stack della rotaia: spacer (sizing) + rotaia + fill + dots + treno
         track_stack = ft.Stack(
-            width=self.tw,
-            height=28,
-            controls=[track_bg, self._fill, *dot_controls, self._train],
+            controls=[spacer, track_line, fill_wrapper, *dot_controls, self._train],
         )
 
         header_row = ft.Row(
@@ -101,7 +109,7 @@ class TrainProgress:
 
         # Nomi città in uno Stack separato sotto la rotaia
         if self._stations_labels:
-            lw = 42
+            lw = 52  # abbastanza largo per "Shinagawa" / "Hiroshima" in romaji
             label_containers = []
             for i, city in enumerate(self._stations_labels[:n_stations]):
                 sx = int((self.tw - 6) * i / max(n_stations - 1, 1))
