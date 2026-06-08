@@ -37,7 +37,13 @@ class SplashView:
         self.navigate = navigate
         self.state    = state
         self._msg_ref = ft.Ref[ft.Text]()
-        self._train   = TrainProgress(page, total_steps=len(FILES_TO_PRELOAD), track_width=440)
+        self._train = TrainProgress(
+            page,
+            total_steps=len(FILES_TO_PRELOAD),
+            track_width=460,
+            stations=["東京", "品川", "名古屋", "京都", "大阪", "広島", "小倉", "博多"],
+            header="🗾  Tokaido · Sanyo",
+        )
 
     async def _run(self):
         start = time.monotonic()

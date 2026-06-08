@@ -25,11 +25,15 @@ class TrainProgress:
         tp.advance()   # chiama page.update() automaticamente
     """
 
-    def __init__(self, page: ft.Page, total_steps: int, track_width: int = 480):
+    def __init__(self, page: ft.Page, total_steps: int, track_width: int = 480,
+                 stations: list[str] | None = None,
+                 header: str = "🗾  Percorso"):
         self.page = page
         self.total = max(total_steps, 1)
         self.step = 0
         self.tw = track_width
+        self._stations_labels = stations
+        self._header = header
 
         # ── Controlli interni ─────────────────────────────────────────────
         self._fill = ft.Container(
@@ -40,8 +44,12 @@ class TrainProgress:
             animate=ft.Animation(350, ft.AnimationCurve.EASE_OUT),
         )
 
+        # scale_x=-1 specchia l'emoji così il treno guarda a destra →
         self._train = ft.Container(
             content=ft.Text("🚄", size=22),
+            width=28, height=28,
+            alignment=ft.alignment.center,
+            transform=ft.Scale(scale_x=-1, scale_y=1, alignment=ft.alignment.center),
             left=0,
             top=0,
             animate=ft.Animation(350, ft.AnimationCurve.EASE_OUT),
@@ -83,14 +91,35 @@ class TrainProgress:
             content=self._fill,
         )
 
+        n_stations = min(self.total, 10)
+        stack_controls = [track_bg, fill_wrapper, *self._stations]
+
+        # Nomi delle città sotto ogni pallino stazione
+        if self._stations_labels:
+            lw = 42
+            for i, city in enumerate(self._stations_labels[:n_stations]):
+                sx = int((self.tw - 6) * i / max(n_stations - 1, 1))
+                lx = max(0, min(sx + 3 - lw // 2, self.tw - lw))
+                stack_controls.append(
+                    ft.Container(
+                        left=lx, top=23,
+                        width=lw, height=14,
+                        content=ft.Text(
+                            city, size=9,
+                            color=KotobaTheme.TEXT_M,
+                            font_family=KotobaTheme.FONT_JP,
+                            text_align=ft.TextAlign.CENTER,
+                        ),
+                    )
+                )
+
+        stack_controls.append(self._train)
+
         return ft.Column(
             [
                 ft.Row(
                     [
-                        ft.Row(
-                            [ft.Text("🗾", size=14), ft.Text(" Percorso", color=KotobaTheme.TEXT_M, size=KotobaTheme.FS_SMALL)],
-                            spacing=2,
-                        ),
+                        ft.Text(self._header, color=KotobaTheme.TEXT_M, size=KotobaTheme.FS_SMALL),
                         ft.Container(expand=True),
                         self._label,
                     ],
@@ -98,8 +127,8 @@ class TrainProgress:
                 ),
                 ft.Stack(
                     width=self.tw,
-                    height=38,
-                    controls=[track_bg, fill_wrapper, *self._stations, self._train],
+                    height=40 if self._stations_labels else 38,
+                    controls=stack_controls,
                 ),
             ],
             spacing=4,
@@ -126,7 +155,7 @@ class TrainProgress:
     def _refresh(self) -> None:
         ratio = self.step / self.total
         fill_px = int(self.tw * ratio)
-        train_left = max(0, int((self.tw - 30) * ratio))
+        train_left = max(0, int((self.tw - 28) * ratio))
 
         self._fill.width = fill_px
         self._train.left = train_left
