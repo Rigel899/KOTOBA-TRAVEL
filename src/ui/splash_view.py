@@ -1,8 +1,9 @@
 """
 ui/splash_view.py — Splash screen integrata in Flet.
 
-Il treno avanza ad ogni file JSON caricato: quando raggiunge la stazione
-finale l'app è pronta e la navigazione avviene automaticamente.
+Carica i JSON in background mentre mostra logo e messaggio di stato.
+Naviga al login quando tutti i file sono pronti e sono passati almeno
+MIN_VISIBLE secondi.
 """
 from __future__ import annotations
 import asyncio
@@ -11,7 +12,6 @@ import time
 import flet as ft
 from src.core.db_manager import DBManager
 from src.core.settings import KotobaTheme as T
-from src.ui.components.loader import TrainProgress
 
 ASSET_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "asset")
 
@@ -27,7 +27,7 @@ FILES_TO_PRELOAD: list[tuple[str, str]] = [
     ("explore.json",     "Preparo i luoghi"),
 ]
 
-STEP_DELAY  = 0.55  # durata minima per ogni passo (8 passi × 0.55 ≈ 4.4s animazione)
+STEP_DELAY  = 0.55  # durata minima per ogni passo (8 × 0.55 ≈ 4.4s)
 MIN_VISIBLE = 5.0   # durata minima totale dello splash
 
 
@@ -37,13 +37,6 @@ class SplashView:
         self.navigate = navigate
         self.state    = state
         self._msg_ref = ft.Ref[ft.Text]()
-        self._train = TrainProgress(
-            page,
-            total_steps=len(FILES_TO_PRELOAD),
-            track_width=460,
-            stations=["Tokyo", "Shinagawa", "Nagoya", "Kyoto", "Osaka", "Hiroshima", "Kokura", "Hakata"],
-            header="🗾  Tokaido · Sanyo",
-        )
 
     async def _run(self):
         start = time.monotonic()
@@ -55,8 +48,6 @@ class SplashView:
                 self._msg_ref.current.value = msg + "..."
                 self._msg_ref.current.update()
             await asyncio.to_thread(DBManager.load_json, filename)
-            self._train.advance()
-            # Ogni passo dura almeno STEP_DELAY così l'animazione è visibile
             step_gap = STEP_DELAY - (time.monotonic() - step_start)
             if step_gap > 0:
                 await asyncio.sleep(step_gap)
@@ -86,7 +77,7 @@ class SplashView:
         else:
             logo = ft.Container(
                 width=156, height=156,
-                alignment=ft.Alignment.CENTER,
+                alignment=ft.Alignment(0, 0),
                 border=ft.border.all(2, T.GOLD),
                 border_radius=32,
                 content=ft.Text("旅", size=55,
@@ -111,14 +102,12 @@ class SplashView:
                         size=T.FS_SMALL, font_family=T.FONT_DISPLAY,
                         color=T.TEXT_M, italic=True,
                         text_align=ft.TextAlign.CENTER),
-                ft.Container(height=32),
+                ft.Container(height=48),
                 ft.Text("", ref=self._msg_ref,
                         size=T.FS_SMALL, color=T.TEXT_M,
                         font_family=T.FONT_BODY, italic=True,
                         text_align=ft.TextAlign.CENTER,
                         height=18),
-                ft.Container(height=10),
-                self._train.build(),
             ],
             spacing=0,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
