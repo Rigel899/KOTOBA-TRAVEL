@@ -33,6 +33,8 @@ class DashboardView:
         self.state = state
         self.username = state.get("user", DBManager.current_username or "Viandante")
         self.user_data = DBManager.current_user_data()
+        self._content_width_cache: int | None = None
+        self._scale_cache: float | None = None
 
     def _page_width(self) -> int:
         page_width = getattr(self.page, "width", None)
@@ -44,17 +46,22 @@ class DashboardView:
             return 1200
 
     def _dashboard_scale(self) -> float:
-        return min(1.12, max(1.0, self._content_width() / 1120))
+        if self._scale_cache is None:
+            self._scale_cache = min(1.12, max(1.0, self._content_width() / 1120))
+        return self._scale_cache
 
     def _scaled(self, value: int | float) -> int:
         return int(round(value * self._dashboard_scale()))
 
     def _content_width(self) -> int:
+        if self._content_width_cache is not None:
+            return self._content_width_cache
         page_width = self._page_width()
         available_width = max(0, page_width - 96)
         growth = max(0, page_width - 1200) * 0.45
         target_width = min(1440, 1120 + growth)
-        return int(max(640, min(target_width, available_width)))
+        self._content_width_cache = int(max(640, min(target_width, available_width)))
+        return self._content_width_cache
 
     def _tint(self, color: str, alpha: int = 24) -> str:
         """Flet usa #AARRGGBB, non #RRGGBBAA: crea una tinta trasparente corretta."""
@@ -332,6 +339,7 @@ class DashboardView:
         self._open_dialog(dialog)
 
     def _build_header(self, width: int) -> ft.Control:
+        greeting = "Benvenuto" if self.state.get("just_registered") else "Bentornato"
         return ft.Container(
             content=ft.Row(
                 [
@@ -339,7 +347,7 @@ class DashboardView:
                     ft.Column(
                         [
                             ft.Text("Kotoba Travel", size=self._scaled(36), weight=ft.FontWeight.W_700, color=T.TEXT, font_family=T.FONT_DISPLAY),
-                            ft.Text(f"Bentornato, {self.username}  /  ことば旅", size=self._scaled(14), color=T.TEXT_M, italic=True, font_family=T.FONT_DISPLAY),
+                            ft.Text(f"{greeting}, {self.username}  /  ことば旅", size=self._scaled(14), color=T.TEXT_M, italic=True, font_family=T.FONT_DISPLAY),
                         ],
                         spacing=1,
                     ),

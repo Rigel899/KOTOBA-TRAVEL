@@ -164,13 +164,6 @@ class DojoVocab:
         self.content_area.content = centered_stage(self.page, screen, max_width=920, min_width=640)
         self._safe_update()
 
-    def _hover_btn(self, e, btn):
-        if self.current_idx not in self.user_answers:
-            is_hover = e.data == "true"
-            btn.border = ft.border.all(1.5, T.BELT_VOCAB if is_hover else T.BORDER)
-            btn.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-            btn.update()
-
     def _check_answer(self, chosen: str):
         idx_at_schedule = self.current_idx
         self.user_answers[idx_at_schedule] = chosen

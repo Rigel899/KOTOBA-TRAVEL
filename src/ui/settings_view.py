@@ -76,6 +76,14 @@ class SettingsView:
         self.msg.color = color
         self.page.update()
 
+    def _format_profile_date(self, value: str | None) -> str:
+        if not value:
+            return "non disponibile"
+        try:
+            return datetime.fromisoformat(value).strftime("%d/%m/%Y %H:%M")
+        except (TypeError, ValueError):
+            return str(value)
+
     def _verify_current_password(self, password: str) -> bool:
         if not DBManager.verify_login(self.username, password):
             self._set_msg("Password corrente non corretta.", T.ERR)
@@ -132,8 +140,8 @@ class SettingsView:
         self._set_msg("Recupero password aggiornato.", T.GREEN)
 
     def _export_profile(self):
-        data = DBManager.get_user_data(self.username)
-        if not data:
+        export_data = DBManager.export_safe_profile(self.username)
+        if not export_data:
             self._set_msg("Profilo non trovato.", T.ERR)
             return
 
@@ -142,7 +150,7 @@ class SettingsView:
         stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         path = os.path.join(export_dir, f"kotoba_profile_{self.username}_{stamp}.json")
         with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+            json.dump(export_data, f, ensure_ascii=False, indent=2)
         self._set_msg(f"Profilo esportato in {path}", T.GREEN)
 
     def _delete_account(self, password_field: ft.TextField, confirm_field: ft.TextField):
@@ -176,11 +184,16 @@ class SettingsView:
         delete_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True)
         delete_confirm = self._tf(hint_text=f"Scrivi {self.username} per confermare")
 
+        created_at = self._format_profile_date(self.user_data.get("created_at"))
+        last_login = self._format_profile_date(self.user_data.get("last_login"))
+
         profile_summary = self._panel(
             "Profilo",
             ft.Icons.ACCOUNT_CIRCLE_ROUNDED,
             [
                 ft.Text(f"Utente: {self.username}", size=13, color=T.TEXT, font_family=T.FONT_BODY),
+                ft.Text(f"Account creato: {created_at}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
+                ft.Text(f"Ultimo accesso: {last_login}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
                 ft.Text(f"Versione app: v{APP_VERSION}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
                 ft.ElevatedButton(
                     "Esporta profilo",

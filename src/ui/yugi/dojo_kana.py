@@ -297,13 +297,6 @@ class DojoKana:
             self._next_q,
         )
 
-    def _hover_btn(self, e, btn):
-        if self.current_idx not in self.user_answers:
-            is_hover = e.data == "true"
-            btn.border = ft.border.all(1.5, self.active_color if is_hover else T.BORDER)
-            btn.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-            btn.update()
-
     def _next_q(self):
         if self.current_idx < len(self.questions):
             self.current_idx += 1

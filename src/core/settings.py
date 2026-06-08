@@ -15,6 +15,9 @@ APP_VERSION = "1.0.0"
 
 
 class KotobaTheme:
+    _bg_image_cache: str | None = None
+    _bg_image_loaded = False
+
     # ── Sfondi ─────────────────────────────────────────────────────────────
     BG_MAIN   = "#1C1815"
     BG_CARD   = "#2A2520"
@@ -84,6 +87,9 @@ class KotobaTheme:
 
     @staticmethod
     def bg_image() -> str | None:
+        if KotobaTheme._bg_image_loaded:
+            return KotobaTheme._bg_image_cache
+
         app_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         base = os.path.join(app_root, "asset", "image", "backgrounds")
         candidates = (
@@ -94,7 +100,11 @@ class KotobaTheme:
         )
         for name in candidates:
             if os.path.exists(os.path.join(base, name)):
-                return KotobaTheme.asset_path(f"image/backgrounds/{name}")
+                KotobaTheme._bg_image_cache = KotobaTheme.asset_path(f"image/backgrounds/{name}")
+                KotobaTheme._bg_image_loaded = True
+                return KotobaTheme._bg_image_cache
+        KotobaTheme._bg_image_cache = None
+        KotobaTheme._bg_image_loaded = True
         return None
 
     BG_OPACITY = 0.10

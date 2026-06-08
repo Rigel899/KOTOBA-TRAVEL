@@ -136,6 +136,58 @@ class DBManagerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             DBManager.create_account("shortpw", "short", "q", "a")
 
+    # ── Pacchetto 1: fix sicurezza ────────────────────────────────────────────
+
+    def test_create_account_rejects_duplicate_username(self):
+        DBManager.create_account("dupuser", "password1", "q", "a")
+        with self.assertRaises(ValueError) as ctx:
+            DBManager.create_account("dupuser", "password2", "q2", "a2")
+        self.assertIn("già in uso", str(ctx.exception))
+        data = DBManager.get_user_data("dupuser")
+        self.assertTrue(DBManager.verify_secret("password1", data["password_hash"]),
+                        "Il profilo originale non deve essere sovrascritto")
+
+    def test_lockout_persists_independent_of_view_instance(self):
+        DBManager.create_account("locktest", "password1", "q", "a")
+        for _ in range(DBManager.MAX_FAILED_ATTEMPTS):
+            DBManager.record_failed_attempt("locktest", "login")
+        locked, remaining = DBManager.is_locked_out("locktest", "login")
+        self.assertTrue(locked, "Dovrebbe essere bloccato dopo MAX_FAILED_ATTEMPTS tentativi")
+        self.assertGreater(remaining, 0)
+        locked2, remaining2 = DBManager.is_locked_out("locktest", "login")
+        self.assertTrue(locked2, "Il blocco deve persistere alla seconda verifica (simula nuova istanza vista)")
+        self.assertGreater(remaining2, 0)
+
+    def test_lockout_clears_on_success(self):
+        for _ in range(3):
+            DBManager.record_failed_attempt("cleartest", "login")
+        self.assertEqual(DBManager.remaining_attempts("cleartest", "login"), 2)
+        DBManager.clear_failed_attempts("cleartest", "login")
+        locked, _ = DBManager.is_locked_out("cleartest", "login")
+        self.assertFalse(locked)
+        self.assertEqual(DBManager.remaining_attempts("cleartest", "login"), DBManager.MAX_FAILED_ATTEMPTS)
+
+    def test_lockout_contexts_are_independent(self):
+        DBManager.create_account("ctxtest", "password1", "q", "a")
+        for _ in range(DBManager.MAX_FAILED_ATTEMPTS):
+            DBManager.record_failed_attempt("ctxtest", "login")
+        login_locked, _ = DBManager.is_locked_out("ctxtest", "login")
+        recovery_locked, _ = DBManager.is_locked_out("ctxtest", "recovery")
+        self.assertTrue(login_locked, "Login deve essere bloccato")
+        self.assertFalse(recovery_locked, "Recovery non deve essere bloccato")
+
+    def test_export_safe_profile_excludes_sensitive_fields(self):
+        DBManager.create_account("exporttest", "password1", "q", "a")
+        export = DBManager.export_safe_profile("exporttest")
+        self.assertIsNotNone(export)
+        self.assertNotIn("password_hash", export, "password_hash non deve comparire nell'export")
+        self.assertNotIn("recovery_answer_hash", export, "recovery_answer_hash non deve comparire nell'export")
+        self.assertIn("username", export)
+        self.assertIn("achievements", export)
+        self.assertIn("stats", export)
+        self.assertIn("_export_note", export)
+        self.assertIn("_exported_at", export)
+
 
 if __name__ == "__main__":
     unittest.main()

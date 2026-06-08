@@ -29,6 +29,9 @@ class DBManager:
     _json_cache: dict[str, tuple[int, object]] = {}
     _profile_lock = threading.RLock()
     _profiles_migrated = False
+    MAX_FAILED_ATTEMPTS: int = 5
+    LOCKOUT_SECONDS: int = 30
+    _lockout_lock = threading.Lock()
 
     # ─────────────────────────────────────────────────────────────────────────
     # Utilities
@@ -189,6 +192,114 @@ class DBManager:
         return os.path.join(DBManager.profiles_dir(), f"user_{safe}.json")
 
     # ─────────────────────────────────────────────────────────────────────────
+    # Lockout persistente (login / recupero)
+    # ─────────────────────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _lockouts_path() -> str:
+        return os.path.join(DBManager.user_data_dir(), "lockouts.json")
+
+    @staticmethod
+    def _read_lockouts() -> dict:
+        path = DBManager._lockouts_path()
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+    @staticmethod
+    def _write_lockouts(data: dict) -> None:
+        path = DBManager._lockouts_path()
+        dir_path = os.path.dirname(path)
+        tmp_path = None
+        try:
+            fd, tmp_path = tempfile.mkstemp(
+                prefix=".lockouts.", suffix=".tmp", dir=dir_path, text=True
+            )
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(tmp_path, path)
+            tmp_path = None
+        except OSError:
+            pass
+        finally:
+            if tmp_path and os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except OSError:
+                    pass
+
+    @staticmethod
+    def is_locked_out(username: str, context: str = "login") -> tuple[bool, int]:
+        """Restituisce (è_bloccato, secondi_rimanenti). Pulisce le voci scadute."""
+        username = DBManager.normalize_username(username)
+        if not username:
+            return False, 0
+        key = f"{username}:{context}"
+        with DBManager._lockout_lock:
+            lockouts = DBManager._read_lockouts()
+            entry = lockouts.get(key, {})
+            locked_until = entry.get("locked_until")
+            if locked_until:
+                remaining = locked_until - time.time()
+                if remaining > 0:
+                    return True, int(remaining) + 1
+                entry.pop("locked_until", None)
+                entry["attempts"] = 0
+                lockouts[key] = entry
+                DBManager._write_lockouts(lockouts)
+        return False, 0
+
+    @staticmethod
+    def record_failed_attempt(username: str, context: str = "login") -> bool:
+        """Registra un tentativo fallito. Restituisce True se ora bloccato."""
+        username = DBManager.normalize_username(username)
+        if not username:
+            return False
+        key = f"{username}:{context}"
+        with DBManager._lockout_lock:
+            lockouts = DBManager._read_lockouts()
+            entry = lockouts.setdefault(key, {"attempts": 0})
+            entry["attempts"] = entry.get("attempts", 0) + 1
+            if entry["attempts"] >= DBManager.MAX_FAILED_ATTEMPTS:
+                entry["locked_until"] = time.time() + DBManager.LOCKOUT_SECONDS
+                entry["attempts"] = 0
+                lockouts[key] = entry
+                DBManager._write_lockouts(lockouts)
+                return True
+            lockouts[key] = entry
+            DBManager._write_lockouts(lockouts)
+            return False
+
+    @staticmethod
+    def remaining_attempts(username: str, context: str = "login") -> int:
+        """Restituisce i tentativi rimasti prima del blocco."""
+        username = DBManager.normalize_username(username)
+        if not username:
+            return DBManager.MAX_FAILED_ATTEMPTS
+        key = f"{username}:{context}"
+        with DBManager._lockout_lock:
+            lockouts = DBManager._read_lockouts()
+            entry = lockouts.get(key, {})
+            return max(0, DBManager.MAX_FAILED_ATTEMPTS - entry.get("attempts", 0))
+
+    @staticmethod
+    def clear_failed_attempts(username: str, context: str = "login") -> None:
+        """Azzera il contatore tentativi dopo un login/recupero riuscito."""
+        username = DBManager.normalize_username(username)
+        if not username:
+            return
+        key = f"{username}:{context}"
+        with DBManager._lockout_lock:
+            lockouts = DBManager._read_lockouts()
+            if key in lockouts:
+                del lockouts[key]
+                DBManager._write_lockouts(lockouts)
+
+    # ─────────────────────────────────────────────────────────────────────────
     # CRUD utente
     # ─────────────────────────────────────────────────────────────────────────
 
@@ -322,7 +433,11 @@ class DBManager:
             "created_at": datetime.now().isoformat(),
             "last_login": datetime.now().isoformat(),
         }
-        DBManager.update_user_data(username, data)
+        path = DBManager.profile_path(username)
+        with DBManager._profile_lock:
+            if os.path.exists(path):
+                raise ValueError(f"Il nome utente '{username}' è già in uso.")
+            DBManager.update_user_data(username, data)
 
     @staticmethod
     def delete_account(username: str) -> None:
@@ -333,6 +448,18 @@ class DBManager:
         with DBManager._profile_lock:
             if os.path.exists(p):
                 os.remove(p)
+
+    @staticmethod
+    def export_safe_profile(username: str) -> dict | None:
+        """Restituisce il profilo senza campi sensibili, pronto per l'esportazione."""
+        data = DBManager.get_user_data(username)
+        if not data:
+            return None
+        _SENSITIVE = {"password_hash", "recovery_answer_hash"}
+        safe = {k: v for k, v in data.items() if k not in _SENSITIVE}
+        safe["_export_note"] = "Hash di sicurezza non inclusi. Solo dati di progresso."
+        safe["_exported_at"] = datetime.now().isoformat()
+        return safe
 
     # ─────────────────────────────────────────────────────────────────────────
     # Accesso rapido all'utente corrente
