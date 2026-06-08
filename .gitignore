@@ -1,0 +1,29 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ambienti locali
+.venv/
+venv/
+env/
+
+# Build / packaging
+build/
+dist/
+*.spec
+.flet/
+
+# File temporanei generati durante review asset
+tmp_*.jpg
+tmp_*.png
+
+# Dati locali utente / export
+profiles/
+**/profiles/
+exports/
+**/exports/
+*.log

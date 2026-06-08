@@ -1,0 +1,392 @@
+[
+  {
+    "title": "Struttura base: S + O + V",
+    "emoji": "文",
+    "explanation": "In giapponese il verbo arriva quasi sempre alla fine della frase. L'ordine più comune è soggetto, oggetto e verbo.",
+    "example": "私は寿司を食べます。\nWatashi wa sushi o tabemasu.\n= Io mangio sushi."
+  },
+  {
+    "title": "La particella は",
+    "emoji": "は",
+    "explanation": "は si legge wa quando è particella e marca il tema della frase, cioè l'argomento di cui stai parlando.",
+    "example": "私はマルコです。\nWatashi wa Maruko desu.\n= Io sono Marco."
+  },
+  {
+    "title": "La particella が",
+    "emoji": "が",
+    "explanation": "が marca spesso il soggetto grammaticale o mette in evidenza chi compie o possiede una qualità.",
+    "example": "猫がいます。\nNeko ga imasu.\n= C'è un gatto."
+  },
+  {
+    "title": "La particella を",
+    "emoji": "を",
+    "explanation": "を si legge o e marca l'oggetto diretto dell'azione: ciò che viene mangiato, visto, comprato o fatto.",
+    "example": "水を飲みます。\nMizu o nomimasu.\n= Bevo acqua."
+  },
+  {
+    "title": "La particella に",
+    "emoji": "に",
+    "explanation": "に indica destinazione, punto nel tempo o presenza in un luogo. Risponde spesso a dove vai, quando o dove si trova qualcosa.",
+    "example": "駅に行きます。\nEki ni ikimasu.\n= Vado alla stazione."
+  },
+  {
+    "title": "La particella で",
+    "emoji": "で",
+    "explanation": "で indica il luogo in cui avviene un'azione oppure il mezzo usato per farla.",
+    "example": "電車で京都へ行きます。\nDensha de Kyoto e ikimasu.\n= Vado a Kyoto in treno."
+  },
+  {
+    "title": "La particella の",
+    "emoji": "の",
+    "explanation": "の collega due nomi e indica possesso, appartenenza o specificazione.",
+    "example": "私の本です。\nWatashi no hon desu.\n= È il mio libro."
+  },
+  {
+    "title": "La particella と",
+    "emoji": "と",
+    "explanation": "と può significare e tra nomi, oppure con quando indica compagnia.",
+    "example": "友達と行きます。\nTomodachi to ikimasu.\n= Vado con un amico."
+  },
+  {
+    "title": "です e registro cortese",
+    "emoji": "礼",
+    "explanation": "です chiude frasi nominali e aggettivali in modo cortese. È una delle prime forme utili per parlare con educazione.",
+    "example": "これは本です。\nKore wa hon desu.\n= Questo è un libro."
+  },
+  {
+    "title": "ます e verbi cortesi",
+    "emoji": "動",
+    "explanation": "La forma in ます rende il verbo cortese e adatta a conversazioni quotidiane con persone non intime.",
+    "example": "日本語を勉強します。\nNihongo o benkyou shimasu.\n= Studio giapponese."
+  },
+  {
+    "title": "Domande con か",
+    "emoji": "か",
+    "explanation": "Aggiungendo か alla fine di una frase cortese ottieni spesso una domanda semplice.",
+    "example": "これは水ですか。\nKore wa mizu desu ka.\n= Questa è acqua?"
+  },
+  {
+    "title": "Negazione con ません",
+    "emoji": "否",
+    "explanation": "Nei verbi cortesi, ません forma la negazione presente o futura.",
+    "example": "肉を食べません。\nNiku o tabemasen.\n= Non mangio carne."
+  },
+  {
+    "title": "Passato con ました",
+    "emoji": "昨",
+    "explanation": "ました indica il passato nella forma cortese del verbo.",
+    "example": "昨日、映画を見ました。\nKinou, eiga o mimashita.\n= Ieri ho visto un film."
+  },
+  {
+    "title": "Desiderio con たい",
+    "emoji": "欲",
+    "explanation": "たい si collega alla base del verbo e indica ciò che vuoi fare.",
+    "example": "ラーメンを食べたいです。\nRaamen o tabetai desu.\n= Voglio mangiare ramen."
+  },
+  {
+    "title": "Forma て",
+    "emoji": "て",
+    "explanation": "La forma て collega azioni, introduce richieste e serve come base per molte costruzioni utili.",
+    "example": "写真を撮ってください。\nShashin o totte kudasai.\n= Per favore scatta una foto."
+  },
+  {
+    "title": "Richiesta con ください",
+    "emoji": "請",
+    "explanation": "ください rende una richiesta cortese quando segue un nome con を o un verbo in forma て.",
+    "example": "水をください。\nMizu o kudasai.\n= Mi dia dell'acqua, per favore."
+  },
+  {
+    "title": "Esistenza con あります",
+    "emoji": "有",
+    "explanation": "あります indica l'esistenza di cose inanimate, oggetti, luoghi o eventi.",
+    "example": "駅があります。\nEki ga arimasu.\n= C'è una stazione."
+  },
+  {
+    "title": "Esistenza con います",
+    "emoji": "居",
+    "explanation": "います indica l'esistenza di esseri viventi come persone e animali.",
+    "example": "先生がいます。\nSensei ga imasu.\n= C'è l'insegnante."
+  },
+  {
+    "title": "Aggettivi in い",
+    "emoji": "い",
+    "explanation": "Gli aggettivi in い possono precedere direttamente il nome e si coniugano cambiando la parte finale.",
+    "example": "新しい店です。\nAtarashii mise desu.\n= È un negozio nuovo."
+  },
+  {
+    "title": "Aggettivi in な",
+    "emoji": "な",
+    "explanation": "Gli aggettivi in な richiedono な quando modificano direttamente un nome.",
+    "example": "静かな寺です。\nShizuka na tera desu.\n= È un tempio tranquillo."
+  },
+  {
+    "title": "Mi piace con 好きです",
+    "emoji": "好",
+    "explanation": "好きです significa piacere o essere gradito. La cosa che piace è spesso marcata con が.",
+    "example": "寿司が好きです。\nSushi ga suki desu.\n= Mi piace il sushi."
+  },
+  {
+    "title": "Molto con とても",
+    "emoji": "強",
+    "explanation": "とても rafforza aggettivi e descrizioni, come molto in italiano.",
+    "example": "とてもおいしいです。\nTotemo oishii desu.\n= È molto buono."
+  },
+  {
+    "title": "Anche con も",
+    "emoji": "も",
+    "explanation": "も sostituisce は, が o を quando vuoi dire anche.",
+    "example": "私も行きます。\nWatashi mo ikimasu.\n= Vado anch'io."
+  },
+  {
+    "title": "Da... a... con から e まで",
+    "emoji": "間",
+    "explanation": "から indica il punto di partenza e まで il punto di arrivo nello spazio o nel tempo.",
+    "example": "東京から京都まで行きます。\nTokyo kara Kyoto made ikimasu.\n= Vado da Tokyo a Kyoto."
+  },
+  {
+    "title": "Confronto con より",
+    "emoji": "比",
+    "explanation": "より indica il termine di paragone e corrisponde spesso a rispetto a o più di.",
+    "example": "京都は東京より静かです。\nKyoto wa Tokyo yori shizuka desu.\n= Kyoto è più tranquilla di Tokyo."
+  },
+  {
+    "title": "Preferenza con ほうがいい",
+    "emoji": "良",
+    "explanation": "ほうがいい si usa per dire che una scelta è migliore o consigliabile.",
+    "example": "早く寝たほうがいいです。\nHayaku neta hou ga ii desu.\n= È meglio andare a dormire presto."
+  },
+  {
+    "title": "Permesso con てもいいです",
+    "emoji": "許",
+    "explanation": "La forma て + もいいです esprime permesso: va bene se faccio questa azione.",
+    "example": "ここで写真を撮ってもいいです。\nKoko de shashin o totte mo ii desu.\n= Posso fare una foto qui."
+  },
+  {
+    "title": "Divieto con てはいけません",
+    "emoji": "禁",
+    "explanation": "La forma て + はいけません esprime un divieto o qualcosa che non si deve fare.",
+    "example": "ここで食べてはいけません。\nKoko de tabete wa ikemasen.\n= Qui non si deve mangiare."
+  },
+  {
+    "title": "Capacità con ことができます",
+    "emoji": "能",
+    "explanation": "Verbo in forma dizionario + ことができます indica che si è capaci di fare qualcosa.",
+    "example": "日本語を読むことができます。\nNihongo o yomu koto ga dekimasu.\n= So leggere il giapponese."
+  },
+  {
+    "title": "Esperienza con ことがあります",
+    "emoji": "経",
+    "explanation": "Verbo al passato breve + ことがあります indica un'esperienza fatta almeno una volta.",
+    "example": "京都に行ったことがあります。\nKyoto ni itta koto ga arimasu.\n= Sono stato a Kyoto."
+  },
+  {
+    "title": "Azioni in elenco con たり",
+    "emoji": "列",
+    "explanation": "La forma たり...たりします elenca esempi di azioni senza dire che sono le uniche.",
+    "example": "週末は映画を見たり、本を読んだりします。\nShuumatsu wa eiga o mitari, hon o yondari shimasu.\n= Nel weekend guardo film, leggo libri e cose simili."
+  },
+  {
+    "title": "Prima di con 前に",
+    "emoji": "前",
+    "explanation": "前に indica che un'azione avviene prima di un'altra. Con i verbi usa la forma dizionario.",
+    "example": "寝る前に本を読みます。\nNeru mae ni hon o yomimasu.\n= Leggo un libro prima di dormire."
+  },
+  {
+    "title": "Dopo con 後で",
+    "emoji": "後",
+    "explanation": "後で indica che un'azione avviene dopo un'altra o più tardi.",
+    "example": "勉強した後で、友達に会います。\nBenkyou shita ato de, tomodachi ni aimasu.\n= Dopo aver studiato incontro un amico."
+  },
+  {
+    "title": "Perché con から",
+    "emoji": "因",
+    "explanation": "から alla fine di una frase può indicare la ragione, come perché o dato che.",
+    "example": "雨ですから、家にいます。\nAme desu kara, ie ni imasu.\n= Siccome piove, resto a casa."
+  },
+  {
+    "title": "Causa morbida con ので",
+    "emoji": "由",
+    "explanation": "ので introduce una ragione in modo più neutro o morbido rispetto a から.",
+    "example": "電車が遅いので、待ちます。\nDensha ga osoi node, machimasu.\n= Aspetto perché il treno è in ritardo."
+  },
+  {
+    "title": "Già e ancora con もう e まだ",
+    "emoji": "時",
+    "explanation": "もう indica già o ormai, mentre まだ indica ancora o non ancora a seconda della frase.",
+    "example": "もう食べました。まだ帰りません。\nMou tabemashita. Mada kaerimasen.\n= Ho già mangiato. Non torno ancora."
+  },
+  {
+    "title": "Solo con だけ",
+    "emoji": "限",
+    "explanation": "だけ significa solo o soltanto e limita ciò di cui si parla.",
+    "example": "水だけお願いします。\nMizu dake onegaishimasu.\n= Solo acqua, per favore."
+  },
+  {
+    "title": "Solo in negativo con しか",
+    "emoji": "少",
+    "explanation": "しか si usa con una frase negativa e significa solo, con una sfumatura di scarsità.",
+    "example": "百円しかありません。\nHyaku en shika arimasen.\n= Ho solo cento yen."
+  },
+  {
+    "title": "Tono finale con よ e ね",
+    "emoji": "声",
+    "explanation": "よ aggiunge informazione o enfasi; ね cerca accordo o condivisione con chi ascolta.",
+    "example": "このラーメンはおいしいですよ。寒いですね。\nKono ramen wa oishii desu yo. Samui desu ne.\n= Questo ramen è buono, sai. Fa freddo, vero?"
+  },
+  {
+    "title": "Azioni simultanee con ながら",
+    "emoji": "同",
+    "explanation": "ながら collega due azioni svolte nello stesso momento dallo stesso soggetto.",
+    "example": "音楽を聞きながら勉強します。\nOngaku o kikinagara benkyou shimasu.\n= Studio mentre ascolto musica."
+  },
+  {
+    "title": "Azione in corso con ています",
+    "emoji": "続",
+    "explanation": "La forma て + います indica un'azione in corso o uno stato risultante.",
+    "example": "今、日本語を勉強しています。\nIma, nihongo o benkyou shite imasu.\n= Sto studiando giapponese."
+  },
+  {
+    "title": "Stato preparato con てあります",
+    "emoji": "備",
+    "explanation": "てあります indica che qualcosa è stato fatto intenzionalmente e il risultato resta visibile.",
+    "example": "ドアが開けてあります。\nDoa ga akete arimasu.\n= La porta è stata lasciata aperta."
+  },
+  {
+    "title": "Preparare in anticipo con ておきます",
+    "emoji": "準",
+    "explanation": "ておきます esprime un'azione fatta in anticipo per prepararsi a qualcosa.",
+    "example": "旅行の前にホテルを予約しておきます。\nRyokou no mae ni hoteru o yoyaku shite okimasu.\n= Prenoto l'hotel prima del viaggio."
+  },
+  {
+    "title": "Completamento con てしまいます",
+    "emoji": "完",
+    "explanation": "てしまいます indica completamento, oppure rammarico se l'azione ha avuto un esito indesiderato.",
+    "example": "宿題を忘れてしまいました。\nShukudai o wasurete shimaimashita.\n= Ho finito per dimenticare i compiti."
+  },
+  {
+    "title": "Non fare con ないでください",
+    "emoji": "止",
+    "explanation": "Verbo in forma negativa breve + でください serve per chiedere di non fare qualcosa.",
+    "example": "ここで写真を撮らないでください。\nKoko de shashin o toranaide kudasai.\n= Per favore non faccia foto qui."
+  },
+  {
+    "title": "Obbligo con なければなりません",
+    "emoji": "務",
+    "explanation": "なければなりません esprime un obbligo: bisogna fare qualcosa.",
+    "example": "明日、早く起きなければなりません。\nAshita, hayaku okinakereba narimasen.\n= Domani devo alzarmi presto."
+  },
+  {
+    "title": "Non necessario con なくてもいいです",
+    "emoji": "免",
+    "explanation": "なくてもいいです indica che non è necessario fare una certa azione.",
+    "example": "今日は来なくてもいいです。\nKyou wa konakute mo ii desu.\n= Oggi non è necessario venire."
+  },
+  {
+    "title": "Meglio non fare con ないほうがいい",
+    "emoji": "避",
+    "explanation": "ないほうがいい consiglia di evitare un'azione.",
+    "example": "夜にコーヒーを飲まないほうがいいです。\nYoru ni koohii o nomanai hou ga ii desu.\n= È meglio non bere caffè di sera."
+  },
+  {
+    "title": "Condizione con たら",
+    "emoji": "条",
+    "explanation": "たら crea una condizione o indica cosa fare quando qualcosa accade.",
+    "example": "駅に着いたら、電話してください。\nEki ni tsuitara, denwa shite kudasai.\n= Quando arrivi alla stazione, telefonami."
+  },
+  {
+    "title": "Condizione naturale con と",
+    "emoji": "然",
+    "explanation": "と indica spesso una conseguenza naturale o automatica.",
+    "example": "このボタンを押すと、ドアが開きます。\nKono botan o osu to, doa ga akimasu.\n= Se premi questo pulsante, la porta si apre."
+  },
+  {
+    "title": "Condizione con ば",
+    "emoji": "仮",
+    "explanation": "ば crea una condizione generale e si usa spesso per regole, consigli e possibilità.",
+    "example": "時間があれば、映画を見ます。\nJikan ga areba, eiga o mimasu.\n= Se ho tempo, guardo un film."
+  },
+  {
+    "title": "Tema condizionale con なら",
+    "emoji": "題",
+    "explanation": "なら riprende un argomento e introduce una condizione basata su ciò che l'altra persona ha detto o pensato.",
+    "example": "京都なら、このお寺が有名です。\nKyoto nara, kono otera ga yuumei desu.\n= Se parliamo di Kyoto, questo tempio è famoso."
+  },
+  {
+    "title": "Opinione con と思います",
+    "emoji": "思",
+    "explanation": "と思います introduce ciò che pensi, credi o supponi.",
+    "example": "この店は安いと思います。\nKono mise wa yasui to omoimasu.\n= Penso che questo negozio sia economico."
+  },
+  {
+    "title": "Citazione con と言います",
+    "emoji": "言",
+    "explanation": "と言います serve per riportare parole, nomi o modi di dire.",
+    "example": "これは日本語で駅弁と言います。\nKore wa nihongo de ekiben to iimasu.\n= Questo in giapponese si chiama ekiben."
+  },
+  {
+    "title": "Forse con かもしれません",
+    "emoji": "曖",
+    "explanation": "かもしれません esprime possibilità: forse, potrebbe darsi.",
+    "example": "明日は雨かもしれません。\nAshita wa ame kamoshiremasen.\n= Domani forse pioverà."
+  },
+  {
+    "title": "Probabilità con でしょう",
+    "emoji": "予",
+    "explanation": "でしょう indica supposizione o previsione, spesso con tono gentile.",
+    "example": "週末は忙しいでしょう。\nShuumatsu wa isogashii deshou.\n= Probabilmente il weekend sarà impegnato."
+  },
+  {
+    "title": "Scopo con ために",
+    "emoji": "的",
+    "explanation": "ために indica lo scopo per cui si fa un'azione.",
+    "example": "日本語を勉強するために、毎日読みます。\nNihongo o benkyou suru tame ni, mainichi yomimasu.\n= Leggo ogni giorno per studiare giapponese."
+  },
+  {
+    "title": "Andare a fare con に行きます",
+    "emoji": "向",
+    "explanation": "Radice del verbo + に行きます indica andare da qualche parte per fare quell'azione.",
+    "example": "友達に会いに行きます。\nTomodachi ni ai ni ikimasu.\n= Vado a incontrare un amico."
+  },
+  {
+    "title": "Troppo con すぎます",
+    "emoji": "過",
+    "explanation": "すぎます indica eccesso: troppo grande, troppo mangiare, troppo lavorare.",
+    "example": "このラーメンは辛すぎます。\nKono ramen wa kara sugimasu.\n= Questo ramen è troppo piccante."
+  },
+  {
+    "title": "Facile o difficile da fare con やすい e にくい",
+    "emoji": "易",
+    "explanation": "La radice del verbo + やすい indica che qualcosa è facile da fare; にくい indica che è difficile.",
+    "example": "この漢字は覚えやすいです。\nKono kanji wa oboeyasui desu.\n= Questo kanji è facile da ricordare."
+  },
+  {
+    "title": "Modo di fare con 方",
+    "emoji": "方",
+    "explanation": "Radice del verbo + 方 significa modo di fare quell'azione.",
+    "example": "切符の買い方を教えてください。\nKippu no kaikata o oshiete kudasai.\n= Mi insegni come comprare il biglietto."
+  },
+  {
+    "title": "Diventare capace con ようになります",
+    "emoji": "成",
+    "explanation": "ようになります indica un cambiamento: arrivare a fare qualcosa o diventare in un certo modo.",
+    "example": "少し漢字が読めるようになりました。\nSukoshi kanji ga yomeru you ni narimashita.\n= Sono arrivato a saper leggere un po' di kanji."
+  },
+  {
+    "title": "Fare in modo con ようにします",
+    "emoji": "習",
+    "explanation": "ようにします indica un'abitudine intenzionale o uno sforzo per fare qualcosa.",
+    "example": "毎日、単語を読むようにしています。\nMainichi, tango o yomu you ni shite imasu.\n= Cerco di leggere vocaboli ogni giorno."
+  },
+  {
+    "title": "Sembra da informazione con そうです",
+    "emoji": "聞",
+    "explanation": "Frase breve + そうです riferisce un'informazione sentita o letta.",
+    "example": "明日は雪が降るそうです。\nAshita wa yuki ga furu sou desu.\n= Ho sentito che domani nevicherà."
+  },
+  {
+    "title": "Sembra all'aspetto con そうです",
+    "emoji": "見",
+    "explanation": "Con aggettivi e radici verbali, そうです indica apparenza: sembra buono, sembra piovere.",
+    "example": "このケーキはおいしそうです。\nKono keeki wa oishisou desu.\n= Questa torta sembra buona."
+  }
+]

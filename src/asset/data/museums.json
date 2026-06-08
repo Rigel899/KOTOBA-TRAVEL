@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Museo Nazionale di Tokyo",
+    "jp": "東京国立博物館",
+    "city": "Tokyo",
+    "tag": "Museo",
+    "category": "Musei",
+    "description": "Il più antico museo nazionale giapponese, dedicato ad arte, archeologia e cultura materiale.",
+    "detail": "Perfetto per un percorso culturale: spade, ceramiche, calligrafia, buddhismo e oggetti della vita quotidiana mostrano molte epoche della storia giapponese.",
+    "image": ""
+  },
+  {
+    "name": "Museo Ghibli",
+    "jp": "三鷹の森ジブリ美術館",
+    "city": "Mitaka",
+    "tag": "Animazione",
+    "category": "Musei",
+    "description": "Museo dedicato all'immaginario dello Studio Ghibli e ai processi dell'animazione.",
+    "detail": "È utile per testare contenuti pop-culturali e descrizioni meno accademiche, mantenendo comunque un tono curato e narrativo.",
+    "image": ""
+  },
+  {
+    "name": "Kyoto Railway Museum",
+    "jp": "京都鉄道博物館",
+    "city": "Kyoto",
+    "tag": "Tecnologia",
+    "category": "Musei",
+    "description": "Museo ferroviario con locomotive storiche, shinkansen e simulatori.",
+    "detail": "Collega viaggio, tecnologia e storia moderna. Può diventare un ponte naturale fra la sezione luoghi e il vocabolario di viaggio.",
+    "image": ""
+  },
+  {
+    "name": "Museo Edo-Tokyo",
+    "jp": "江戸東京博物館",
+    "city": "Tokyo",
+    "tag": "Storia urbana",
+    "category": "Musei",
+    "description": "Museo dedicato alla trasformazione di Edo in Tokyo, fra città storica e metropoli moderna.",
+    "detail": "È perfetto per collegare la sezione storia ai luoghi moderni: case, ponti, quartieri, vita quotidiana e cambiamenti sociali diventano più facili da immaginare.",
+    "image": ""
+  },
+  {
+    "name": "Nezu Museum",
+    "jp": "根津美術館",
+    "city": "Tokyo",
+    "tag": "Arte",
+    "category": "Musei",
+    "description": "Museo d'arte asiatica con giardino tradizionale nel cuore di Aoyama.",
+    "detail": "Il Nezu Museum unisce collezione, architettura contemporanea sobria e giardino. Aggiunge una voce elegante e contemplativa alla categoria Musei.",
+    "image": ""
+  },
+  {
+    "name": "21st Century Museum",
+    "jp": "金沢21世紀美術館",
+    "city": "Kanazawa",
+    "tag": "Arte contemporanea",
+    "category": "Musei",
+    "description": "Museo di arte contemporanea noto per architettura circolare e installazioni accessibili.",
+    "detail": "Porta la sezione musei fuori dalle grandi capitali e mostra il rapporto fra città storiche e arte contemporanea.",
+    "image": ""
+  },
+  {
+    "name": "Hiroshima Peace Memorial Museum",
+    "jp": "広島平和記念資料館",
+    "city": "Hiroshima",
+    "tag": "Memoria",
+    "category": "Musei",
+    "description": "Museo dedicato alla memoria del bombardamento atomico e al tema della pace.",
+    "detail": "È una voce importante e delicata: collega storia contemporanea, memoria civile e responsabilità del racconto storico.",
+    "image": ""
+  },
+  {
+    "name": "Miho Museum",
+    "jp": "ミホミュージアム",
+    "city": "Shiga",
+    "tag": "Architettura",
+    "category": "Musei",
+    "description": "Museo immerso nelle montagne, progettato con un forte rapporto fra architettura e paesaggio.",
+    "detail": "Il Miho Museum è utile per mostrare un museo come esperienza spaziale: tunnel, luce, natura e percorso di arrivo sono parte della visita.",
+    "image": ""
+  },
+  {
+    "name": "Adachi Museum of Art",
+    "jp": "足立美術館",
+    "city": "Yasugi",
+    "tag": "Giardino",
+    "category": "Musei",
+    "description": "Museo noto per la collezione d'arte moderna giapponese e per il grande giardino paesaggistico.",
+    "detail": "La visita mette insieme pittura e giardino come due modi di guardare il paesaggio. È una voce perfetta per collegare estetica e natura.",
+    "image": ""
+  },
+  {
+    "name": "Cup Noodles Museum",
+    "jp": "カップヌードルミュージアム",
+    "city": "Yokohama",
+    "tag": "Pop food",
+    "category": "Musei",
+    "description": "Museo interattivo dedicato alla nascita e alla cultura dei noodle istantanei.",
+    "detail": "Aggiunge una nota leggera e pop alla sezione musei, collegandola anche al cibo e alla cultura industriale del dopoguerra.",
+    "image": ""
+  }
+]

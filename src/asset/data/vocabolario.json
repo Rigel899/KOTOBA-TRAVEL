@@ -1,0 +1,3704 @@
+[
+  {
+    "word": "こんにちは",
+    "reading": "konnichiwa",
+    "meaning": "buongiorno",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "こんにちは。いい天気ですね。\nKonnichiwa. Ii tenki desu ne.\n= Buongiorno. Bel tempo, vero?"
+  },
+  {
+    "word": "ありがとう",
+    "reading": "arigatou",
+    "meaning": "grazie",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "手伝ってくれてありがとう。\nTetsudatte kurete arigatou.\n= Grazie per avermi aiutato."
+  },
+  {
+    "word": "すみません",
+    "reading": "sumimasen",
+    "meaning": "mi scusi",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "すみません、駅はどこですか。\nSumimasen, eki wa doko desu ka.\n= Mi scusi, dov’e la stazione?"
+  },
+  {
+    "word": "お願いします",
+    "reading": "onegaishimasu",
+    "meaning": "per favore",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "水を一つお願いします。\nMizu o hitotsu onegaishimasu.\n= Un’acqua, per favore."
+  },
+  {
+    "word": "さようなら",
+    "reading": "sayounara",
+    "meaning": "arrivederci",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "今日はありがとうございました。さようなら。\nKyou wa arigatou gozaimashita. Sayounara.\n= Grazie per oggi. Arrivederci."
+  },
+  {
+    "word": "駅",
+    "reading": "eki",
+    "meaning": "stazione",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "電車",
+    "reading": "densha",
+    "meaning": "treno",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "切符",
+    "reading": "kippu",
+    "meaning": "biglietto",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "空港",
+    "reading": "kuukou",
+    "meaning": "aeroporto",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "地図",
+    "reading": "chizu",
+    "meaning": "mappa",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "水",
+    "reading": "mizu",
+    "meaning": "acqua",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "お茶",
+    "reading": "ocha",
+    "meaning": "te",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "ご飯",
+    "reading": "gohan",
+    "meaning": "riso cotto",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "寿司",
+    "reading": "sushi",
+    "meaning": "sushi",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "ラーメン",
+    "reading": "raamen",
+    "meaning": "ramen",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "猫",
+    "reading": "neko",
+    "meaning": "gatto",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "犬",
+    "reading": "inu",
+    "meaning": "cane",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "鳥",
+    "reading": "tori",
+    "meaning": "uccello",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "魚",
+    "reading": "sakana",
+    "meaning": "pesce",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "馬",
+    "reading": "uma",
+    "meaning": "cavallo",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "一",
+    "reading": "ichi",
+    "meaning": "uno",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "二",
+    "reading": "ni",
+    "meaning": "due",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "三",
+    "reading": "san",
+    "meaning": "tre",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "十",
+    "reading": "juu",
+    "meaning": "dieci",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "百",
+    "reading": "hyaku",
+    "meaning": "cento",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "今日",
+    "reading": "kyou",
+    "meaning": "oggi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "明日",
+    "reading": "ashita",
+    "meaning": "domani",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "昨日",
+    "reading": "kinou",
+    "meaning": "ieri",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "朝",
+    "reading": "asa",
+    "meaning": "mattina",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "夜",
+    "reading": "yoru",
+    "meaning": "notte",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "学校",
+    "reading": "gakkou",
+    "meaning": "scuola",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "寺",
+    "reading": "tera",
+    "meaning": "tempio",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "店",
+    "reading": "mise",
+    "meaning": "negozio",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "家",
+    "reading": "ie",
+    "meaning": "casa",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "町",
+    "reading": "machi",
+    "meaning": "citta",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "食べる",
+    "reading": "taberu",
+    "meaning": "mangiare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "飲む",
+    "reading": "nomu",
+    "meaning": "bere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "行く",
+    "reading": "iku",
+    "meaning": "andare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "見る",
+    "reading": "miru",
+    "meaning": "vedere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "話す",
+    "reading": "hanasu",
+    "meaning": "parlare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "大きい",
+    "reading": "ookii",
+    "meaning": "grande",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "小さい",
+    "reading": "chiisai",
+    "meaning": "piccolo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "新しい",
+    "reading": "atarashii",
+    "meaning": "nuovo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "古い",
+    "reading": "furui",
+    "meaning": "vecchio",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "美しい",
+    "reading": "utsukushii",
+    "meaning": "bello",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "祭り",
+    "reading": "matsuri",
+    "meaning": "festival",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "着物",
+    "reading": "kimono",
+    "meaning": "kimono",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "茶道",
+    "reading": "sadou",
+    "meaning": "cerimonia del te",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "はい",
+    "reading": "hai",
+    "meaning": "sì",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "はい、分かりました。\nHai, wakarimashita.\n= Si, ho capito."
+  },
+  {
+    "word": "いいえ",
+    "reading": "iie",
+    "meaning": "no",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "いいえ、大丈夫です。\nIie, daijoubu desu.\n= No, va bene cosi."
+  },
+  {
+    "word": "おはよう",
+    "reading": "ohayou",
+    "meaning": "buongiorno mattina",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "おはよう。よく眠れた？\nOhayou. Yoku nemureta?\n= Buongiorno. Hai dormito bene?"
+  },
+  {
+    "word": "こんばんは",
+    "reading": "konbanwa",
+    "meaning": "buonasera",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "こんばんは。予約しています。\nKonbanwa. Yoyaku shite imasu.\n= Buonasera. Ho una prenotazione."
+  },
+  {
+    "word": "ごめんなさい",
+    "reading": "gomennasai",
+    "meaning": "mi dispiace",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "遅れてごめんなさい。\nOkurete gomennasai.\n= Scusa per il ritardo."
+  },
+  {
+    "word": "いただきます",
+    "reading": "itadakimasu",
+    "meaning": "buon appetito / ricevo con gratitudine",
+    "category": "Saluti",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "ごちそうさま",
+    "reading": "gochisousama",
+    "meaning": "grazie per il pasto",
+    "category": "Saluti",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "大丈夫",
+    "reading": "daijoubu",
+    "meaning": "va bene / tutto ok",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "分かりました",
+    "reading": "wakarimashita",
+    "meaning": "ho capito",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "ホテル",
+    "reading": "hoteru",
+    "meaning": "hotel",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "バス",
+    "reading": "basu",
+    "meaning": "autobus",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "タクシー",
+    "reading": "takushii",
+    "meaning": "taxi",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "地下鉄",
+    "reading": "chikatetsu",
+    "meaning": "metropolitana",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "入口",
+    "reading": "iriguchi",
+    "meaning": "entrata",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "出口",
+    "reading": "deguchi",
+    "meaning": "uscita",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "右",
+    "reading": "migi",
+    "meaning": "destra",
+    "category": "Viaggio",
+    "group": "Direzioni"
+  },
+  {
+    "word": "左",
+    "reading": "hidari",
+    "meaning": "sinistra",
+    "category": "Viaggio",
+    "group": "Direzioni"
+  },
+  {
+    "word": "まっすぐ",
+    "reading": "massugu",
+    "meaning": "dritto",
+    "category": "Viaggio",
+    "group": "Direzioni"
+  },
+  {
+    "word": "ここ",
+    "reading": "koko",
+    "meaning": "qui",
+    "category": "Viaggio",
+    "group": "Direzioni"
+  },
+  {
+    "word": "そこ",
+    "reading": "soko",
+    "meaning": "lì",
+    "category": "Viaggio",
+    "group": "Direzioni"
+  },
+  {
+    "word": "肉",
+    "reading": "niku",
+    "meaning": "carne",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "野菜",
+    "reading": "yasai",
+    "meaning": "verdure",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "卵",
+    "reading": "tamago",
+    "meaning": "uovo",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "牛乳",
+    "reading": "gyuunyuu",
+    "meaning": "latte",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "コーヒー",
+    "reading": "koohii",
+    "meaning": "caffè",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "いくら",
+    "reading": "ikura",
+    "meaning": "quanto costa",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "円",
+    "reading": "en",
+    "meaning": "yen",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "お土産",
+    "reading": "omiyage",
+    "meaning": "souvenir",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "レシート",
+    "reading": "reshiito",
+    "meaning": "scontrino",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "私",
+    "reading": "watashi",
+    "meaning": "io",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "あなた",
+    "reading": "anata",
+    "meaning": "tu",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "友達",
+    "reading": "tomodachi",
+    "meaning": "amico",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "先生",
+    "reading": "sensei",
+    "meaning": "insegnante",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "学生",
+    "reading": "gakusei",
+    "meaning": "studente",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "子供",
+    "reading": "kodomo",
+    "meaning": "bambino",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "今",
+    "reading": "ima",
+    "meaning": "adesso",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "時間",
+    "reading": "jikan",
+    "meaning": "tempo / ora",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "分",
+    "reading": "fun",
+    "meaning": "minuto",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "週末",
+    "reading": "shuumatsu",
+    "meaning": "fine settimana",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "買う",
+    "reading": "kau",
+    "meaning": "comprare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "待つ",
+    "reading": "matsu",
+    "meaning": "aspettare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "帰る",
+    "reading": "kaeru",
+    "meaning": "tornare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "読む",
+    "reading": "yomu",
+    "meaning": "leggere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "書く",
+    "reading": "kaku",
+    "meaning": "scrivere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "聞く",
+    "reading": "kiku",
+    "meaning": "ascoltare / chiedere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "暑い",
+    "reading": "atsui",
+    "meaning": "caldo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "寒い",
+    "reading": "samui",
+    "meaning": "freddo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "おいしい",
+    "reading": "oishii",
+    "meaning": "delizioso",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "楽しい",
+    "reading": "tanoshii",
+    "meaning": "divertente",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "静か",
+    "reading": "shizuka",
+    "meaning": "tranquillo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "便利",
+    "reading": "benri",
+    "meaning": "comodo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "神社",
+    "reading": "jinja",
+    "meaning": "santuario shintoista",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "お寺",
+    "reading": "otera",
+    "meaning": "tempio buddhista",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "温泉",
+    "reading": "onsen",
+    "meaning": "terme",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "博物館",
+    "reading": "hakubutsukan",
+    "meaning": "museo",
+    "category": "Cultura",
+    "group": "Cultura"
+  },
+  {
+    "word": "ただいま",
+    "reading": "tadaima",
+    "meaning": "sono tornato",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "ただいま。今日は疲れました。\nTadaima. Kyou wa tsukaremashita.\n= Sono tornato. Oggi sono stanco."
+  },
+  {
+    "word": "おかえり",
+    "reading": "okaeri",
+    "meaning": "bentornato",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "おかえり。ご飯ができているよ。\nOkaeri. Gohan ga dekite iru yo.\n= Bentornato. La cena e pronta."
+  },
+  {
+    "word": "はじめまして",
+    "reading": "hajimemashite",
+    "meaning": "piacere di conoscerti",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "はじめまして。マルコです。\nHajimemashite. Maruko desu.\n= Piacere di conoscerti. Sono Marco."
+  },
+  {
+    "word": "よろしくお願いします",
+    "reading": "yoroshiku onegaishimasu",
+    "meaning": "conto su di te / piacere",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "今日からよろしくお願いします。\nKyou kara yoroshiku onegaishimasu.\n= Da oggi conto su di lei / piacere di lavorare insieme."
+  },
+  {
+    "word": "失礼します",
+    "reading": "shitsurei shimasu",
+    "meaning": "permesso / mi scusi",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "失礼します。少し質問してもいいですか。\nShitsurei shimasu. Sukoshi shitsumon shite mo ii desu ka.\n= Mi scusi. Posso fare una domanda?"
+  },
+  {
+    "word": "おやすみなさい",
+    "reading": "oyasuminasai",
+    "meaning": "buonanotte",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "明日も早いです。おやすみなさい。\nAshita mo hayai desu. Oyasuminasai.\n= Anche domani ci si alza presto. Buonanotte."
+  },
+  {
+    "word": "またね",
+    "reading": "mata ne",
+    "meaning": "a presto",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "今日は楽しかった。またね。\nKyou wa tanoshikatta. Mata ne.\n= Oggi e stato divertente. A presto."
+  },
+  {
+    "word": "どうぞ",
+    "reading": "douzo",
+    "meaning": "prego / fai pure",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "こちらへどうぞ。\nKochira e douzo.\n= Prego, da questa parte."
+  },
+  {
+    "word": "どうも",
+    "reading": "doumo",
+    "meaning": "grazie / salve informale",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "どうも、助かりました。\nDoumo, tasukarimashita.\n= Grazie, mi e stato molto utile."
+  },
+  {
+    "word": "もしもし",
+    "reading": "moshi moshi",
+    "meaning": "pronto al telefono",
+    "category": "Saluti",
+    "group": "Saluti",
+    "example": "もしもし、田中さんですか。\nMoshi moshi, Tanaka-san desu ka.\n= Pronto, e Tanaka?"
+  },
+  {
+    "word": "僕",
+    "reading": "boku",
+    "meaning": "io maschile",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "彼",
+    "reading": "kare",
+    "meaning": "lui",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "彼女",
+    "reading": "kanojo",
+    "meaning": "lei / fidanzata",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "皆",
+    "reading": "minna",
+    "meaning": "tutti",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "人",
+    "reading": "hito",
+    "meaning": "persona",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "大人",
+    "reading": "otona",
+    "meaning": "adulto",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "男の子",
+    "reading": "otoko no ko",
+    "meaning": "ragazzo / bambino",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "女の子",
+    "reading": "onna no ko",
+    "meaning": "ragazza / bambina",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "家族",
+    "reading": "kazoku",
+    "meaning": "famiglia",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "父",
+    "reading": "chichi",
+    "meaning": "mio padre",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "母",
+    "reading": "haha",
+    "meaning": "mia madre",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "兄",
+    "reading": "ani",
+    "meaning": "mio fratello maggiore",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "姉",
+    "reading": "ane",
+    "meaning": "mia sorella maggiore",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "弟",
+    "reading": "otouto",
+    "meaning": "fratello minore",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "妹",
+    "reading": "imouto",
+    "meaning": "sorella minore",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "祖父",
+    "reading": "sofu",
+    "meaning": "mio nonno",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "祖母",
+    "reading": "sobo",
+    "meaning": "mia nonna",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "両親",
+    "reading": "ryoushin",
+    "meaning": "genitori",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "夫",
+    "reading": "otto",
+    "meaning": "marito",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "妻",
+    "reading": "tsuma",
+    "meaning": "moglie",
+    "category": "Famiglia",
+    "group": "Famiglia"
+  },
+  {
+    "word": "会社員",
+    "reading": "kaishain",
+    "meaning": "impiegato aziendale",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "医者",
+    "reading": "isha",
+    "meaning": "medico",
+    "category": "Persone",
+    "group": "Persone"
+  },
+  {
+    "word": "部屋",
+    "reading": "heya",
+    "meaning": "stanza",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "台所",
+    "reading": "daidokoro",
+    "meaning": "cucina di casa",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "お風呂",
+    "reading": "ofuro",
+    "meaning": "bagno / vasca",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "トイレ",
+    "reading": "toire",
+    "meaning": "toilette",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "庭",
+    "reading": "niwa",
+    "meaning": "giardino",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "玄関",
+    "reading": "genkan",
+    "meaning": "ingresso di casa",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "窓",
+    "reading": "mado",
+    "meaning": "finestra",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "ドア",
+    "reading": "doa",
+    "meaning": "porta",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "机",
+    "reading": "tsukue",
+    "meaning": "scrivania",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "椅子",
+    "reading": "isu",
+    "meaning": "sedia",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "ベッド",
+    "reading": "beddo",
+    "meaning": "letto",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "時計",
+    "reading": "tokei",
+    "meaning": "orologio",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "電気",
+    "reading": "denki",
+    "meaning": "luce / elettricita",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "鍵",
+    "reading": "kagi",
+    "meaning": "chiave",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "鞄",
+    "reading": "kaban",
+    "meaning": "borsa",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "本棚",
+    "reading": "hondana",
+    "meaning": "libreria",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "洗濯機",
+    "reading": "sentakuki",
+    "meaning": "lavatrice",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "冷蔵庫",
+    "reading": "reizouko",
+    "meaning": "frigorifero",
+    "category": "Casa",
+    "group": "Casa"
+  },
+  {
+    "word": "毎日",
+    "reading": "mainichi",
+    "meaning": "ogni giorno",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "毎朝",
+    "reading": "maiasa",
+    "meaning": "ogni mattina",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "毎晩",
+    "reading": "maiban",
+    "meaning": "ogni sera",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "今年",
+    "reading": "kotoshi",
+    "meaning": "quest'anno",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "来年",
+    "reading": "rainen",
+    "meaning": "anno prossimo",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "去年",
+    "reading": "kyonen",
+    "meaning": "anno scorso",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "月曜日",
+    "reading": "getsuyoubi",
+    "meaning": "lunedi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "火曜日",
+    "reading": "kayoubi",
+    "meaning": "martedi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "水曜日",
+    "reading": "suiyoubi",
+    "meaning": "mercoledi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "木曜日",
+    "reading": "mokuyoubi",
+    "meaning": "giovedi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "金曜日",
+    "reading": "kinyoubi",
+    "meaning": "venerdi",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "土曜日",
+    "reading": "doyoubi",
+    "meaning": "sabato",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "日曜日",
+    "reading": "nichiyoubi",
+    "meaning": "domenica",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "午前",
+    "reading": "gozen",
+    "meaning": "mattina / a.m.",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "午後",
+    "reading": "gogo",
+    "meaning": "pomeriggio / p.m.",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "半",
+    "reading": "han",
+    "meaning": "mezza ora / meta",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "月",
+    "reading": "tsuki / gatsu",
+    "meaning": "luna / mese",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "年",
+    "reading": "toshi / nen",
+    "meaning": "anno",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "日",
+    "reading": "hi / nichi",
+    "meaning": "giorno / sole",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "曜日",
+    "reading": "youbi",
+    "meaning": "giorno della settimana",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "先週",
+    "reading": "senshuu",
+    "meaning": "settimana scorsa",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "来週",
+    "reading": "raishuu",
+    "meaning": "settimana prossima",
+    "category": "Tempo",
+    "group": "Tempo"
+  },
+  {
+    "word": "ある",
+    "reading": "aru",
+    "meaning": "esserci per cose",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "いる",
+    "reading": "iru",
+    "meaning": "esserci per persone o animali",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "する",
+    "reading": "suru",
+    "meaning": "fare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "来る",
+    "reading": "kuru",
+    "meaning": "venire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "起きる",
+    "reading": "okiru",
+    "meaning": "svegliarsi / alzarsi",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "寝る",
+    "reading": "neru",
+    "meaning": "dormire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "休む",
+    "reading": "yasumu",
+    "meaning": "riposare / assentarsi",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "働く",
+    "reading": "hataraku",
+    "meaning": "lavorare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "勉強する",
+    "reading": "benkyou suru",
+    "meaning": "studiare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "教える",
+    "reading": "oshieru",
+    "meaning": "insegnare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "習う",
+    "reading": "narau",
+    "meaning": "imparare da qualcuno",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "作る",
+    "reading": "tsukuru",
+    "meaning": "fare / preparare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "洗う",
+    "reading": "arau",
+    "meaning": "lavare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "使う",
+    "reading": "tsukau",
+    "meaning": "usare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "開ける",
+    "reading": "akeru",
+    "meaning": "aprire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "閉める",
+    "reading": "shimeru",
+    "meaning": "chiudere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "入る",
+    "reading": "hairu",
+    "meaning": "entrare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "出る",
+    "reading": "deru",
+    "meaning": "uscire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "歩く",
+    "reading": "aruku",
+    "meaning": "camminare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "走る",
+    "reading": "hashiru",
+    "meaning": "correre",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "泳ぐ",
+    "reading": "oyogu",
+    "meaning": "nuotare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "遊ぶ",
+    "reading": "asobu",
+    "meaning": "giocare / passare tempo",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "歌う",
+    "reading": "utau",
+    "meaning": "cantare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "知る",
+    "reading": "shiru",
+    "meaning": "sapere / conoscere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "住む",
+    "reading": "sumu",
+    "meaning": "abitare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "売る",
+    "reading": "uru",
+    "meaning": "vendere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "持つ",
+    "reading": "motsu",
+    "meaning": "avere / tenere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "忘れる",
+    "reading": "wasureru",
+    "meaning": "dimenticare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "覚える",
+    "reading": "oboeru",
+    "meaning": "memorizzare / ricordare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "始まる",
+    "reading": "hajimaru",
+    "meaning": "iniziare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "終わる",
+    "reading": "owaru",
+    "meaning": "finire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "乗る",
+    "reading": "noru",
+    "meaning": "salire su un mezzo",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "降りる",
+    "reading": "oriru",
+    "meaning": "scendere da un mezzo",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "送る",
+    "reading": "okuru",
+    "meaning": "mandare / accompagnare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "借りる",
+    "reading": "kariru",
+    "meaning": "prendere in prestito",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "良い",
+    "reading": "ii / yoi",
+    "meaning": "buono",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "悪い",
+    "reading": "warui",
+    "meaning": "cattivo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "早い",
+    "reading": "hayai",
+    "meaning": "presto / rapido",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "遅い",
+    "reading": "osoi",
+    "meaning": "lento / tardi",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "長い",
+    "reading": "nagai",
+    "meaning": "lungo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "短い",
+    "reading": "mijikai",
+    "meaning": "corto",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "広い",
+    "reading": "hiroi",
+    "meaning": "spazioso / ampio",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "狭い",
+    "reading": "semai",
+    "meaning": "stretto",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "重い",
+    "reading": "omoi",
+    "meaning": "pesante",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "軽い",
+    "reading": "karui",
+    "meaning": "leggero",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "強い",
+    "reading": "tsuyoi",
+    "meaning": "forte",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "弱い",
+    "reading": "yowai",
+    "meaning": "debole",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "難しい",
+    "reading": "muzukashii",
+    "meaning": "difficile",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "易しい",
+    "reading": "yasashii",
+    "meaning": "facile",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "高い",
+    "reading": "takai",
+    "meaning": "alto / costoso",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "安い",
+    "reading": "yasui",
+    "meaning": "economico",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "近い",
+    "reading": "chikai",
+    "meaning": "vicino",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "遠い",
+    "reading": "tooi",
+    "meaning": "lontano",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "忙しい",
+    "reading": "isogashii",
+    "meaning": "occupato",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "暇",
+    "reading": "hima",
+    "meaning": "libero / senza impegni",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "元気",
+    "reading": "genki",
+    "meaning": "in forma / energico",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "有名",
+    "reading": "yuumei",
+    "meaning": "famoso",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "きれい",
+    "reading": "kirei",
+    "meaning": "bello / pulito",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "かわいい",
+    "reading": "kawaii",
+    "meaning": "carino",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "速い",
+    "reading": "hayai",
+    "meaning": "veloce",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "丸い",
+    "reading": "marui",
+    "meaning": "rotondo",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "暗い",
+    "reading": "kurai",
+    "meaning": "buio",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "明るい",
+    "reading": "akarui",
+    "meaning": "luminoso / allegro",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "甘い",
+    "reading": "amai",
+    "meaning": "dolce",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "辛い",
+    "reading": "karai",
+    "meaning": "piccante",
+    "category": "Aggettivi",
+    "group": "Aggettivi"
+  },
+  {
+    "word": "パン",
+    "reading": "pan",
+    "meaning": "pane",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "そば",
+    "reading": "soba",
+    "meaning": "noodles di grano saraceno",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "うどん",
+    "reading": "udon",
+    "meaning": "noodles udon",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "味噌汁",
+    "reading": "misoshiru",
+    "meaning": "zuppa di miso",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "カレー",
+    "reading": "karee",
+    "meaning": "curry",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "弁当",
+    "reading": "bentou",
+    "meaning": "pranzo al sacco",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "果物",
+    "reading": "kudamono",
+    "meaning": "frutta",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "りんご",
+    "reading": "ringo",
+    "meaning": "mela",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "バナナ",
+    "reading": "banana",
+    "meaning": "banana",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "みかん",
+    "reading": "mikan",
+    "meaning": "mandarino",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "塩",
+    "reading": "shio",
+    "meaning": "sale",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "砂糖",
+    "reading": "satou",
+    "meaning": "zucchero",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "醤油",
+    "reading": "shouyu",
+    "meaning": "salsa di soia",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "朝ご飯",
+    "reading": "asagohan",
+    "meaning": "colazione",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "昼ご飯",
+    "reading": "hirugohan",
+    "meaning": "pranzo",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "晩ご飯",
+    "reading": "bangohan",
+    "meaning": "cena",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "お菓子",
+    "reading": "okashi",
+    "meaning": "dolci / snack",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "ジュース",
+    "reading": "juusu",
+    "meaning": "succo",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "ビール",
+    "reading": "biiru",
+    "meaning": "birra",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "牛肉",
+    "reading": "gyuuniku",
+    "meaning": "manzo",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "豚肉",
+    "reading": "butaniku",
+    "meaning": "maiale",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "鶏肉",
+    "reading": "toriniku",
+    "meaning": "pollo",
+    "category": "Cibo e Bevande",
+    "group": "Cibo e Bevande"
+  },
+  {
+    "word": "病院",
+    "reading": "byouin",
+    "meaning": "ospedale",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "銀行",
+    "reading": "ginkou",
+    "meaning": "banca",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "郵便局",
+    "reading": "yuubinkyoku",
+    "meaning": "ufficio postale",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "図書館",
+    "reading": "toshokan",
+    "meaning": "biblioteca",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "公園",
+    "reading": "kouen",
+    "meaning": "parco",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "海",
+    "reading": "umi",
+    "meaning": "mare",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "山",
+    "reading": "yama",
+    "meaning": "montagna",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "川",
+    "reading": "kawa",
+    "meaning": "fiume",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "道",
+    "reading": "michi",
+    "meaning": "strada",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "橋",
+    "reading": "hashi",
+    "meaning": "ponte",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "交番",
+    "reading": "kouban",
+    "meaning": "posto di polizia",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "教室",
+    "reading": "kyoushitsu",
+    "meaning": "aula",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "駅前",
+    "reading": "ekimae",
+    "meaning": "davanti alla stazione",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "市",
+    "reading": "shi",
+    "meaning": "citta",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "国",
+    "reading": "kuni",
+    "meaning": "paese / nazione",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "外国",
+    "reading": "gaikoku",
+    "meaning": "paese straniero",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "日本",
+    "reading": "nihon",
+    "meaning": "Giappone",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "東京",
+    "reading": "toukyou",
+    "meaning": "Tokyo",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "京都",
+    "reading": "kyouto",
+    "meaning": "Kyoto",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "飛行機",
+    "reading": "hikouki",
+    "meaning": "aereo",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "自転車",
+    "reading": "jitensha",
+    "meaning": "bicicletta",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "信号",
+    "reading": "shingou",
+    "meaning": "semaforo",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "仕事",
+    "reading": "shigoto",
+    "meaning": "lavoro",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "会社",
+    "reading": "kaisha",
+    "meaning": "azienda",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "会議",
+    "reading": "kaigi",
+    "meaning": "riunione",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "名前",
+    "reading": "namae",
+    "meaning": "nome",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "日本語",
+    "reading": "nihongo",
+    "meaning": "lingua giapponese",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "英語",
+    "reading": "eigo",
+    "meaning": "lingua inglese",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "漢字",
+    "reading": "kanji",
+    "meaning": "caratteri cinesi",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "平仮名",
+    "reading": "hiragana",
+    "meaning": "hiragana",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "片仮名",
+    "reading": "katakana",
+    "meaning": "katakana",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "宿題",
+    "reading": "shukudai",
+    "meaning": "compiti",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "試験",
+    "reading": "shiken",
+    "meaning": "esame",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "問題",
+    "reading": "mondai",
+    "meaning": "problema / domanda",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "答え",
+    "reading": "kotae",
+    "meaning": "risposta",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "辞書",
+    "reading": "jisho",
+    "meaning": "dizionario",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "紙",
+    "reading": "kami",
+    "meaning": "carta",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "鉛筆",
+    "reading": "enpitsu",
+    "meaning": "matita",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "写真",
+    "reading": "shashin",
+    "meaning": "foto",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "新聞",
+    "reading": "shinbun",
+    "meaning": "giornale",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "雑誌",
+    "reading": "zasshi",
+    "meaning": "rivista",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "手紙",
+    "reading": "tegami",
+    "meaning": "lettera",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "電話",
+    "reading": "denwa",
+    "meaning": "telefono",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "番号",
+    "reading": "bangou",
+    "meaning": "numero",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "雨",
+    "reading": "ame",
+    "meaning": "pioggia",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "雪",
+    "reading": "yuki",
+    "meaning": "neve",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "風",
+    "reading": "kaze",
+    "meaning": "vento",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "空",
+    "reading": "sora",
+    "meaning": "cielo",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "花",
+    "reading": "hana",
+    "meaning": "fiore",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "木",
+    "reading": "ki",
+    "meaning": "albero / legno",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "森",
+    "reading": "mori",
+    "meaning": "foresta",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "天気",
+    "reading": "tenki",
+    "meaning": "tempo atmosferico",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "晴れ",
+    "reading": "hare",
+    "meaning": "sereno",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "曇り",
+    "reading": "kumori",
+    "meaning": "nuvoloso",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "春",
+    "reading": "haru",
+    "meaning": "primavera",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "夏",
+    "reading": "natsu",
+    "meaning": "estate",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "秋",
+    "reading": "aki",
+    "meaning": "autunno",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "冬",
+    "reading": "fuyu",
+    "meaning": "inverno",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "色",
+    "reading": "iro",
+    "meaning": "colore",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "赤",
+    "reading": "aka",
+    "meaning": "rosso",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "青",
+    "reading": "ao",
+    "meaning": "blu / verde",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "零",
+    "reading": "rei",
+    "meaning": "zero",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "四",
+    "reading": "yon / shi",
+    "meaning": "quattro",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "五",
+    "reading": "go",
+    "meaning": "cinque",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "六",
+    "reading": "roku",
+    "meaning": "sei",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "七",
+    "reading": "nana / shichi",
+    "meaning": "sette",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "八",
+    "reading": "hachi",
+    "meaning": "otto",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "九",
+    "reading": "kyuu / ku",
+    "meaning": "nove",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "千",
+    "reading": "sen",
+    "meaning": "mille",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "万",
+    "reading": "man",
+    "meaning": "diecimila",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "何",
+    "reading": "nani / nan",
+    "meaning": "che cosa",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "誰",
+    "reading": "dare",
+    "meaning": "chi",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どこ",
+    "reading": "doko",
+    "meaning": "dove",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "いつ",
+    "reading": "itsu",
+    "meaning": "quando",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どう",
+    "reading": "dou",
+    "meaning": "come",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どれ",
+    "reading": "dore",
+    "meaning": "quale tra più cose",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どちら",
+    "reading": "dochira",
+    "meaning": "quale direzione / quale dei due",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "いくつ",
+    "reading": "ikutsu",
+    "meaning": "quanti / quanti anni",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どんな",
+    "reading": "donna",
+    "meaning": "che tipo di",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "なぜ",
+    "reading": "naze",
+    "meaning": "perché",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "どうして",
+    "reading": "doushite",
+    "meaning": "per quale motivo",
+    "category": "Domande",
+    "group": "Domande"
+  },
+  {
+    "word": "少し",
+    "reading": "sukoshi",
+    "meaning": "un po'",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "たくさん",
+    "reading": "takusan",
+    "meaning": "molto / tanti",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "もっと",
+    "reading": "motto",
+    "meaning": "di più",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "すぐ",
+    "reading": "sugu",
+    "meaning": "subito",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "ゆっくり",
+    "reading": "yukkuri",
+    "meaning": "lentamente / con calma",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "よく",
+    "reading": "yoku",
+    "meaning": "spesso / bene",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "あまり",
+    "reading": "amari",
+    "meaning": "non molto",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "全然",
+    "reading": "zenzen",
+    "meaning": "per niente",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "いつも",
+    "reading": "itsumo",
+    "meaning": "sempre",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "時々",
+    "reading": "tokidoki",
+    "meaning": "a volte",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "もう",
+    "reading": "mou",
+    "meaning": "già / ormai",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "まだ",
+    "reading": "mada",
+    "meaning": "ancora / non ancora",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "ちょっと",
+    "reading": "chotto",
+    "meaning": "un attimo / un po'",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "一緒に",
+    "reading": "issho ni",
+    "meaning": "insieme",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "多分",
+    "reading": "tabun",
+    "meaning": "forse / probabilmente",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "本当に",
+    "reading": "hontou ni",
+    "meaning": "davvero",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "特に",
+    "reading": "toku ni",
+    "meaning": "specialmente",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "すっかり",
+    "reading": "sukkari",
+    "meaning": "completamente",
+    "category": "Avverbi",
+    "group": "Avverbi"
+  },
+  {
+    "word": "頭",
+    "reading": "atama",
+    "meaning": "testa",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "顔",
+    "reading": "kao",
+    "meaning": "viso",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "髪",
+    "reading": "kami",
+    "meaning": "capelli",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "鼻",
+    "reading": "hana",
+    "meaning": "naso",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "口",
+    "reading": "kuchi",
+    "meaning": "bocca",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "歯",
+    "reading": "ha",
+    "meaning": "dente",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "耳",
+    "reading": "mimi",
+    "meaning": "orecchio",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "目",
+    "reading": "me",
+    "meaning": "occhio",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "手",
+    "reading": "te",
+    "meaning": "mano",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "足",
+    "reading": "ashi",
+    "meaning": "piede / gamba",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "体",
+    "reading": "karada",
+    "meaning": "corpo",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "心",
+    "reading": "kokoro",
+    "meaning": "cuore / mente",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "病気",
+    "reading": "byouki",
+    "meaning": "malattia",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "薬",
+    "reading": "kusuri",
+    "meaning": "medicina",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "熱",
+    "reading": "netsu",
+    "meaning": "febbre / calore",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "怪我",
+    "reading": "kega",
+    "meaning": "ferita / infortunio",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "痛い",
+    "reading": "itai",
+    "meaning": "doloroso",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "眠い",
+    "reading": "nemui",
+    "meaning": "assonnato",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "疲れる",
+    "reading": "tsukareru",
+    "meaning": "stancarsi",
+    "category": "Corpo e salute",
+    "group": "Corpo e salute"
+  },
+  {
+    "word": "服",
+    "reading": "fuku",
+    "meaning": "vestiti",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "シャツ",
+    "reading": "shatsu",
+    "meaning": "camicia / maglietta",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "ズボン",
+    "reading": "zubon",
+    "meaning": "pantaloni",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "靴",
+    "reading": "kutsu",
+    "meaning": "scarpe",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "帽子",
+    "reading": "boushi",
+    "meaning": "cappello",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "コート",
+    "reading": "kooto",
+    "meaning": "cappotto",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "傘",
+    "reading": "kasa",
+    "meaning": "ombrello",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "靴下",
+    "reading": "kutsushita",
+    "meaning": "calzini",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "眼鏡",
+    "reading": "megane",
+    "meaning": "occhiali",
+    "category": "Vestiti",
+    "group": "Vestiti"
+  },
+  {
+    "word": "財布",
+    "reading": "saifu",
+    "meaning": "portafoglio",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "現金",
+    "reading": "genkin",
+    "meaning": "contanti",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "カード",
+    "reading": "kaado",
+    "meaning": "carta",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "値段",
+    "reading": "nedan",
+    "meaning": "prezzo",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "袋",
+    "reading": "fukuro",
+    "meaning": "borsa / sacchetto",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "店員",
+    "reading": "ten'in",
+    "meaning": "commesso",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "割引",
+    "reading": "waribiki",
+    "meaning": "sconto",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "注文",
+    "reading": "chuumon",
+    "meaning": "ordine",
+    "category": "Shopping",
+    "group": "Shopping"
+  },
+  {
+    "word": "予約",
+    "reading": "yoyaku",
+    "meaning": "prenotazione",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "出発",
+    "reading": "shuppatsu",
+    "meaning": "partenza",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "到着",
+    "reading": "touchaku",
+    "meaning": "arrivo",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "乗り換え",
+    "reading": "norikae",
+    "meaning": "cambio / coincidenza",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "新幹線",
+    "reading": "shinkansen",
+    "meaning": "treno proiettile",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "船",
+    "reading": "fune",
+    "meaning": "nave",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "車",
+    "reading": "kuruma",
+    "meaning": "auto",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "運転",
+    "reading": "unten",
+    "meaning": "guida",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "港",
+    "reading": "minato",
+    "meaning": "porto",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "住所",
+    "reading": "juusho",
+    "meaning": "indirizzo",
+    "category": "Viaggio",
+    "group": "Viaggio"
+  },
+  {
+    "word": "切る",
+    "reading": "kiru",
+    "meaning": "tagliare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "呼ぶ",
+    "reading": "yobu",
+    "meaning": "chiamare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "会う",
+    "reading": "au",
+    "meaning": "incontrare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "取る",
+    "reading": "toru",
+    "meaning": "prendere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "撮る",
+    "reading": "toru",
+    "meaning": "scattare una foto",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "着る",
+    "reading": "kiru",
+    "meaning": "indossare sopra",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "履く",
+    "reading": "haku",
+    "meaning": "indossare sotto / scarpe",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "脱ぐ",
+    "reading": "nugu",
+    "meaning": "togliersi vestiti",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "返す",
+    "reading": "kaesu",
+    "meaning": "restituire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "払う",
+    "reading": "harau",
+    "meaning": "pagare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "探す",
+    "reading": "sagasu",
+    "meaning": "cercare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "手伝う",
+    "reading": "tetsudau",
+    "meaning": "aiutare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "料理する",
+    "reading": "ryouri suru",
+    "meaning": "cucinare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "掃除する",
+    "reading": "souji suru",
+    "meaning": "pulire",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "練習する",
+    "reading": "renshuu suru",
+    "meaning": "esercitarsi",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "質問する",
+    "reading": "shitsumon suru",
+    "meaning": "fare una domanda",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "答える",
+    "reading": "kotaeru",
+    "meaning": "rispondere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "説明する",
+    "reading": "setsumei suru",
+    "meaning": "spiegare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "置く",
+    "reading": "oku",
+    "meaning": "mettere / posare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "直す",
+    "reading": "naosu",
+    "meaning": "riparare / correggere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "貸す",
+    "reading": "kasu",
+    "meaning": "prestare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "嬉しい",
+    "reading": "ureshii",
+    "meaning": "felice",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "悲しい",
+    "reading": "kanashii",
+    "meaning": "triste",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "怖い",
+    "reading": "kowai",
+    "meaning": "spaventoso / avere paura",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "寂しい",
+    "reading": "sabishii",
+    "meaning": "solitario / sentirsi solo",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "面白い",
+    "reading": "omoshiroi",
+    "meaning": "interessante / divertente",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "つまらない",
+    "reading": "tsumaranai",
+    "meaning": "noioso",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "大切",
+    "reading": "taisetsu",
+    "meaning": "importante / prezioso",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "嫌い",
+    "reading": "kirai",
+    "meaning": "non piacere / odiare",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "上手",
+    "reading": "jouzu",
+    "meaning": "bravo / abile",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "下手",
+    "reading": "heta",
+    "meaning": "scarso / non bravo",
+    "category": "Emozioni",
+    "group": "Emozioni"
+  },
+  {
+    "word": "携帯電話",
+    "reading": "keitai denwa",
+    "meaning": "cellulare",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "スマホ",
+    "reading": "sumaho",
+    "meaning": "smartphone",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "パソコン",
+    "reading": "pasokon",
+    "meaning": "computer",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "カメラ",
+    "reading": "kamera",
+    "meaning": "fotocamera",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "メール",
+    "reading": "meeru",
+    "meaning": "email / messaggio",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "インターネット",
+    "reading": "intaanetto",
+    "meaning": "internet",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "アプリ",
+    "reading": "apuri",
+    "meaning": "applicazione",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "画面",
+    "reading": "gamen",
+    "meaning": "schermo",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "パスワード",
+    "reading": "pasuwaado",
+    "meaning": "password",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "充電",
+    "reading": "juuden",
+    "meaning": "ricarica",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "電池",
+    "reading": "denchi",
+    "meaning": "batteria",
+    "category": "Tecnologia",
+    "group": "Tecnologia"
+  },
+  {
+    "word": "映画",
+    "reading": "eiga",
+    "meaning": "film",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "音楽",
+    "reading": "ongaku",
+    "meaning": "musica",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "歌",
+    "reading": "uta",
+    "meaning": "canzone",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "絵",
+    "reading": "e",
+    "meaning": "disegno / quadro",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "小説",
+    "reading": "shousetsu",
+    "meaning": "romanzo",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "物語",
+    "reading": "monogatari",
+    "meaning": "storia / racconto",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "美術館",
+    "reading": "bijutsukan",
+    "meaning": "museo d'arte",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "劇場",
+    "reading": "gekijou",
+    "meaning": "teatro",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "声",
+    "reading": "koe",
+    "meaning": "voce",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "趣味",
+    "reading": "shumi",
+    "meaning": "hobby",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "運動",
+    "reading": "undou",
+    "meaning": "esercizio / sport",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "野球",
+    "reading": "yakyuu",
+    "meaning": "baseball",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "サッカー",
+    "reading": "sakkaa",
+    "meaning": "calcio",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "散歩",
+    "reading": "sanpo",
+    "meaning": "passeggiata",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "買い物",
+    "reading": "kaimono",
+    "meaning": "shopping",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "読書",
+    "reading": "dokusho",
+    "meaning": "lettura",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "ゲーム",
+    "reading": "geemu",
+    "meaning": "gioco / videogame",
+    "category": "Hobby e cultura",
+    "group": "Hobby e cultura"
+  },
+  {
+    "word": "猿",
+    "reading": "saru",
+    "meaning": "scimmia",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "鹿",
+    "reading": "shika",
+    "meaning": "cervo",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "兎",
+    "reading": "usagi",
+    "meaning": "coniglio",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "熊",
+    "reading": "kuma",
+    "meaning": "orso",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "虫",
+    "reading": "mushi",
+    "meaning": "insetto",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "蝶",
+    "reading": "chou",
+    "meaning": "farfalla",
+    "category": "Animali",
+    "group": "Animali"
+  },
+  {
+    "word": "石",
+    "reading": "ishi",
+    "meaning": "pietra",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "草",
+    "reading": "kusa",
+    "meaning": "erba",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "葉",
+    "reading": "ha",
+    "meaning": "foglia",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "砂",
+    "reading": "suna",
+    "meaning": "sabbia",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "波",
+    "reading": "nami",
+    "meaning": "onda",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "島",
+    "reading": "shima",
+    "meaning": "isola",
+    "category": "Natura e meteo",
+    "group": "Natura e meteo"
+  },
+  {
+    "word": "建物",
+    "reading": "tatemono",
+    "meaning": "edificio",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "アパート",
+    "reading": "apaato",
+    "meaning": "appartamento",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "道路",
+    "reading": "douro",
+    "meaning": "strada / carreggiata",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "角",
+    "reading": "kado",
+    "meaning": "angolo",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "横断歩道",
+    "reading": "oudan hodou",
+    "meaning": "strisce pedonali",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "階段",
+    "reading": "kaidan",
+    "meaning": "scale",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "エレベーター",
+    "reading": "erebeetaa",
+    "meaning": "ascensore",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "エスカレーター",
+    "reading": "esukareetaa",
+    "meaning": "scala mobile",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "受付",
+    "reading": "uketsuke",
+    "meaning": "reception",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "窓口",
+    "reading": "madoguchi",
+    "meaning": "sportello",
+    "category": "Luoghi",
+    "group": "Luoghi"
+  },
+  {
+    "word": "部長",
+    "reading": "buchou",
+    "meaning": "direttore di reparto",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "課長",
+    "reading": "kachou",
+    "meaning": "capo sezione",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "同僚",
+    "reading": "douryou",
+    "meaning": "collega",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "事務所",
+    "reading": "jimusho",
+    "meaning": "ufficio",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "予定",
+    "reading": "yotei",
+    "meaning": "programma / piano",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "資料",
+    "reading": "shiryou",
+    "meaning": "materiali / documenti",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "連絡",
+    "reading": "renraku",
+    "meaning": "contatto / comunicazione",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "出張",
+    "reading": "shucchou",
+    "meaning": "viaggio di lavoro",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "残業",
+    "reading": "zangyou",
+    "meaning": "straordinari",
+    "category": "Studio e lavoro",
+    "group": "Studio e lavoro"
+  },
+  {
+    "word": "ひとつ",
+    "reading": "hitotsu",
+    "meaning": "uno oggetto",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "ふたつ",
+    "reading": "futatsu",
+    "meaning": "due oggetti",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "みっつ",
+    "reading": "mittsu",
+    "meaning": "tre oggetti",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "一枚",
+    "reading": "ichimai",
+    "meaning": "un oggetto piatto",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "一本",
+    "reading": "ippon",
+    "meaning": "un oggetto lungo",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "一冊",
+    "reading": "issatsu",
+    "meaning": "un libro",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "一回",
+    "reading": "ikkai",
+    "meaning": "una volta",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "一階",
+    "reading": "ikkai",
+    "meaning": "primo piano",
+    "category": "Numeri",
+    "group": "Numeri"
+  },
+  {
+    "word": "もちろん",
+    "reading": "mochiron",
+    "meaning": "certamente",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "なるほど",
+    "reading": "naruhodo",
+    "meaning": "capisco / ecco",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "そうですか",
+    "reading": "sou desu ka",
+    "meaning": "ah sì? / capisco",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "いいですね",
+    "reading": "ii desu ne",
+    "meaning": "che bello / ottima idea",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "違います",
+    "reading": "chigaimasu",
+    "meaning": "è diverso / non è corretto",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "もう一度",
+    "reading": "mou ichido",
+    "meaning": "ancora una volta",
+    "category": "Frasi quotidiane",
+    "group": "Frasi quotidiane"
+  },
+  {
+    "word": "紹介する",
+    "reading": "shoukai suru",
+    "meaning": "presentare qualcuno",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "相談する",
+    "reading": "soudan suru",
+    "meaning": "consultarsi",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "確認する",
+    "reading": "kakunin suru",
+    "meaning": "controllare / confermare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "準備する",
+    "reading": "junbi suru",
+    "meaning": "preparare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "招待する",
+    "reading": "shoutai suru",
+    "meaning": "invitare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "選ぶ",
+    "reading": "erabu",
+    "meaning": "scegliere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "決める",
+    "reading": "kimeru",
+    "meaning": "decidere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "比べる",
+    "reading": "kuraberu",
+    "meaning": "confrontare",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "変える",
+    "reading": "kaeru",
+    "meaning": "cambiare qualcosa",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "変わる",
+    "reading": "kawaru",
+    "meaning": "cambiare / trasformarsi",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "集める",
+    "reading": "atsumeru",
+    "meaning": "raccogliere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "捨てる",
+    "reading": "suteru",
+    "meaning": "buttare via",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "拾う",
+    "reading": "hirou",
+    "meaning": "raccogliere da terra",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "笑う",
+    "reading": "warau",
+    "meaning": "ridere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  },
+  {
+    "word": "泣く",
+    "reading": "naku",
+    "meaning": "piangere",
+    "category": "Verbi base",
+    "group": "Verbi base"
+  }
+]

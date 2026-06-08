@@ -1,0 +1,282 @@
+[
+  {
+    "category": "Giappone Moderno",
+    "name": "Dotonbori",
+    "jp": "道頓堀",
+    "city": "Osaka",
+    "description": "Canali, insegne luminose e street food: una delle zone più vive di Osaka.",
+    "detail": "Dotonbori è ideale per raccontare il Giappone urbano e popolare: takoyaki, okonomiyaki, insegne giganti e locali affacciati sull'acqua. È una tappa perfetta per testare card con descrizioni energiche e tag gastronomici.",
+    "tag": "Vita notturna",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Akihabara",
+    "jp": "秋葉原",
+    "city": "Tokyo",
+    "description": "Il paradiso dell'elettronica, manga, anime e cultura otaku del mondo.",
+    "detail": "Una volta mercato dell'elettronica di seconda mano nel dopoguerra, oggi è la mecca globale della cultura pop giapponese. Multi-piano di arcade, figurine rare, café a tema e negozi di retro-gaming.",
+    "tag": "Cultura pop",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Shibuya",
+    "jp": "渋谷",
+    "city": "Tokyo",
+    "description": "Il quartiere più frenetico di Tokyo, famoso per il celeberrimo incrocio pedonale e lo shopping.",
+    "detail": "Ogni volta che il semaforo diventa verde, centinaia di persone attraversano da ogni direzione. Shibuya è anche il centro della moda giovane giapponese, con Takeshita Street e Harajuku a due passi.",
+    "tag": "Metropoli",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Shinjuku",
+    "jp": "新宿",
+    "city": "Tokyo",
+    "description": "Il quartiere che non dorme mai: grattacieli di giorno, neon e izakaya di notte.",
+    "detail": "Shinjuku ospita la stazione ferroviaria più trafficata del mondo. Golden Gai è un dedalo di vicoli con 200 bar minuscoli, sopravvissuto intatto dagli anni '50.",
+    "tag": "Vita notturna",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Tokyo Station",
+    "jp": "東京駅",
+    "city": "Tokyo",
+    "description": "Grande snodo ferroviario con architettura storica e collegamenti shinkansen.",
+    "detail": "La stazione unisce facciata in mattoni, gallerie commerciali sotterranee e partenza dei treni veloci. Funziona bene come luogo moderno ma legato alla storia dei trasporti.",
+    "tag": "Trasporti",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Castello di Himeji",
+    "jp": "姫路城",
+    "city": "Himeji",
+    "description": "Uno dei castelli meglio conservati del Giappone, noto come Airone Bianco.",
+    "detail": "La struttura difensiva, i corridoi complessi e l'eleganza delle mura bianche raccontano l'architettura militare del periodo feudale. È ottimo per testare testi lunghi nel pannello dettagli.",
+    "tag": "Castello",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Fushimi Inari",
+    "jp": "伏見稲荷大社",
+    "city": "Kyoto",
+    "description": "Il santuario shintoista con migliaia di torii arancioni che risalgono il monte Inari.",
+    "detail": "Fondato nell'711 d.C., Fushimi Inari è dedicato a Inari, divinità del riso e della prosperità. I torii arancioni sono donati da imprese e privati come offerta votiva.",
+    "tag": "Santuario",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Kinkaku-ji",
+    "jp": "金閣寺",
+    "city": "Kyoto",
+    "description": "Il Padiglione d'Oro, tempio zen completamente ricoperto di foglie d'oro specchiato nel lago.",
+    "detail": "Originariamente villa del shogun Ashikaga Yoshimitsu (1397), divenne tempio alla sua morte. Il padiglione attuale è una ricostruzione del 1955.",
+    "tag": "Tempio",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Todai-ji",
+    "jp": "東大寺",
+    "city": "Nara",
+    "description": "Tempio monumentale che custodisce il Grande Buddha di Nara.",
+    "detail": "Il complesso mostra la forza politica e religiosa dell'antica capitale. La sala del Daibutsu è uno dei grandi simboli del buddhismo giapponese e dialoga bene con un percorso storico-culturale.",
+    "tag": "Tempio",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Konbini Tenin",
+    "jp": "コンビニ店員",
+    "city": "Città",
+    "description": "I convenience store, o konbini, sono aperti 24 ore su 24 e fanno parte della vita di tutti i giorni in Giappone.",
+    "detail": "Chi ci lavora gestisce molti servizi: pagamenti di bollette, spedizioni di pacchi, cottura di snack caldi e gestione magazzino. Competenze richieste: velocità, cortesia formale e precisione.",
+    "tag": "Efficienza",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Artigiano Wagashi",
+    "jp": "和菓子職人",
+    "city": "Kyoto",
+    "description": "Maestro dei dolci tradizionali legati alle stagioni e alla cerimonia del tè.",
+    "detail": "Il lavoro richiede precisione, senso estetico e conoscenza dei simboli stagionali. Ogni dolce può rappresentare un fiore, una festa o un paesaggio, trasformando il cibo in racconto visivo.",
+    "tag": "Artigianato",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Miko",
+    "jp": "巫女",
+    "city": "Spiritualità",
+    "description": "Le miko sono giovani donne che lavorano nei santuari scintoisti. Indossano una veste tradizionale composta da casacca bianca e hakama rosso.",
+    "detail": "In passato erano considerate sciamane e intermediarie tra kami e uomini. Oggi assistono i sacerdoti nelle funzioni del santuario, vendono amuleti e curano l'ordine degli spazi sacri.",
+    "tag": "Santuario",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Capostazione",
+    "jp": "駅長",
+    "city": "Tokyo",
+    "description": "Figura responsabile del coordinamento e della sicurezza nelle stazioni ferroviarie.",
+    "detail": "Nel sistema ferroviario giapponese puntualità, procedure e comunicazione sono fondamentali. Questa voce aiuta a rappresentare il Giappone quotidiano, organizzato e moderno.",
+    "tag": "Ferrovie",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Sushi Shokunin",
+    "jp": "寿司職人",
+    "city": "Tradizione",
+    "description": "Il cuoco specializzato nella preparazione del sushi è una figura di grande precisione e disciplina. La formazione richiede molti anni di pratica costante.",
+    "detail": "Anticamente l'apprendistato poteva durare anche dieci anni solo per imparare a cuocere il riso alla perfezione. Competenze richieste: selezione del pesce fresco, taglio millimetrico e controllo della temperatura manuale.",
+    "tag": "Maestria",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Odaiba",
+    "jp": "お台場",
+    "city": "Tokyo",
+    "description": "Isola artificiale nella baia di Tokyo, con centri commerciali, musei digitali e vista sul Rainbow Bridge.",
+    "detail": "Odaiba racconta il Giappone urbano e spettacolare: architetture moderne, attrazioni tecnologiche, spazi sul mare e collegamenti panoramici. È una voce utile per dare respiro alla categoria moderna.",
+    "tag": "Baia",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Umeda Sky Building",
+    "jp": "梅田スカイビル",
+    "city": "Osaka",
+    "description": "Grattacielo iconico con osservatorio sospeso e vista sulla città di Osaka.",
+    "detail": "Il Floating Garden Observatory è un buon esempio di architettura contemporanea giapponese: scenografico, urbano e facilmente riconoscibile. Funziona bene per contenuti legati a skyline e turismo moderno.",
+    "tag": "Osservatorio",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Minato Mirai",
+    "jp": "みなとみらい",
+    "city": "Yokohama",
+    "description": "Quartiere portuale moderno con ruota panoramica, musei, shopping e skyline sul mare.",
+    "detail": "Minato Mirai unisce porto, architettura contemporanea e passeggiate urbane. È perfetto per mostrare un Giappone moderno meno centrato solo su Tokyo.",
+    "tag": "Waterfront",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Nakano Broadway",
+    "jp": "中野ブロードウェイ",
+    "city": "Tokyo",
+    "description": "Galleria commerciale famosa per manga, collezionismo, giocattoli vintage e cultura pop.",
+    "detail": "Nakano Broadway è più compatta e meno turistica di Akihabara, ma molto amata dagli appassionati. Aggiunge varietà alla cultura pop urbana.",
+    "tag": "Collezionismo",
+    "image": ""
+  },
+  {
+    "category": "Giappone Moderno",
+    "name": "Sapporo Station",
+    "jp": "札幌駅",
+    "city": "Sapporo",
+    "description": "Grande nodo ferroviario e commerciale dell'Hokkaido, punto d'accesso alla città.",
+    "detail": "Sapporo Station porta la sezione moderna fuori dal corridoio Tokyo-Osaka-Kyoto e introduce il nord del Giappone, con clima, urbanistica e cultura differenti.",
+    "tag": "Hokkaido",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Kiyomizu-dera",
+    "jp": "清水寺",
+    "city": "Kyoto",
+    "description": "Tempio celebre per la grande terrazza in legno affacciata sulla città.",
+    "detail": "Kiyomizu-dera è uno dei luoghi più riconoscibili di Kyoto. La struttura lignea, il panorama e il percorso verso il tempio raccontano bene il legame fra spiritualità, artigianato e turismo.",
+    "tag": "Tempio",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Arashiyama",
+    "jp": "嵐山",
+    "city": "Kyoto",
+    "description": "Area storica e paesaggistica nota per il bosco di bambù, templi e il ponte Togetsukyo.",
+    "detail": "Arashiyama funziona come luogo antico ma anche naturale: templi, giardini, fiume e sentieri creano un'esperienza più ampia della sola visita monumentale.",
+    "tag": "Paesaggio",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Itsukushima",
+    "jp": "厳島神社",
+    "city": "Miyajima",
+    "description": "Santuario sull'isola di Miyajima, famoso per il torii che sembra galleggiare sul mare.",
+    "detail": "Itsukushima è uno dei simboli più forti del Giappone sacro e paesaggistico. Il rapporto fra marea, architettura e montagna rende la voce molto visiva.",
+    "tag": "Santuario",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Nikko Toshogu",
+    "jp": "日光東照宮",
+    "city": "Nikko",
+    "description": "Santuario riccamente decorato dedicato a Tokugawa Ieyasu.",
+    "detail": "Nikko Toshogu mostra un lato più ornamentale e politico della religiosità giapponese. È legato allo shogunato Tokugawa e alla memoria del potere Edo.",
+    "tag": "Santuario",
+    "image": ""
+  },
+  {
+    "category": "Giappone Antico",
+    "name": "Kenroku-en",
+    "jp": "兼六園",
+    "city": "Kanazawa",
+    "description": "Uno dei tre grandi giardini del Giappone, famoso per equilibrio, stagionalità e cura del paesaggio.",
+    "detail": "Kenroku-en permette di raccontare estetica, stagioni e progettazione del paesaggio. È una voce utile per spezzare la sequenza di soli templi e castelli.",
+    "tag": "Giardino",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Ryokan Nakai",
+    "jp": "旅館仲居",
+    "city": "Ospitalità",
+    "description": "Figura dell'accoglienza nei ryokan, specializzata in servizio, kimono, pasti e cura dell'ospite.",
+    "detail": "Il lavoro del nakai mostra l'omotenashi in pratica: preparazione della stanza, servizio del kaiseki, spiegazioni delle regole del bagno e attenzione ai dettagli.",
+    "tag": "Ospitalità",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Toji",
+    "jp": "杜氏",
+    "city": "Birrificio di sake",
+    "description": "Maestro responsabile della produzione del sake, dalla fermentazione al controllo della qualità.",
+    "detail": "Il toji unisce tecnica, esperienza e sensibilità stagionale. È una professione tradizionale ma ancora viva, perfetta per legare cultura alimentare e artigianato.",
+    "tag": "Sake",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Shokunin del legno",
+    "jp": "木工職人",
+    "city": "Artigianato",
+    "description": "Artigiano specializzato in lavorazione del legno, incastri, utensili e finiture tradizionali.",
+    "detail": "La falegnameria giapponese è famosa per precisione e incastri complessi. Questa voce aiuta a mostrare mestieri meno turistici ma molto legati all'estetica tradizionale.",
+    "tag": "Artigianato",
+    "image": ""
+  },
+  {
+    "category": "Lavori Tipici",
+    "name": "Guida turistica",
+    "jp": "観光案内人",
+    "city": "Turismo",
+    "description": "Professionista che accompagna viaggiatori tra luoghi storici, quartieri moderni e regole culturali.",
+    "detail": "La guida turistica è un ponte fra lingua e cultura: spiega contesti, comportamenti, trasporti e storie locali, rendendo il viaggio più leggibile.",
+    "tag": "Turismo",
+    "image": ""
+  }
+]
