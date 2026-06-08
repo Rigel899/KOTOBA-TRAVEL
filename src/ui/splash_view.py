@@ -27,7 +27,8 @@ FILES_TO_PRELOAD: list[tuple[str, str]] = [
     ("explore.json",     "Preparo i luoghi"),
 ]
 
-MIN_VISIBLE = 0.5  # secondi minimi di splash visibile anche su SSD velocissimi
+STEP_DELAY  = 0.55  # durata minima per ogni passo (8 passi × 0.55 ≈ 4.4s animazione)
+MIN_VISIBLE = 5.0   # durata minima totale dello splash
 
 
 class SplashView:
@@ -43,13 +44,22 @@ class SplashView:
         await asyncio.sleep(0.1)  # attende il primo frame renderizzato
 
         for filename, msg in FILES_TO_PRELOAD:
+            step_start = time.monotonic()
             if self._msg_ref.current:
                 self._msg_ref.current.value = msg + "..."
                 self._msg_ref.current.update()
             await asyncio.to_thread(DBManager.load_json, filename)
             self._train.advance()
+            # Ogni passo dura almeno STEP_DELAY così l'animazione è visibile
+            step_gap = STEP_DELAY - (time.monotonic() - step_start)
+            if step_gap > 0:
+                await asyncio.sleep(step_gap)
 
-        # Garantisce un minimo di visibilità anche su macchine molto veloci
+        if self._msg_ref.current:
+            self._msg_ref.current.value = "Tutto pronto — buon viaggio! 🗾"
+            self._msg_ref.current.update()
+
+        # Garantisce MIN_VISIBLE secondi totali di splash
         elapsed = time.monotonic() - start
         remaining = MIN_VISIBLE - elapsed
         if remaining > 0:
