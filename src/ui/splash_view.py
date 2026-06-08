@@ -1,86 +1,65 @@
 """
 ui/splash_view.py — Splash screen integrata in Flet.
 
-Vantaggi:
-  • Una sola finestra → zero problemi di focus / ordinamento Windows
-  • ft.Image supporta le GIF animate nativamente (metti asset/image/splash.gif)
-  • Funziona nell'exe compilato con flet build
-  • Transizione FADE fluida verso il login (AnimatedSwitcher in main.py)
-
-Durata: SPLASH_DURATION secondi, poi naviga automaticamente a "/".
+Il treno avanza ad ogni file JSON caricato: quando raggiunge la stazione
+finale l'app è pronta e la navigazione avviene automaticamente.
 """
 from __future__ import annotations
 import asyncio
 import os
+import time
 import flet as ft
 from src.core.db_manager import DBManager
 from src.core.settings import KotobaTheme as T
+from src.ui.components.loader import TrainProgress
 
-SPLASH_DURATION = 2.4          # tempo visibile dopo il primo frame
-FIRST_FRAME_DELAY = 0.25       # evita che il timer parta prima del render
-GIF_PATH        = "image/splash.gif"   # relativo alla assets_dir
 ASSET_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "asset")
+
+# Ogni coppia: (file da caricare, messaggio mostrato durante il caricamento)
+FILES_TO_PRELOAD: list[tuple[str, str]] = [
+    ("sillabari.json",   "Imparo i kana"),
+    ("kanji.json",       "Studio i kanji"),
+    ("vocabolario.json", "Costruisco il vocabolario"),
+    ("grammatica.json",  "Analizzo la grammatica"),
+    ("food.json",        "Preparo le ricette"),
+    ("culture.json",     "Esploro la cultura"),
+    ("history.json",     "Sfoglio i secoli"),
+    ("explore.json",     "Preparo i luoghi"),
+]
+
+MIN_VISIBLE = 0.5  # secondi minimi di splash visibile anche su SSD velocissimi
 
 
 class SplashView:
     def __init__(self, page: ft.Page, navigate, state: dict):
-        self.page      = page
-        self.navigate  = navigate
-        self.state     = state
-        self._dot_ref  = ft.Ref[ft.Text]()
-        self._msg_ref  = ft.Ref[ft.Text]()
-
-    # ── animazione puntini e messaggi (solo se no GIF) ────────────────────────
-    async def _animate_text(self):
-        msgs = [
-            "Carico i dizionari",
-            "Preparo il Dojo",
-            "Sigillo il passaporto",
-            "Prendo posto sul Shinkansen",
-            "Apro le porte scorrevoli",
-        ]
-        dots = ["", ".", "..", "..."]
-        t = 0.0
-        interval = 0.35
-        while t < SPLASH_DURATION - 0.4:
-            await asyncio.sleep(interval)
-            t += interval
-            msg_idx = int(t / (SPLASH_DURATION / len(msgs))) % len(msgs)
-            dot_idx = int(t / interval) % len(dots)
-            if self._msg_ref.current:
-                self._msg_ref.current.value = msgs[msg_idx]
-                self._msg_ref.current.update()
-            if self._dot_ref.current:
-                self._dot_ref.current.value = dots[dot_idx]
-                self._dot_ref.current.update()
-
-    # ── task principale: aspetta poi naviga al login ──────────────────────────
-    def _preload(self):
-        for filename in (
-            "sillabari.json",
-            "kanji.json",
-            "vocabolario.json",
-            "grammatica.json",
-            "food.json",
-            "culture.json",
-            "history.json",
-            "explore.json",
-        ):
-            DBManager.load_json(filename)
+        self.page     = page
+        self.navigate = navigate
+        self.state    = state
+        self._msg_ref = ft.Ref[ft.Text]()
+        self._train   = TrainProgress(page, total_steps=len(FILES_TO_PRELOAD), track_width=440)
 
     async def _run(self):
-        await asyncio.sleep(FIRST_FRAME_DELAY)
-        await asyncio.gather(
-            asyncio.sleep(SPLASH_DURATION),
-            asyncio.to_thread(self._preload),
-        )
+        start = time.monotonic()
+        await asyncio.sleep(0.1)  # attende il primo frame renderizzato
+
+        for filename, msg in FILES_TO_PRELOAD:
+            if self._msg_ref.current:
+                self._msg_ref.current.value = msg + "..."
+                self._msg_ref.current.update()
+            await asyncio.to_thread(DBManager.load_json, filename)
+            self._train.advance()
+
+        # Garantisce un minimo di visibilità anche su macchine molto veloci
+        elapsed = time.monotonic() - start
+        remaining = MIN_VISIBLE - elapsed
+        if remaining > 0:
+            await asyncio.sleep(remaining)
+
         self.navigate("/")
 
-    # ── build ─────────────────────────────────────────────────────────────────
     def build(self) -> ft.Control:
         self.page.run_task(self._run)
 
-        # logo
         logo_path = os.path.join(ASSET_DIR, "image", "icons", "icona.png")
         if os.path.exists(logo_path):
             logo = ft.Image(
@@ -100,28 +79,6 @@ class SplashView:
                                 weight=ft.FontWeight.W_700),
             )
 
-        # GIF se disponibile, altrimenti testo animato
-        gif_abs = os.path.join(ASSET_DIR, *GIF_PATH.split("/"))
-        if os.path.exists(gif_abs):
-            animation_widget = ft.Image(
-                src=T.asset_path(GIF_PATH),
-                width=440, height=160,
-                fit=ft.BoxFit.CONTAIN,
-            )
-            status_row = ft.Container()          # nessun testo aggiuntivo
-        else:
-            # avvia animazione testo
-            self.page.run_task(self._animate_text)
-            animation_widget = ft.Container()    # nessuna immagine
-            status_row = ft.Row([
-                ft.Text("", ref=self._msg_ref,
-                        size=T.FS_SMALL, color=T.TEXT_M,
-                        font_family=T.FONT_BODY, italic=True),
-                ft.Text("", ref=self._dot_ref,
-                        size=T.FS_SMALL, color=T.GOLD,
-                        font_family=T.FONT_BODY, weight=ft.FontWeight.W_700),
-            ], spacing=0, alignment=ft.MainAxisAlignment.CENTER)
-
         content = ft.Column(
             [
                 logo,
@@ -138,10 +95,14 @@ class SplashView:
                         size=T.FS_SMALL, font_family=T.FONT_DISPLAY,
                         color=T.TEXT_M, italic=True,
                         text_align=ft.TextAlign.CENTER),
-                ft.Container(height=28),
-                animation_widget,
-                ft.Container(height=16),
-                status_row,
+                ft.Container(height=32),
+                ft.Text("", ref=self._msg_ref,
+                        size=T.FS_SMALL, color=T.TEXT_M,
+                        font_family=T.FONT_BODY, italic=True,
+                        text_align=ft.TextAlign.CENTER,
+                        height=18),
+                ft.Container(height=10),
+                self._train.build(),
             ],
             spacing=0,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
