@@ -36,9 +36,10 @@ class TrainProgress:
         self._header = header
 
         # ── Controlli interni ─────────────────────────────────────────────
+        # top/left settati qui così vengono usati direttamente nel Stack
         self._fill = ft.Container(
-            width=0,
-            height=6,
+            top=11, left=0,
+            width=0, height=6,
             bgcolor=KotobaTheme.RED,
             border_radius=3,
             animate=ft.Animation(350, ft.AnimationCurve.EASE_OUT),
@@ -50,8 +51,7 @@ class TrainProgress:
             width=28, height=28,
             alignment=ft.Alignment(0, 0),
             transform=ft.Scale(scale_x=-1, scale_y=1),
-            left=0,
-            top=0,
+            top=0, left=0,
             animate=ft.Animation(350, ft.AnimationCurve.EASE_OUT),
         )
 
@@ -62,48 +62,53 @@ class TrainProgress:
             weight=ft.FontWeight.BOLD,
         )
 
-        # Pallini stazione ogni N passi
+    def build(self) -> ft.Control:
         n_stations = min(self.total, 10)
-        self._stations = [
+
+        track_bg = ft.Container(
+            top=11, left=0, width=self.tw, height=6,
+            bgcolor=KotobaTheme.BORDER, border_radius=3,
+        )
+
+        # Pallini stazione: ricreati ad ogni build (controlli statici, nessuno stato)
+        dot_controls = [
             ft.Container(
                 top=11,
                 left=int((self.tw - 6) * i / max(n_stations - 1, 1)),
-                width=6,
-                height=6,
-                bgcolor=KotobaTheme.BORDER_F,
-                border_radius=3,
+                width=6, height=6,
+                bgcolor=KotobaTheme.BORDER_F, border_radius=3,
             )
             for i in range(n_stations)
         ]
 
-    def build(self) -> ft.Control:
-        track_bg = ft.Container(
-            top=14,
-            left=0,
+        # Stack dedicato alla rotaia: track + fill + dots + treno (altezza = 28px = treno)
+        track_stack = ft.Stack(
             width=self.tw,
-            height=6,
-            bgcolor=KotobaTheme.BORDER,
-            border_radius=3,
-        )
-        fill_wrapper = ft.Container(
-            top=14,
-            left=0,
-            content=self._fill,
+            height=28,
+            controls=[track_bg, self._fill, *dot_controls, self._train],
         )
 
-        n_stations = min(self.total, 10)
-        stack_controls = [track_bg, fill_wrapper, *self._stations]
+        header_row = ft.Row(
+            [
+                ft.Text(self._header, color=KotobaTheme.TEXT_M, size=KotobaTheme.FS_SMALL),
+                ft.Container(expand=True),
+                self._label,
+            ],
+            width=self.tw,
+        )
 
-        # Nomi delle città sotto ogni pallino stazione
+        col_controls: list[ft.Control] = [header_row, track_stack]
+
+        # Nomi città in uno Stack separato sotto la rotaia
         if self._stations_labels:
             lw = 42
+            label_containers = []
             for i, city in enumerate(self._stations_labels[:n_stations]):
                 sx = int((self.tw - 6) * i / max(n_stations - 1, 1))
                 lx = max(0, min(sx + 3 - lw // 2, self.tw - lw))
-                stack_controls.append(
+                label_containers.append(
                     ft.Container(
-                        left=lx, top=23,
-                        width=lw, height=14,
+                        left=lx, top=0, width=lw, height=14,
                         content=ft.Text(
                             city, size=9,
                             color=KotobaTheme.TEXT_M,
@@ -112,26 +117,13 @@ class TrainProgress:
                         ),
                     )
                 )
-
-        stack_controls.append(self._train)
+            col_controls.append(
+                ft.Stack(width=self.tw, height=14, controls=label_containers)
+            )
 
         return ft.Column(
-            [
-                ft.Row(
-                    [
-                        ft.Text(self._header, color=KotobaTheme.TEXT_M, size=KotobaTheme.FS_SMALL),
-                        ft.Container(expand=True),
-                        self._label,
-                    ],
-                    width=self.tw,
-                ),
-                ft.Stack(
-                    width=self.tw,
-                    height=40 if self._stations_labels else 38,
-                    controls=stack_controls,
-                ),
-            ],
-            spacing=4,
+            col_controls,
+            spacing=2,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
@@ -191,7 +183,7 @@ def show_achievement(page: ft.Page, ach_data: dict) -> None:
                     bgcolor=KotobaTheme.BG_SURF,
                     border_radius=10,
                     border=ft.border.all(1, accent),
-                    alignment=ft.Alignment.CENTER,
+                    alignment=ft.Alignment(0, 0),
                 ),
                 ft.Column(
                     [
