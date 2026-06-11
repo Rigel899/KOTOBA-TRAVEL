@@ -4,17 +4,24 @@ StudyHub – Hub di studio.
 """
 from __future__ import annotations
 import asyncio
+import logging
 import flet as ft
+from src.core.app_state import get_current_user
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.progress_service import STUDY_REQUIRED_SECTIONS, STUDY_SECTION_STAT
+from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 from src.ui.components.stage import centered_stage
+
+_log = logging.getLogger("kotoba.ui.study")
 
 class StudyHub:
     def __init__(self, page: ft.Page, navigate, state: dict):
         self.page = page
         self.navigate = navigate
         self.state = state
+        self.username = get_current_user(state)
         
         # Caricamento dinamico dei dati (i 4 JSON)
         self.sillabari_data = DBManager.load_json("sillabari.json") or []
@@ -33,6 +40,19 @@ class StudyHub:
         self.tab_row = ft.Row(spacing=8, scroll=ft.ScrollMode.AUTO)
         self.content_area = ft.Container(expand=True)
         self.search_field = self._tf_search()
+
+    def _track_study_section(self, key: str) -> None:
+        if key not in STUDY_REQUIRED_SECTIONS:
+            return
+        try:
+            unlocked = DBManager.increment_stat(
+                self.username,
+                STUDY_SECTION_STAT,
+                unique_id=key,
+            )
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("study section tracking failed for %s", key)
 
     def _tf_search(self) -> ft.TextField:
         return ft.TextField(
@@ -96,6 +116,7 @@ class StudyHub:
         def on_click(e):
             self.active_tab = key
             self._update_ui(is_build_phase=False)
+            self._track_study_section(key)
 
         def on_hover(e):
             if is_active: return
@@ -752,6 +773,7 @@ class StudyHub:
 
     def build(self) -> ft.Control:
         self._update_ui(is_build_phase=True)
+        self._track_study_section(self.active_tab)
 
         masthead = build_masthead(
             title="Hub di Studio",

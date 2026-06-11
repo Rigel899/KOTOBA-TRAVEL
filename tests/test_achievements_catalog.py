@@ -6,6 +6,7 @@ from src.core.progress_service import (
     EXPLORATION_ACHIEVEMENTS,
     QUIZ_FIRST_ACHIEVEMENTS,
     QUIZ_PERFECT_ACHIEVEMENTS,
+    STUDY_ACHIEVEMENTS,
 )
 from src.ui.achievements_view import AchievementsView
 
@@ -32,6 +33,7 @@ class AchievementsCatalogTests(unittest.TestCase):
             *EXPLORATION_ACHIEVEMENTS.values(),
             *QUIZ_FIRST_ACHIEVEMENTS.values(),
             *QUIZ_PERFECT_ACHIEVEMENTS.values(),
+            *STUDY_ACHIEVEMENTS.values(),
         }
 
         self.assertFalse(generated_ids - set(ACHIEVEMENTS))

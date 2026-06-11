@@ -24,6 +24,19 @@ EXPLORATION_COMPLETE_STATS: tuple[str, ...] = (
 )
 EXPLORATION_ALL_ACHIEVEMENT = "exploration_all"
 
+STUDY_SECTION_STAT = "study_sections_consulted"
+STUDY_REQUIRED_SECTIONS: tuple[str, ...] = (
+    "hiragana",
+    "katakana",
+    "kanji",
+    "vocab",
+    "grammar",
+)
+STUDY_ACHIEVEMENTS: dict[str, str] = {
+    "first": "study_first",
+    "all": "study_all",
+}
+
 QUIZ_FIRST_ACHIEVEMENTS: dict[str, str] = {
     "kanji": "kanji_first",
     "vocab": "vocab_first",
@@ -148,6 +161,14 @@ class ProgressService:
         elif stat_key == "history_viewed":
             if total_items and value >= total_items:
                 checks.append(EXPLORATION_ACHIEVEMENTS["history_viewed"])
+        elif stat_key == STUDY_SECTION_STAT:
+            checks.append(STUDY_ACHIEVEMENTS["first"])
+            viewed_sections = stats.get("unique_views", {}).get(STUDY_SECTION_STAT, {})
+            if isinstance(viewed_sections, dict):
+                if set(STUDY_REQUIRED_SECTIONS).issubset(viewed_sections):
+                    checks.append(STUDY_ACHIEVEMENTS["all"])
+            elif value >= len(STUDY_REQUIRED_SECTIONS):
+                checks.append(STUDY_ACHIEVEMENTS["all"])
 
         if all(exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):
             if all(stats.get(key, 0) >= exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):

@@ -2,7 +2,7 @@ import unittest
 
 from src.core.profile_factory import build_default_profile
 from src.core.achievements import PLATINUM_ACHIEVEMENT, platinum_required_achievement_ids
-from src.core.progress_service import ProgressService
+from src.core.progress_service import ProgressService, STUDY_REQUIRED_SECTIONS, STUDY_SECTION_STAT
 
 
 class ProgressServiceTests(unittest.TestCase):
@@ -163,6 +163,36 @@ class ProgressServiceTests(unittest.TestCase):
         self.assertFalse(unlocked)
         self.assertNotIn("missing_achievement", self.profiles["utente"]["achievements"])
         self.assertIn("missing_achievement", logs.output[0])
+
+    def test_study_sections_unlock_first_and_all_consulted_achievements(self):
+        unlocked = self.service.increment_stat(
+            "utente",
+            STUDY_SECTION_STAT,
+            unique_id=STUDY_REQUIRED_SECTIONS[0],
+        )
+
+        self.assertEqual(unlocked, ["study_first"])
+        self.assertEqual(self.profiles["utente"]["stats"][STUDY_SECTION_STAT], 1)
+
+        self.assertEqual(
+            self.service.increment_stat(
+                "utente",
+                STUDY_SECTION_STAT,
+                unique_id=STUDY_REQUIRED_SECTIONS[0],
+            ),
+            [],
+        )
+
+        for section in STUDY_REQUIRED_SECTIONS[1:-1]:
+            self.service.increment_stat("utente", STUDY_SECTION_STAT, unique_id=section)
+        unlocked = self.service.increment_stat(
+            "utente",
+            STUDY_SECTION_STAT,
+            unique_id=STUDY_REQUIRED_SECTIONS[-1],
+        )
+
+        self.assertIn("study_all", unlocked)
+        self.assertEqual(self.profiles["utente"]["stats"][STUDY_SECTION_STAT], len(STUDY_REQUIRED_SECTIONS))
 
     def test_platinum_unlocks_only_after_every_required_achievement(self):
         self.assertFalse(self.service.unlock_achievement("utente", PLATINUM_ACHIEVEMENT))

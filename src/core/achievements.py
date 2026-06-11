@@ -19,6 +19,7 @@ RARITY_ORDER: tuple[str, ...] = (
 MODULE_ORDER: tuple[str, ...] = (
     "account",
     "progress",
+    "study",
     "dojo_kana",
     "dojo_kanji",
     "dojo_vocab",
@@ -31,6 +32,7 @@ MODULE_ORDER: tuple[str, ...] = (
 MODULE_LABELS: dict[str, str] = {
     "account": "Account",
     "progress": "Progressi",
+    "study": "Studio",
     "dojo_kana": "Kana",
     "dojo_kanji": "Kanji",
     "dojo_vocab": "Vocabolario",
@@ -75,6 +77,20 @@ ACHIEVEMENTS: dict[str, dict] = {
         "emoji": "⚔️",
         "rarity": "raro",
         "module": "progress",
+    },
+    "study_first": {
+        "title": "Primo Studio",
+        "description": "Hai consultato una sezione dello Studio.",
+        "emoji": "学",
+        "rarity": "comune",
+        "module": "study",
+    },
+    "study_all": {
+        "title": "Accademia Completa",
+        "description": "Hai consultato Hiragana, Katakana, Kanji, Vocabolario e Grammatica.",
+        "emoji": "学",
+        "rarity": "epico",
+        "module": "study",
     },
     "hiragana_perfect": {
         "title": "Maestro Hiragana",

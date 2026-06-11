@@ -5,8 +5,9 @@ from __future__ import annotations
 
 import flet as ft
 
-from src.core.achievements import ACHIEVEMENTS, visible_achievement_ids
+from src.core.achievements import visible_achievement_ids
 from src.core.db_manager import DBManager
+from src.core.progress_service import STUDY_REQUIRED_SECTIONS, STUDY_SECTION_STAT
 from src.core.app_state import get_current_user
 from src.core.settings import KotobaTheme as T
 from src.ui.components.masthead import build_masthead
@@ -29,6 +30,13 @@ class StatsView:
         ("Luoghi", "places_viewed", T.RED, ft.Icons.MAP_ROUNDED),
         ("Cultura", "culture_viewed", T.GREEN, ft.Icons.TEMPLE_BUDDHIST_ROUNDED),
         ("Storia", "history_viewed", T.INDIGO, ft.Icons.HISTORY_EDU_ROUNDED),
+    ]
+    STUDY_ITEMS = [
+        ("Hiragana", "hiragana"),
+        ("Katakana", "katakana"),
+        ("Kanji", "kanji"),
+        ("Vocabolario", "vocab"),
+        ("Grammatica", "grammar"),
     ]
 
     def __init__(self, page: ft.Page, navigate, state: dict):
@@ -200,6 +208,63 @@ class StatsView:
             ),
         )
 
+    def _study_summary(self, stats: dict) -> ft.Control:
+        unique_views = stats.get("unique_views", {}) if isinstance(stats, dict) else {}
+        viewed_raw = unique_views.get(STUDY_SECTION_STAT, {}) if isinstance(unique_views, dict) else {}
+        if isinstance(viewed_raw, dict):
+            viewed_sections = set(viewed_raw)
+        elif isinstance(viewed_raw, list):
+            viewed_sections = set(viewed_raw)
+        else:
+            viewed_sections = set()
+
+        fallback_count = self._safe_int(stats.get(STUDY_SECTION_STAT, 0))
+        viewed_count = max(len(viewed_sections.intersection(STUDY_REQUIRED_SECTIONS)), fallback_count)
+        viewed_count = min(viewed_count, len(STUDY_REQUIRED_SECTIONS))
+        progress = viewed_count / len(STUDY_REQUIRED_SECTIONS) if STUDY_REQUIRED_SECTIONS else 0
+
+        chips = []
+        for label, key in self.STUDY_ITEMS:
+            is_done = key in viewed_sections
+            chips.append(
+                ft.Container(
+                    content=ft.Text(
+                        label,
+                        size=10,
+                        color=T.BG_MAIN if is_done else T.TEXT_M,
+                        font_family=T.FONT_BODY,
+                        weight=ft.FontWeight.W_700 if is_done else ft.FontWeight.NORMAL,
+                    ),
+                    bgcolor=T.GOLD if is_done else T.BG_SURF,
+                    border=ft.border.all(1, T.GOLD if is_done else T.BORDER),
+                    border_radius=12,
+                    padding=ft.padding.symmetric(horizontal=10, vertical=4),
+                )
+            )
+
+        return ft.Container(
+            bgcolor=T.BG_CARD,
+            border=ft.border.all(1, T.BORDER),
+            border_radius=T.RADIUS,
+            padding=ft.padding.all(16),
+            content=ft.Column(
+                [
+                    ft.Row(
+                        [
+                            ft.Icon(ft.Icons.AUTO_STORIES_ROUNDED, color=T.GOLD, size=19),
+                            ft.Text("Studio", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, expand=True),
+                            ft.Text(f"{viewed_count}/{len(STUDY_REQUIRED_SECTIONS)}", size=13, color=T.GOLD, font_family=T.FONT_BODY, weight=ft.FontWeight.W_700),
+                        ],
+                        spacing=10,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    ),
+                    ft.ProgressBar(value=progress, bar_height=7, color=T.GOLD, bgcolor=T.BORDER, border_radius=8),
+                    ft.Row(chips, spacing=8, run_spacing=8, wrap=True),
+                ],
+                spacing=10,
+            ),
+        )
+
     def _mode_row(self, label: str, key: str, color: str, stats: dict, scores: dict) -> ft.Control:
         attempts = int(stats.get("quiz_modes", {}).get(key, 0) or 0)
         correct = int(stats.get("quiz_mode_correct", {}).get(key, 0) or 0)
@@ -269,33 +334,11 @@ class StatsView:
             for label, key, color in self.QUIZ_MODES
         ]
 
-        exploration = ft.Container(
-            bgcolor=T.BG_CARD,
-            border=ft.border.all(1, T.BORDER),
-            border_radius=T.RADIUS,
-            padding=ft.padding.all(16),
-            content=ft.Column(
-                [
-                    ft.Text("Esplorazione", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
-                    ft.Row(
-                        [
-                            ft.Text(f"Cibo {stats.get('food_viewed', 0)}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
-                            ft.Text(f"Luoghi {stats.get('places_viewed', 0)}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
-                            ft.Text(f"Cultura {stats.get('culture_viewed', 0)}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
-                            ft.Text(f"Storia {stats.get('history_viewed', 0)}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
-                        ],
-                        spacing=16,
-                        wrap=True,
-                    ),
-                ],
-                spacing=10,
-            ),
-        )
-
         content = ft.Column(
             [
                 metrics,
                 self._achievement_summary(),
+                self._study_summary(stats),
                 ft.Container(height=2),
                 ft.Text("Modalità Quiz", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
                 *mode_rows,

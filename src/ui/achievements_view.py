@@ -6,7 +6,6 @@ from __future__ import annotations
 import flet as ft
 
 from src.core.achievements import (
-    ACHIEVEMENTS,
     MODULE_LABELS,
     MODULE_ORDER,
     PLATINUM_ACHIEVEMENT,
