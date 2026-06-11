@@ -7,9 +7,18 @@ import flet as ft
 import random
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.stage import centered_stage
-from src.ui.yugi.quiz_utils import build_quiz_data_error, build_quiz_question_view, max_correct_streak, schedule_auto_next
+from src.ui.yugi.quiz_utils import (
+    answer_and_schedule_next,
+    build_quiz_data_error,
+    build_quiz_question_view,
+    count_correct_answers,
+    make_choice_options,
+    max_correct_streak,
+    percent_score,
+)
 
 TOTAL_QUESTIONS = 10
 
@@ -239,12 +248,9 @@ class DojoKana:
 
         self.questions = []
         all_pool = self.hiragana_pool + self.katakana_pool
+        all_romaji = [r for _, r, _ in all_pool]
         for kana, correct_romaji, _ in raw_qs:
-            wrong_pool = list({r for _, r, _ in all_pool if r != correct_romaji})
-            wrong = random.sample(wrong_pool, min(3, len(wrong_pool)))
-            while len(wrong) < 3: wrong.append("—")
-            opts = [correct_romaji] + wrong
-            random.shuffle(opts)
+            opts = make_choice_options(correct_romaji, all_romaji, placeholder="—")
             self.questions.append((kana, correct_romaji, opts))
 
         self.current_idx = 0
@@ -285,16 +291,15 @@ class DojoKana:
         self._safe_update()
 
     def _check_answer(self, chosen: str):
-        idx_at_schedule = self.current_idx
-        self.user_answers[idx_at_schedule] = chosen
-        self._show_question()
-
-        schedule_auto_next(
+        answer_and_schedule_next(
             self.page,
-            0.6,
-            self._is_mounted,
-            lambda: self.current_idx == idx_at_schedule and self.user_answers.get(idx_at_schedule) == chosen,
-            self._next_q,
+            get_current_idx=lambda: self.current_idx,
+            user_answers=self.user_answers,
+            chosen=chosen,
+            render=self._show_question,
+            is_mounted=self._is_mounted,
+            advance=self._next_q,
+            delay=0.6,
         )
 
     def _next_q(self):
@@ -308,12 +313,12 @@ class DojoKana:
             self._show_question()
 
     def _show_results(self):
-        correct_count = sum(1 for i, (_, correct, _) in enumerate(self.questions) if self.user_answers.get(i) == correct)
-        pct = int(correct_count / len(self.questions) * 100) if self.questions else 0
+        correct_count = count_correct_answers(self.questions, self.user_answers, lambda question: question[1])
+        pct = percent_score(correct_count, len(self.questions))
         unlocked = []
         if self.questions:
             unlocked = DBManager.record_quiz_result(
-                DBManager.current_username,
+                get_current_user(self.state),
                 self.mode,
                 correct_count,
                 total_questions=len(self.questions),
@@ -340,8 +345,8 @@ class DojoKana:
             ft.Text(grade, size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=color),
             ft.Container(height=30),
             ft.Row([
-                ft.ElevatedButton("Riprova gruppo", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_quiz()),
-                ft.ElevatedButton("Torna alle scelte", style=ft.ButtonStyle(bgcolor=self.active_color, color=T.BG_MAIN), on_click=lambda e: self._go_back_to_mode()),
+                ft.Button("Riprova gruppo", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_quiz()),
+                ft.Button("Torna alle scelte", style=ft.ButtonStyle(bgcolor=self.active_color, color=T.BG_MAIN), on_click=lambda e: self._go_back_to_mode()),
             ], alignment=ft.MainAxisAlignment.CENTER, spacing=16),
             ft.Container(expand=True),
         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=8, expand=True)

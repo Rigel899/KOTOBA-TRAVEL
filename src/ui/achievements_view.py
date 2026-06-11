@@ -7,6 +7,7 @@ import flet as ft
 
 from src.core.achievements import ACHIEVEMENTS, RARITY_COLOR
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.core.settings import KotobaTheme as T
 from src.ui.components.masthead import build_masthead
 from src.ui.components.stage import centered_stage
@@ -17,8 +18,8 @@ class AchievementsView:
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", DBManager.current_username)
-        self.user_data = DBManager.current_user_data()
+        self.username = get_current_user(state)
+        self.user_data = DBManager.get_user_data(self.username) or {}
 
     def _achievement_card(self, achievement_id: str, data: dict, unlocked: bool) -> ft.Control:
         rarity = data.get("rarity", "comune")

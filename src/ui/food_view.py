@@ -7,6 +7,7 @@ import asyncio
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 
@@ -24,7 +25,7 @@ class FoodView:
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", "")
+        self.username = get_current_user(state)
         self.search_text = ""
         self.active_category = "Tutte"
         self.food_data: list[dict] = []

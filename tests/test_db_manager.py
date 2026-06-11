@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+from src.core.app_state import GUEST_USERNAME, clear_user, get_current_user, set_user
 from src.core.db_manager import DBManager
 
 
@@ -19,11 +20,13 @@ class DBManagerTests(unittest.TestCase):
         self.env_patch.start()
         os.environ.pop("KOTOBA_MIGRATE_LEGACY_PROFILES", None)
         DBManager._profiles_migrated = False
+        DBManager.current_username = GUEST_USERNAME
 
     def tearDown(self):
         self.env_patch.stop()
         self.tmp.cleanup()
         DBManager._profiles_migrated = False
+        DBManager.current_username = GUEST_USERNAME
 
     def test_username_is_validated_before_profile_path(self):
         self.assertEqual(DBManager.normalize_username(" Marco_1 "), "marco_1")
@@ -158,6 +161,21 @@ class DBManagerTests(unittest.TestCase):
         self.assertTrue(locked2, "Il blocco deve persistere alla seconda verifica (simula nuova istanza vista)")
         self.assertGreater(remaining2, 0)
 
+    def test_lockout_active_failed_attempt_does_not_extend_lock(self):
+        DBManager.create_account("active_lock", "password1", "q", "a")
+        for _ in range(DBManager.MAX_FAILED_ATTEMPTS):
+            DBManager.record_failed_attempt("active_lock", "login")
+
+        with open(DBManager._lockouts_path(), "r", encoding="utf-8") as f:
+            first_locked_until = json.load(f)["active_lock:login"]["locked_until"]
+
+        self.assertTrue(DBManager.record_failed_attempt("active_lock", "login"))
+        self.assertEqual(DBManager.remaining_attempts("active_lock", "login"), 0)
+
+        with open(DBManager._lockouts_path(), "r", encoding="utf-8") as f:
+            second_locked_until = json.load(f)["active_lock:login"]["locked_until"]
+        self.assertEqual(first_locked_until, second_locked_until)
+
     def test_lockout_clears_on_success(self):
         for _ in range(3):
             DBManager.record_failed_attempt("cleartest", "login")
@@ -182,11 +200,43 @@ class DBManagerTests(unittest.TestCase):
         self.assertIsNotNone(export)
         self.assertNotIn("password_hash", export, "password_hash non deve comparire nell'export")
         self.assertNotIn("recovery_answer_hash", export, "recovery_answer_hash non deve comparire nell'export")
+        self.assertNotIn("_integrity", export, "la firma profilo interna non deve comparire nell'export")
         self.assertIn("username", export)
         self.assertIn("achievements", export)
         self.assertIn("stats", export)
         self.assertIn("_export_note", export)
         self.assertIn("_exported_at", export)
+
+    def test_load_json_rejects_known_files_with_missing_required_fields(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            path = Path(data_dir) / "sillabari.json"
+            path.write_text(json.dumps([{"word": "あ"}]), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=data_dir):
+                DBManager.clear_json_cache("sillabari.json")
+                with self.assertLogs("kotoba.content", level="WARNING") as logs:
+                    self.assertIsNone(DBManager.load_json("sillabari.json"))
+                self.assertIn("missing pronunciation, category, group", logs.output[0])
+
+    def test_load_json_accepts_known_files_with_required_fields(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            path = Path(data_dir) / "sillabari.json"
+            payload = [{"word": "あ", "pronunciation": "a", "category": "Hiragana", "group": "vocali"}]
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=data_dir):
+                DBManager.clear_json_cache("sillabari.json")
+                self.assertEqual(DBManager.load_json("sillabari.json"), payload)
+
+    def test_app_state_keeps_session_sources_in_sync(self):
+        state = {}
+        set_user(state, "syncuser")
+        self.assertEqual(state["user"], "syncuser")
+        self.assertEqual(DBManager.current_username, "syncuser")
+        self.assertEqual(get_current_user(state), "syncuser")
+
+        clear_user(state)
+        self.assertNotIn("user", state)
+        self.assertEqual(DBManager.current_username, GUEST_USERNAME)
+        self.assertEqual(get_current_user(state), GUEST_USERNAME)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from __future__ import annotations
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 
@@ -21,46 +22,11 @@ class HistoryView:
         "Popoli e regioni",
     ]
 
-    PERIOD_BY_TITLE = {
-        "Introduzione alla storia del Giappone": "Panoramica",
-        "Periodo Jomon": "Origini",
-        "Periodo Yayoi": "Origini",
-        "Periodo Kofun": "Origini",
-        "Arrivo del buddhismo": "Corte e Stato",
-        "Riforme Taika": "Corte e Stato",
-        "Periodo Nara": "Corte e Stato",
-        "Periodo Heian": "Corte e Stato",
-        "Potere dei Fujiwara": "Corte e Stato",
-        "Guerra Genpei": "Eta samuraica",
-        "Periodo Kamakura": "Eta samuraica",
-        "Invasioni mongole": "Eta samuraica",
-        "Periodo Muromachi": "Eta samuraica",
-        "Periodo Sengoku": "Eta samuraica",
-        "Commercio Nanban": "Edo e contatti",
-        "Periodo Edo": "Edo e contatti",
-        "Politica sakoku": "Edo e contatti",
-        "Rangaku": "Edo e contatti",
-        "Bakumatsu": "Modernizzazione",
-        "Apertura al mondo": "Modernizzazione",
-        "Restaurazione Meiji": "Modernizzazione",
-        "Periodo Taisho": "Modernizzazione",
-        "Periodo Showa": "Novecento e oggi",
-        "Costituzione del dopoguerra": "Novecento e oggi",
-        "Miracolo economico": "Novecento e oggi",
-        "Bolla economica": "Novecento e oggi",
-        "Periodo Heisei": "Novecento e oggi",
-        "Kobe 1995": "Novecento e oggi",
-        "Tohoku 2011": "Novecento e oggi",
-        "Periodo Reiwa": "Novecento e oggi",
-        "Popoli Ainu": "Popoli e regioni",
-        "Regno delle Ryukyu": "Popoli e regioni",
-    }
-
     def __init__(self, page: ft.Page, navigate, state: dict):
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", "")
+        self.username = get_current_user(state)
         self.history_data = self._load_data()
         
         self.selected_index: int | None = None
@@ -193,7 +159,10 @@ class HistoryView:
         ], expand=True)
 
     def _era_period(self, era: dict) -> str:
-        return self.PERIOD_BY_TITLE.get(era.get("title", ""), "Popoli e regioni")
+        period = era.get("period")
+        if period in self.PERIOD_ORDER:
+            return period
+        return "Popoli e regioni"
 
     def _ordered_indices(self) -> list[int]:
         ordered: list[int] = []

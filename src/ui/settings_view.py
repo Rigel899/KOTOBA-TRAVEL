@@ -10,6 +10,7 @@ from datetime import datetime
 import flet as ft
 
 from src.core.db_manager import DBManager
+from src.core.app_state import clear_user, get_current_user
 from src.core.settings import APP_VERSION, KotobaTheme as T
 from src.ui.components.masthead import build_masthead
 from src.ui.components.stage import centered_stage
@@ -20,8 +21,8 @@ class SettingsView:
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", DBManager.current_username)
-        self.user_data = DBManager.current_user_data()
+        self.username = get_current_user(state)
+        self.user_data = DBManager.get_user_data(self.username) or {}
         self.msg = ft.Text("", size=T.FS_SMALL, color=T.TEXT_M, font_family=T.FONT_BODY)
 
     def _tf(self, **kwargs) -> ft.TextField:
@@ -164,8 +165,7 @@ class SettingsView:
             return
 
         DBManager.delete_account(self.username)
-        DBManager.current_username = "Viandante"
-        self.state.clear()
+        clear_user(self.state)
         self.navigate("/")
 
     def build(self) -> ft.Control:
@@ -195,7 +195,7 @@ class SettingsView:
                 ft.Text(f"Account creato: {created_at}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
                 ft.Text(f"Ultimo accesso: {last_login}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
                 ft.Text(f"Versione app: v{APP_VERSION}", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
-                ft.ElevatedButton(
+                ft.Button(
                     "Esporta profilo",
                     icon=ft.Icons.DOWNLOAD_ROUNDED,
                     style=self._button_style(T.BG_SURF),
@@ -212,7 +212,7 @@ class SettingsView:
                 current_pwd,
                 new_pwd,
                 confirm_pwd,
-                ft.ElevatedButton(
+                ft.Button(
                     "Aggiorna password",
                     icon=ft.Icons.SAVE_ROUNDED,
                     style=self._button_style(T.GOLD, T.BG_MAIN),
@@ -229,7 +229,7 @@ class SettingsView:
                 recovery_q,
                 recovery_a,
                 ft.Text("La risposta distingue maiuscole e minuscole.", size=11, color=T.TEXT_M, italic=True, font_family=T.FONT_BODY),
-                ft.ElevatedButton(
+                ft.Button(
                     "Aggiorna recupero",
                     icon=ft.Icons.SAVE_ROUNDED,
                     style=self._button_style(T.GREEN, T.BG_MAIN),
@@ -246,7 +246,7 @@ class SettingsView:
                 ft.Text("Questa azione elimina il profilo locale e non puo essere annullata.", size=12, color=T.TEXT_M, font_family=T.FONT_BODY),
                 delete_pwd,
                 delete_confirm,
-                ft.ElevatedButton(
+                ft.Button(
                     "Elimina definitivamente",
                     icon=ft.Icons.DELETE_FOREVER_ROUNDED,
                     style=self._button_style(T.RED),

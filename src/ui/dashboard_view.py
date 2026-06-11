@@ -8,6 +8,7 @@ import src.core.compat
 import flet as ft
 
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.core.settings import APP_VERSION, KotobaTheme as T
 
 
@@ -25,16 +26,19 @@ class DashboardView:
         "hiragana": "hiragana_perfect",
         "katakana": "katakana_perfect",
         "mixed": "mixed_perfect",
+        "kanji": "kanji_perfect",
+        "vocab": "vocab_perfect",
+        "grammar": "grammar_perfect",
     }
 
     def __init__(self, page: ft.Page, navigate, state: dict):
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", DBManager.current_username or "Viandante")
-        self.user_data = DBManager.current_user_data()
-        self._content_width_cache: int | None = None
-        self._scale_cache: float | None = None
+        self.username = get_current_user(state)
+        self.user_data = DBManager.get_user_data(self.username) or {}
+        self._content_width_cache: tuple[int, int] | None = None
+        self._scale_cache: tuple[int, float] | None = None
 
     def _page_width(self) -> int:
         page_width = getattr(self.page, "width", None)
@@ -46,22 +50,25 @@ class DashboardView:
             return 1200
 
     def _dashboard_scale(self) -> float:
-        if self._scale_cache is None:
-            self._scale_cache = min(1.12, max(1.0, self._content_width() / 1120))
-        return self._scale_cache
+        page_width = self._page_width()
+        if self._scale_cache is None or self._scale_cache[0] != page_width:
+            scale = min(1.12, max(1.0, self._content_width(page_width) / 1120))
+            self._scale_cache = (page_width, scale)
+        return self._scale_cache[1]
 
     def _scaled(self, value: int | float) -> int:
         return int(round(value * self._dashboard_scale()))
 
-    def _content_width(self) -> int:
-        if self._content_width_cache is not None:
-            return self._content_width_cache
-        page_width = self._page_width()
+    def _content_width(self, page_width: int | None = None) -> int:
+        page_width = page_width if page_width is not None else self._page_width()
+        if self._content_width_cache is not None and self._content_width_cache[0] == page_width:
+            return self._content_width_cache[1]
         available_width = max(0, page_width - 96)
         growth = max(0, page_width - 1200) * 0.45
         target_width = min(1440, 1120 + growth)
-        self._content_width_cache = int(max(640, min(target_width, available_width)))
-        return self._content_width_cache
+        content_width = int(max(640, min(target_width, available_width)))
+        self._content_width_cache = (page_width, content_width)
+        return content_width
 
     def _tint(self, color: str, alpha: int = 24) -> str:
         """Flet usa #AARRGGBB, non #RRGGBBAA: crea una tinta trasparente corretta."""
@@ -300,9 +307,9 @@ class DashboardView:
                         ft.Text("Scegli da dove iniziare il viaggio.", size=13, color=T.TEXT_M, font_family=T.FONT_BODY),
                         ft.Row(
                             [
-                                ft.ElevatedButton("Accademia", icon=ft.Icons.AUTO_STORIES_ROUNDED, style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_MAIN), on_click=lambda e: go("study")),
-                                ft.ElevatedButton("Yugi", icon=ft.Icons.SPORTS_MARTIAL_ARTS_ROUNDED, style=ft.ButtonStyle(bgcolor=T.RED, color=T.TEXT), on_click=lambda e: go("yugi")),
-                                ft.ElevatedButton("Achievement", icon=ft.Icons.MILITARY_TECH_ROUNDED, style=ft.ButtonStyle(bgcolor=T.BG_SURF, color=T.TEXT), on_click=lambda e: go("achievements")),
+                                ft.Button("Accademia", icon=ft.Icons.AUTO_STORIES_ROUNDED, style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_MAIN), on_click=lambda e: go("study")),
+                                ft.Button("Yugi", icon=ft.Icons.SPORTS_MARTIAL_ARTS_ROUNDED, style=ft.ButtonStyle(bgcolor=T.RED, color=T.TEXT), on_click=lambda e: go("yugi")),
+                                ft.Button("Achievement", icon=ft.Icons.MILITARY_TECH_ROUNDED, style=ft.ButtonStyle(bgcolor=T.BG_SURF, color=T.TEXT), on_click=lambda e: go("achievements")),
                             ],
                             spacing=10,
                             wrap=True,
@@ -333,7 +340,7 @@ class DashboardView:
             content=ft.Text("Vuoi uscire dal profilo corrente e tornare al login?", size=13, color=T.TEXT_M, font_family=T.FONT_BODY),
             actions=[
                 ft.TextButton("Annulla", style=ft.ButtonStyle(color=T.TEXT_M), on_click=close_dialog),
-                ft.ElevatedButton("Disconnetti", style=ft.ButtonStyle(bgcolor=T.RED, color=T.TEXT), on_click=do_logout),
+                ft.Button("Disconnetti", style=ft.ButtonStyle(bgcolor=T.RED, color=T.TEXT), on_click=do_logout),
             ],
         )
         self._open_dialog(dialog)
@@ -557,10 +564,7 @@ class DashboardView:
 
         kwargs = dict(bgcolor=T.BG_MAIN, padding=ft.padding.symmetric(horizontal=34, vertical=32), expand=True)
         bg_img = T.bg_image()
-        if bg_img:
-            kwargs["image_src"] = bg_img
-            kwargs["image_fit"] = ft.BoxFit.COVER
-            kwargs["image_opacity"] = T.BG_OPACITY
+        kwargs["image"] = ft.DecorationImage(src=bg_img, fit=ft.BoxFit.COVER, opacity=T.BG_OPACITY) if bg_img else None
 
         view = ft.Container(
             content=ft.Column(

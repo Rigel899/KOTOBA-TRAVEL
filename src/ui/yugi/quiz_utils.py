@@ -4,6 +4,7 @@ Utility condivise dai quiz del Dojo.
 from __future__ import annotations
 
 import asyncio
+import random
 from collections.abc import Callable
 
 import src.core.compat  # Mantiene disponibili border/padding compat anche nei test isolati.
@@ -41,6 +42,80 @@ def max_correct_streak(
         else:
             current = 0
     return best
+
+
+def make_choice_options(
+    correct: str,
+    all_values: list[str],
+    *,
+    option_count: int = 4,
+    placeholder: str = "-",
+    case_sensitive: bool = True,
+) -> list[str]:
+    distractor_count = max(0, option_count - 1)
+    wrong_pool: list[str] = []
+    seen: set[str] = set()
+
+    def key_for(value: str) -> str:
+        return value if case_sensitive else value.lower()
+
+    correct_key = key_for(correct)
+    for value in all_values:
+        if not value:
+            continue
+        key = key_for(value)
+        if key == correct_key or key in seen:
+            continue
+        seen.add(key)
+        wrong_pool.append(value)
+
+    wrong = random.sample(wrong_pool, min(distractor_count, len(wrong_pool)))
+    while len(wrong) < distractor_count:
+        wrong.append(placeholder)
+
+    options = [correct] + wrong
+    random.shuffle(options)
+    return options
+
+
+def count_correct_answers(
+    questions,
+    user_answers: dict[int, str],
+    correct_value: Callable[[object], str],
+) -> int:
+    return sum(
+        1
+        for index, question in enumerate(questions)
+        if user_answers.get(index) == correct_value(question)
+    )
+
+
+def percent_score(correct_count: int, total_questions: int) -> int:
+    return int(correct_count / total_questions * 100) if total_questions else 0
+
+
+def answer_and_schedule_next(
+    page,
+    *,
+    get_current_idx: Callable[[], int],
+    user_answers: dict[int, str],
+    chosen: str,
+    render: Callable[[], None],
+    is_mounted: Callable[[], bool],
+    advance: Callable[[], None],
+    delay: float,
+) -> None:
+    idx_at_schedule = get_current_idx()
+    user_answers[idx_at_schedule] = chosen
+    render()
+
+    schedule_auto_next(
+        page,
+        delay,
+        is_mounted,
+        lambda: get_current_idx() == idx_at_schedule and user_answers.get(idx_at_schedule) == chosen,
+        advance,
+    )
 
 
 def _answer_button(

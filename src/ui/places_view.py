@@ -6,6 +6,7 @@ from __future__ import annotations
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 
@@ -14,7 +15,7 @@ class PlacesView:
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", "")
+        self.username = get_current_user(state)
         
         # Stato interno di navigazione
         self.active_category = "Giappone Moderno"
@@ -61,14 +62,15 @@ class PlacesView:
         if isinstance(museums, list):
             self.explore_data.extend(museums)
 
-    def _select_item(self, item: dict):
+    def _select_item(self, item: dict, track_view: bool = True):
         self.selected_item = item
         self._refresh_list_view()
         self._set_right_content(self._build_right_content(item))
-        show_achievements(
-            self.page,
-            DBManager.increment_stat(self.username, "places_viewed", unique_id=item.get("name", "")),
-        )
+        if track_view:
+            show_achievements(
+                self.page,
+                DBManager.increment_stat(self.username, "places_viewed", unique_id=item.get("name", "")),
+            )
 
     def _get_category_style(self, category: str) -> tuple[str, str]:
         """Ritorna il Kanji e il colore tematico per la categoria specificata."""

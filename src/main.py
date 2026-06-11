@@ -12,6 +12,57 @@ MIN_W = 1120
 MIN_H = 680
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.join(BASE_DIR, "asset")
+ROUTES = {
+    "splash": ("src.ui.splash_view", "SplashView"),
+    "dashboard": ("src.ui.dashboard_view", "DashboardView"),
+    "study": ("src.ui.study.study_hub", "StudyHub"),
+    "yugi": ("src.ui.yugi.yugi_hub", "YugiHub"),
+    "dojo_hub": ("src.ui.yugi.dojo_hub", "DojoHub"),
+    "dojo_kana": ("src.ui.yugi.dojo_kana", "DojoKana"),
+    "dojo_kanji": ("src.ui.yugi.dojo_kanji", "DojoKanji"),
+    "dojo_vocab": ("src.ui.yugi.dojo_vocab", "DojoVocab"),
+    "dojo_grammar": ("src.ui.yugi.dojo_grammar", "DojoGrammar"),
+    "dojo_exam": ("src.ui.yugi.dojo_exam", "DojoExam"),
+    "achievements": ("src.ui.achievements_view", "AchievementsView"),
+    "stats": ("src.ui.stats_view", "StatsView"),
+    "settings": ("src.ui.settings_view", "SettingsView"),
+    "food": ("src.ui.food_view", "FoodView"),
+    "culture": ("src.ui.culture_view", "CultureView"),
+    "history": ("src.ui.history_view", "HistoryView"),
+    "places": ("src.ui.places_view", "PlacesView"),
+}
+
+
+def normalize_route(route) -> str:
+    return "/" if route in ("", "/", None) else str(route)
+
+
+def route_config_for(route: str) -> tuple[str, str]:
+    normalized = normalize_route(route)
+    if normalized == "/":
+        raise ValueError("La route login non ha una view caricabile via registry.")
+    return ROUTES.get(normalized, ROUTES["dashboard"])
+
+
+def prepare_route_state(
+    app_state: dict,
+    route,
+    kwargs: dict | None = None,
+    clear_session=None,
+) -> str:
+    app_state.update(kwargs or {})
+    normalized = normalize_route(route)
+
+    if normalized == "/":
+        if clear_session:
+            clear_session(app_state)
+        app_state.clear()
+        app_state["_route"] = "/"
+        app_state["_app_window_ready"] = False
+        return normalized
+
+    app_state["_route"] = normalized
+    return normalized
 
 
 def _apply_app_theme(page: ft.Page) -> None:
@@ -156,15 +207,13 @@ def _set_window(page: ft.Page, w: int, h: int, min_w: int, min_h: int, resizable
 def _instant_splash() -> ft.Control:
     """Prima schermata leggerissima: deve renderizzare prima di font, cache e route."""
     bg_path = T.bg_image()
+    dec_image = ft.DecorationImage(src=bg_path, fit=ft.BoxFit.COVER, opacity=T.BG_OPACITY) if bg_path else None
     kwargs: dict = dict(
         bgcolor=T.BG_MAIN,
         expand=True,
         alignment=ft.Alignment.CENTER,
+        image=dec_image,
     )
-    if bg_path:
-        kwargs["image_src"] = bg_path
-        kwargs["image_fit"] = ft.BoxFit.COVER
-        kwargs["image_opacity"] = T.BG_OPACITY
 
     return ft.Container(
         **kwargs,
@@ -241,6 +290,7 @@ def main(page: ft.Page):
     if available:
         page.fonts = available
 
+    from src.core.app_state import clear_user, is_guest
     from src.core.db_manager import DBManager
 
     DBManager.data_dir()
@@ -255,29 +305,9 @@ def main(page: ft.Page):
     except Exception:
         pass  # log setup failure must never crash the app
 
-    routes = {
-        "splash": ("src.ui.splash_view", "SplashView"),
-        "dashboard": ("src.ui.dashboard_view", "DashboardView"),
-        "study": ("src.ui.study.study_hub", "StudyHub"),
-        "yugi": ("src.ui.yugi.yugi_hub", "YugiHub"),
-        "dojo_hub": ("src.ui.yugi.dojo_hub", "DojoHub"),
-        "dojo_kana": ("src.ui.yugi.dojo_kana", "DojoKana"),
-        "dojo_kanji": ("src.ui.yugi.dojo_kanji", "DojoKanji"),
-        "dojo_vocab": ("src.ui.yugi.dojo_vocab", "DojoVocab"),
-        "dojo_grammar": ("src.ui.yugi.dojo_grammar", "DojoGrammar"),
-        "dojo_exam": ("src.ui.yugi.dojo_exam", "DojoExam"),
-        "achievements": ("src.ui.achievements_view", "AchievementsView"),
-        "stats": ("src.ui.stats_view", "StatsView"),
-        "settings": ("src.ui.settings_view", "SettingsView"),
-        "food": ("src.ui.food_view", "FoodView"),
-        "culture": ("src.ui.culture_view", "CultureView"),
-        "history": ("src.ui.history_view", "HistoryView"),
-        "places": ("src.ui.places_view", "PlacesView"),
-    }
-
-    def _error_view(route_name: str, exc: Exception) -> ft.Control:
-        message = f"{route_name}: {type(exc).__name__}: {exc}"
-        target_route = "/" if DBManager.current_username == "Viandante" else "dashboard"
+    def _error_view(route_name: str) -> ft.Control:
+        message = "Non sono riuscito a caricare questa vista. I dettagli tecnici sono stati salvati nel log dell'app."
+        target_route = "/" if is_guest(app_state) else "dashboard"
         target_label = "Torna al login" if target_route == "/" else "Torna alla dashboard"
         return ft.Container(
             expand=True,
@@ -299,7 +329,7 @@ def main(page: ft.Page):
                         width=620,
                         content=ft.Text(message, size=12, color=T.TEXT_M, selectable=True, text_align=ft.TextAlign.CENTER),
                     ),
-                    ft.ElevatedButton(
+                    ft.Button(
                         target_label,
                         style=ft.ButtonStyle(bgcolor=T.RED, color=T.TEXT),
                         on_click=lambda e: navigate(target_route),
@@ -317,30 +347,24 @@ def main(page: ft.Page):
             view_cls = getattr(module, class_name)
             return view_cls(page, navigate, app_state).build()
         except Exception as exc:
-            return _error_view(route_name, exc)
+            logging.getLogger("kotoba.ui").exception("view load failed for %s", route_name)
+            return _error_view(route_name)
 
     def navigate(route, **kwargs):
-        app_state.update(kwargs)
-        route = "/" if route in ("", "/") else route
+        route = prepare_route_state(app_state, route, kwargs, clear_session=clear_user)
 
         if route == "/":
-            DBManager.current_username = "Viandante"
-            app_state.clear()
-            app_state["_route"] = "/"
-            app_state["_app_window_ready"] = False
             from src.ui.login_view import LoginView
             view = LoginView(page, navigate, app_state)
             root.content = view.build()
             page.update()
             return
 
-        app_state["_route"] = route
-
-        route_config = routes.get(route)
+        route_config = ROUTES.get(route)
         if route_config:
             root.content = build_view(route, *route_config)
         else:
-            root.content = build_view("dashboard", *routes["dashboard"])
+            root.content = build_view("dashboard", *ROUTES["dashboard"])
 
         page.update()
 

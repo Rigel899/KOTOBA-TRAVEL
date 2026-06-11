@@ -75,10 +75,14 @@ class StudyHub:
         return all(part in text for part in q.split())
 
     def _tab_accent(self, key: str) -> str:
-        if key == "hiragana":
-            return T.GREEN
-        if key == "katakana":
-            return T.INDIGO
+        if key in ("hiragana", "katakana"):
+            return T.BELT_KANA
+        if key == "kanji":
+            return T.BELT_KANJI
+        if key == "vocab":
+            return T.BELT_VOCAB
+        if key == "grammar":
+            return T.BELT_GRAMMAR
         return T.GOLD
 
     def _make_tab_button(self, label: str, key: str) -> ft.Control:
@@ -112,27 +116,6 @@ class StudyHub:
             ink=False,
             clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
             animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT)
-        )
-
-    def _create_hover_card(self, content: ft.Control, on_click=None) -> ft.Container:
-        def on_hover(e):
-            is_hover = e.data == "true"
-            e.control.border = ft.border.all(1.5, T.GOLD if is_hover else T.BORDER)
-            e.control.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-            e.control.update()
-
-        return ft.Container(
-            content=content,
-            bgcolor=T.BG_CARD,
-            border_radius=T.RADIUS,
-            border=ft.border.all(1, T.BORDER),
-            padding=ft.padding.all(14),
-            margin=ft.Margin(bottom=10, left=0, right=0, top=0),
-            animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
-            on_hover=on_hover if on_click else None,
-            on_click=on_click,
-            ink=False,
-            clip_behavior=ft.ClipBehavior.ANTI_ALIAS if on_click else None,
         )
 
     def _open_dialog(self, dialog: ft.AlertDialog) -> None:
@@ -182,14 +165,14 @@ class StudyHub:
                         size=23,
                         font_family=T.FONT_JP,
                         weight=ft.FontWeight.W_700,
-                        color=T.GOLD,
+                        color=accent,
                         text_align=ft.TextAlign.CENTER,
                     ),
                     ft.Text(
                         item.get("pronunciation", ""),
                         size=10,
                         font_family=T.FONT_BODY,
-                        color=T.RED,
+                        color=T.TEXT_M,
                         italic=True,
                         text_align=ft.TextAlign.CENTER,
                     ),
@@ -259,7 +242,7 @@ class StudyHub:
         )
 
     def _kana_tab(self, category: str) -> ft.Control:
-        accent = T.GREEN if category == "Hiragana" else T.INDIGO
+        accent = T.BELT_KANA
         title_jp = "ひらがな" if category == "Hiragana" else "カタカナ"
         raw_items = [x for x in self.sillabari_data if x.get("category") == category]
         items = [
@@ -271,9 +254,9 @@ class StudyHub:
             [
                 ft.Container(width=5, height=24, bgcolor=accent, border_radius=3),
                 ft.Text(category, size=20, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
-                ft.Text(title_jp, size=15, font_family=T.FONT_JP, color=T.GOLD, italic=True),
+                ft.Text(title_jp, size=15, font_family=T.FONT_JP, color=accent, italic=True),
                 ft.Container(expand=True),
-                ft.Text(f"{len(items)} segni", size=12, font_family=T.FONT_BODY, color=T.GOLD),
+                ft.Text(f"{len(items)} segni", size=12, font_family=T.FONT_BODY, color=accent),
             ],
             spacing=10,
             vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -326,12 +309,6 @@ class StudyHub:
             expand=True,
         )
 
-    def _handle_cell_hover(self, e):
-        is_hover = e.data == "true"
-        e.control.border = ft.border.all(1.5, T.GOLD if is_hover else T.BORDER)
-        e.control.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-        e.control.update()
-
     def _vocab_word_size(self, word: str) -> int:
         length = len((word or "").strip())
         if length <= 4:
@@ -359,7 +336,7 @@ class StudyHub:
             translation = translation[1:].strip()
         return jp, romaji, translation
 
-    def _example_panel(self, example: str, *, compact: bool = False) -> ft.Control:
+    def _example_panel(self, example: str, *, compact: bool = False, accent: str = T.GOLD) -> ft.Control:
         jp, romaji, translation = self._split_example(example)
         jp_size = 17 if compact else 20
         romaji_size = 12 if compact else 13
@@ -376,7 +353,7 @@ class StudyHub:
                     ft.Text(
                         jp,
                         size=jp_size,
-                        color=T.GOLD,
+                        color=accent,
                         font_family=T.FONT_JP,
                         weight=ft.FontWeight.W_700,
                         selectable=True,
@@ -385,7 +362,7 @@ class StudyHub:
                     ft.Text(
                         romaji,
                         size=romaji_size,
-                        color=T.RED,
+                        color=T.TEXT_M,
                         font_family=T.FONT_BODY,
                         italic=True,
                         selectable=True,
@@ -404,7 +381,14 @@ class StudyHub:
             ),
         )
 
-    def _study_entry_card(self, item: dict, *, on_click=None, show_chevron: bool = False) -> ft.Container:
+    def _study_entry_card(
+        self,
+        item: dict,
+        *,
+        accent: str = T.GOLD,
+        on_click=None,
+        show_chevron: bool = False,
+    ) -> ft.Container:
         word = item.get("word", "")
         reading = item.get("reading", "")
         meaning = item.get("meaning", "").capitalize()
@@ -416,7 +400,7 @@ class StudyHub:
             if not on_click:
                 return
             is_hover = e.data == "true"
-            e.control.border = ft.border.all(1.5 if is_hover else 1, T.GOLD)
+            e.control.border = ft.border.all(1.5 if is_hover else 1, accent)
             e.control.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
             e.control.update()
 
@@ -426,7 +410,7 @@ class StudyHub:
                     ft.Container(
                         width=4,
                         height=68,
-                        bgcolor=T.GOLD,
+                        bgcolor=accent,
                         border_radius=3,
                         opacity=0.82,
                     ),
@@ -438,7 +422,7 @@ class StudyHub:
                                     word,
                                     size=self._vocab_word_size(word) + 6,
                                     font_family=T.FONT_JP,
-                                    color=T.GOLD,
+                                    color=accent,
                                     weight=ft.FontWeight.W_700,
                                     overflow=ft.TextOverflow.ELLIPSIS,
                                     max_lines=1,
@@ -447,7 +431,7 @@ class StudyHub:
                                     reading,
                                     size=12,
                                     font_family=T.FONT_BODY,
-                                    color=T.RED,
+                                    color=T.TEXT_M,
                                     italic=True,
                                     overflow=ft.TextOverflow.ELLIPSIS,
                                     max_lines=1,
@@ -488,7 +472,7 @@ class StudyHub:
             ),
             bgcolor=T.BG_CARD,
             border_radius=T.RADIUS,
-            border=ft.border.all(1, T.GOLD),
+            border=ft.border.all(1, accent),
             padding=ft.padding.symmetric(vertical=14, horizontal=16),
             clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
             on_click=on_click,
@@ -525,7 +509,7 @@ class StudyHub:
                     [
                         ft.Text("Kanji base", size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
                         ft.Container(expand=True),
-                        ft.Text(f"{start + 1}-{end} di {total_items}", size=12, font_family=T.FONT_BODY, color=T.GOLD),
+                        ft.Text(f"{start + 1}-{end} di {total_items}", size=12, font_family=T.FONT_BODY, color=T.BELT_KANJI),
                         ft.IconButton(
                             icon=ft.Icons.CHEVRON_LEFT_ROUNDED,
                             icon_color=T.TEXT_M,
@@ -547,7 +531,7 @@ class StudyHub:
                 ),
                 ft.Divider(color=T.BORDER, height=14),
                 ft.GridView(
-                    controls=[self._study_entry_card(item) for item in page_items],
+                    controls=[self._study_entry_card(item, accent=T.BELT_KANJI) for item in page_items],
                     expand=True,
                     max_extent=520,
                     child_aspect_ratio=4.45,
@@ -561,6 +545,7 @@ class StudyHub:
         )
 
     def _show_vocab_detail(self, item: dict) -> None:
+        accent = T.BELT_VOCAB
         word = item.get("word", "")
         reading = item.get("reading", "")
         meaning = item.get("meaning", "").capitalize()
@@ -575,7 +560,7 @@ class StudyHub:
         if example:
             example_block = [
                 ft.Container(height=14),
-                self._example_panel(example),
+                self._example_panel(example, accent=accent),
             ]
 
         content = ft.Column(
@@ -590,17 +575,17 @@ class StudyHub:
                             ft.Text(
                                 word,
                                 size=max(34, self._vocab_word_size(word) + 10),
-                                color=T.GOLD,
+                                color=accent,
                                 font_family=T.FONT_JP,
                                 weight=ft.FontWeight.W_700,
                                 max_lines=1,
                                 overflow=ft.TextOverflow.ELLIPSIS,
                             ),
-                            ft.Text(reading, size=14, color=T.RED, font_family=T.FONT_BODY, italic=True),
+                            ft.Text(reading, size=14, color=T.TEXT_M, font_family=T.FONT_BODY, italic=True),
                             ft.Divider(color=T.BORDER, height=18),
                             ft.Text(meaning, size=28, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
                             ft.Row(
-                                [self._meta_chip(label, T.GOLD if idx == 0 else T.TEXT_M) for idx, label in enumerate(meta)],
+                                [self._meta_chip(label, accent if idx == 0 else T.TEXT_M) for idx, label in enumerate(meta)],
                                 spacing=8,
                                 wrap=True,
                             ),
@@ -621,7 +606,7 @@ class StudyHub:
             title=ft.Text("Vocabolario", color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
             content=ft.Container(content=content, width=500),
             actions=[
-                ft.TextButton("Chiudi", style=ft.ButtonStyle(color=T.GOLD), on_click=lambda e: self._close_dialog(dialog)),
+                ft.TextButton("Chiudi", style=ft.ButtonStyle(color=accent), on_click=lambda e: self._close_dialog(dialog)),
             ],
             actions_alignment=ft.MainAxisAlignment.END,
         )
@@ -657,7 +642,7 @@ class StudyHub:
                     [
                         ft.Text("Vocabolario", size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
                         ft.Container(expand=True),
-                        ft.Text(f"{start + 1}-{end} di {total_items}", size=12, font_family=T.FONT_BODY, color=T.GOLD),
+                        ft.Text(f"{start + 1}-{end} di {total_items}", size=12, font_family=T.FONT_BODY, color=T.BELT_VOCAB),
                         ft.IconButton(
                             icon=ft.Icons.CHEVRON_LEFT_ROUNDED,
                             icon_color=T.TEXT_M,
@@ -682,6 +667,7 @@ class StudyHub:
                     controls=[
                         self._study_entry_card(
                             item,
+                            accent=T.BELT_VOCAB,
                             on_click=lambda e, selected=item: self._show_vocab_detail(selected),
                             show_chevron=True,
                         )
@@ -700,6 +686,7 @@ class StudyHub:
         )
 
     def _grammar_tab(self) -> ft.Control:
+        accent = T.BELT_GRAMMAR
         items = []
         filtered_data = [
             topic for topic in self.grammar_data
@@ -707,9 +694,9 @@ class StudyHub:
         ]
         for topic in filtered_data:
             content = ft.Column([
-                ft.Text(topic.get("title", ""), size=16, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.BOLD, color=T.GOLD),
+                ft.Text(topic.get("title", ""), size=16, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.BOLD, color=accent),
                 ft.Text(topic.get("explanation", ""), size=13, font_family=T.FONT_BODY, color=T.TEXT_M, style=ft.TextStyle(height=1.4)),
-                self._example_panel(topic.get("example", ""), compact=True),
+                self._example_panel(topic.get("example", ""), compact=True, accent=accent),
             ], spacing=12, horizontal_alignment=ft.CrossAxisAlignment.STRETCH)
             
             items.append(
@@ -717,7 +704,7 @@ class StudyHub:
                     content=content,
                     bgcolor=T.BG_CARD,
                     border_radius=T.RADIUS,
-                    border=ft.border.all(1, T.GOLD),
+                    border=ft.border.all(1, accent),
                     padding=ft.padding.all(14),
                     margin=ft.Margin(bottom=10, left=0, right=0, top=0),
                 )

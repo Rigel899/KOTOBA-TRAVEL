@@ -115,11 +115,8 @@ class SplashView:
         )
 
         bg_path = T.bg_image()
-        kwargs: dict = dict(bgcolor=T.BG_MAIN, expand=True)
-        if bg_path:
-            kwargs["image_src"]     = bg_path
-            kwargs["image_fit"]     = ft.BoxFit.COVER
-            kwargs["image_opacity"] = T.BG_OPACITY
+        dec_image = ft.DecorationImage(src=bg_path, fit=ft.BoxFit.COVER, opacity=T.BG_OPACITY) if bg_path else None
+        kwargs: dict = dict(bgcolor=T.BG_MAIN, expand=True, image=dec_image)
 
         return ft.Container(
             content=ft.Column(

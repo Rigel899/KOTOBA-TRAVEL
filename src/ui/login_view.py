@@ -64,11 +64,11 @@ class LoginView:
 
         self.msg = ft.Text("", size=T.FS_SMALL, text_align=ft.TextAlign.CENTER, font_family=T.FONT_BODY)
 
-        self.primary_btn = ft.ElevatedButton("Entra / Crea account", style=self._btn_style(T.RED, T.RED_D), on_click=self._on_login)
-        self.register_btn = ft.ElevatedButton("Registrati e inizia il cammino →", style=self._btn_style(T.GREEN, T.GREEN_D, fg=T.BG_MAIN), visible=False, on_click=self._on_register)
+        self.primary_btn = ft.Button("Entra / Crea account", style=self._btn_style(T.RED, T.RED_D), on_click=self._on_login)
+        self.register_btn = ft.Button("Registrati e inizia il cammino →", style=self._btn_style(T.GREEN, T.GREEN_D, fg=T.BG_MAIN), visible=False, on_click=self._on_register)
         self.recover_btn = ft.TextButton("Hai dimenticato la password?", style=ft.ButtonStyle(color=T.GOLD, text_style=ft.TextStyle(font_family=T.FONT_BODY, size=T.FS_SMALL, decoration=ft.TextDecoration.UNDERLINE)), visible=False, on_click=self._on_show_recovery)
-        self.verify_btn = ft.ElevatedButton("Verifica risposta", style=self._btn_style(T.BG_SURF, T.BG_HOVER), visible=False, on_click=self._on_verify_recovery)
-        self.save_pwd_btn = ft.ElevatedButton("Salva e accedi →", style=self._btn_style(T.GREEN, T.GREEN_D, fg=T.BG_MAIN), visible=False, on_click=self._on_save_password)
+        self.verify_btn = ft.Button("Verifica risposta", style=self._btn_style(T.BG_SURF, T.BG_HOVER), visible=False, on_click=self._on_verify_recovery)
+        self.save_pwd_btn = ft.Button("Salva e accedi →", style=self._btn_style(T.GREEN, T.GREEN_D, fg=T.BG_MAIN), visible=False, on_click=self._on_save_password)
 
     def _safe_page_update(self):
         try:
@@ -76,27 +76,45 @@ class LoginView:
         except RuntimeError:
             pass
 
-    async def _cooldown_login(self, delay: float | None = None):
+    async def _cooldown_login(self, username: str, delay: float | None = None):
         await asyncio.sleep(delay if delay is not None else DBManager.LOCKOUT_SECONDS)
+        is_locked, remaining_secs = DBManager.is_locked_out(username, "login")
+        if is_locked:
+            self.primary_btn.disabled = True
+            self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
+            self.page.run_task(self._cooldown_login, username, remaining_secs)
+            self._safe_page_update()
+            return
         self.primary_btn.disabled = False
         self._show_msg("Puoi riprovare ad accedere.", T.TEXT_M)
         self._safe_page_update()
 
-    async def _cooldown_recovery(self, delay: float | None = None):
+    async def _cooldown_recovery(self, username: str, delay: float | None = None):
         await asyncio.sleep(delay if delay is not None else DBManager.LOCKOUT_SECONDS)
+        is_locked, remaining_secs = DBManager.is_locked_out(username, "recovery")
+        if is_locked:
+            self.verify_btn.disabled = True
+            self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
+            self.page.run_task(self._cooldown_recovery, username, remaining_secs)
+            self._safe_page_update()
+            return
         self.verify_btn.disabled = False
         self._show_msg("Puoi riprovare il recupero password.", T.TEXT_M)
         self._safe_page_update()
 
-    def _start_login_cooldown(self):
+    def _start_login_cooldown(self, username: str):
+        _, remaining_secs = DBManager.is_locked_out(username, "login")
+        remaining_secs = remaining_secs or DBManager.LOCKOUT_SECONDS
         self.primary_btn.disabled = True
-        self._show_msg("Troppi tentativi. Riprova tra 30 secondi.", T.ERR)
-        self.page.run_task(self._cooldown_login)
+        self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
+        self.page.run_task(self._cooldown_login, username, remaining_secs)
 
-    def _start_recovery_cooldown(self):
+    def _start_recovery_cooldown(self, username: str):
+        _, remaining_secs = DBManager.is_locked_out(username, "recovery")
+        remaining_secs = remaining_secs or DBManager.LOCKOUT_SECONDS
         self.verify_btn.disabled = True
-        self._show_msg("Troppi tentativi. Riprova tra 30 secondi.", T.ERR)
-        self.page.run_task(self._cooldown_recovery)
+        self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
+        self.page.run_task(self._cooldown_recovery, username, remaining_secs)
 
     def _on_login(self, e=None):
         raw_user = self.user_field.value.strip()
@@ -124,7 +142,7 @@ class LoginView:
             if is_locked:
                 self.primary_btn.disabled = True
                 self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
-                self.page.run_task(self._cooldown_login, remaining_secs)
+                self.page.run_task(self._cooldown_login, user, remaining_secs)
                 self.page.update()
                 return
             if DBManager.verify_login(user, pwd):
@@ -139,7 +157,7 @@ class LoginView:
                 self.pwd_field.border_color = T.ERR
                 self._pending_user = user
                 if DBManager.record_failed_attempt(user, "login"):
-                    self._start_login_cooldown()
+                    self._start_login_cooldown(user)
                 else:
                     remaining = DBManager.remaining_attempts(user, "login")
                     self._show_msg(f"Password errata. Tentativi rimasti: {remaining}.", T.ERR)
@@ -204,7 +222,7 @@ class LoginView:
         self.rec_q_label.visible   = True
         self.rec_ans_field.visible = True
         self.verify_btn.visible    = True
-        self._show_msg("Rispondi alla domanda di sicurezza.", T.TEXT_M)
+        self._show_msg("Rispondi alla domanda di sicurezza. Maiuscole e minuscole contano.", T.TEXT_M)
         self.page.update()
 
     def _on_verify_recovery(self, e=None):
@@ -213,11 +231,17 @@ class LoginView:
         if is_locked:
             self.verify_btn.disabled = True
             self._show_msg(f"Troppi tentativi. Riprova tra {remaining_secs} secondi.", T.ERR)
-            self.page.run_task(self._cooldown_recovery, remaining_secs)
+            self.page.run_task(self._cooldown_recovery, pending_username, remaining_secs)
             self.page.update()
             return
 
         ans = self.rec_ans_field.value.strip()
+        if not ans:
+            self.rec_ans_field.border_color = T.ERR
+            self._show_msg("Inserisci la risposta di sicurezza.", T.ERR)
+            self.page.update()
+            return
+
         stored_hash = self._recovery_data.get("recovery_answer_hash", "")
         if DBManager.verify_secret(ans, stored_hash):
             DBManager.clear_failed_attempts(pending_username, "recovery")
@@ -232,7 +256,7 @@ class LoginView:
         else:
             self.rec_ans_field.border_color = T.ERR
             if DBManager.record_failed_attempt(pending_username, "recovery"):
-                self._start_recovery_cooldown()
+                self._start_recovery_cooldown(pending_username)
             else:
                 remaining = DBManager.remaining_attempts(pending_username, "recovery")
                 self._show_msg(f"Risposta errata. Tentativi rimasti: {remaining}.", T.ERR)
@@ -336,10 +360,7 @@ class LoginView:
             padding=ft.padding.symmetric(vertical=16, horizontal=20)
         )
         bg_img = T.bg_image()
-        if bg_img:
-            kwargs["image_src"] = bg_img
-            kwargs["image_fit"] = ft.BoxFit.COVER
-            kwargs["image_opacity"] = T.BG_OPACITY
+        kwargs["image"] = ft.DecorationImage(src=bg_img, fit=ft.BoxFit.COVER, opacity=T.BG_OPACITY) if bg_img else None
 
         return ft.Container(
             content=ft.Column(

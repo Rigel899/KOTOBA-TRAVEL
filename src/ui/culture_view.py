@@ -6,6 +6,7 @@ from __future__ import annotations
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 
@@ -18,46 +19,11 @@ class CultureView:
         "Cultura quotidiana",
     ]
 
-    CATEGORY_BY_TITLE = {
-        "Cos'è la lingua giapponese": "Lingua e scrittura",
-        "I tre sistemi di scrittura": "Lingua e scrittura",
-        "Quando si usa hiragana": "Lingua e scrittura",
-        "Quando si usa katakana": "Lingua e scrittura",
-        "Introduzione ai kanji": "Lingua e scrittura",
-        "Ordine di studio consigliato": "Studio pratico",
-        "Prime particelle fondamentali": "Studio pratico",
-        "Keigo e cortesia": "Studio pratico",
-        "Onomatopee": "Studio pratico",
-        "Prime parole quotidiane": "Studio pratico",
-        "Aisatsu": "Studio pratico",
-        "Omotenashi": "Societa e abitudini",
-        "Uchi e soto": "Societa e abitudini",
-        "Honne e tatemae": "Societa e abitudini",
-        "Senpai e kohai": "Societa e abitudini",
-        "Meishi": "Societa e abitudini",
-        "Galateo sui treni": "Societa e abitudini",
-        "Raccolta differenziata": "Societa e abitudini",
-        "Regali e omiyage": "Societa e abitudini",
-        "Wabi-sabi": "Tradizioni e stagioni",
-        "Matsuri": "Tradizioni e stagioni",
-        "Onsen": "Tradizioni e stagioni",
-        "Omamori ed ema": "Tradizioni e stagioni",
-        "Hanami": "Tradizioni e stagioni",
-        "Momiji": "Tradizioni e stagioni",
-        "Cultura del konbini": "Cultura quotidiana",
-        "Bento": "Cultura quotidiana",
-        "Izakaya": "Cultura quotidiana",
-        "Manga e anime": "Cultura quotidiana",
-        "Dialetti regionali": "Cultura quotidiana",
-        "Terremoti e preparazione": "Cultura quotidiana",
-        "Numeri e contatori": "Cultura quotidiana",
-    }
-
     def __init__(self, page: ft.Page, navigate, state: dict):
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", "")
+        self.username = get_current_user(state)
         self.culture_data = self._load_data()
         
         # Stato interno per tracciare la selezione
@@ -115,6 +81,14 @@ class CultureView:
             return f"{digits[tens]}十{digits[ones] if ones else ''}"
         return str(number)
 
+    def _safe_control_update(self, control: ft.Control) -> None:
+        if not getattr(control, "page", None):
+            return
+        try:
+            control.update()
+        except RuntimeError:
+            pass
+
     def _select_topic(self, index: int):
         prev_index = self.selected_index
         self.selected_index = index
@@ -124,12 +98,12 @@ class CultureView:
             if prev_card is not None:
                 prev_card.border = ft.border.all(1, T.BORDER)
                 prev_card.bgcolor = T.BG_CARD
-                prev_card.update()
+                self._safe_control_update(prev_card)
         new_card = self.card_containers.get(index)
         if new_card is not None:
             new_card.border = ft.border.all(1, T.GOLD)
             new_card.bgcolor = T.BG_SURF
-            new_card.update()
+            self._safe_control_update(new_card)
         
         # Rigenera e aggiorna il contenuto del pannello di destra
         topic = self.culture_data[index]
@@ -147,7 +121,10 @@ class CultureView:
         )
 
     def _topic_category(self, topic: dict) -> str:
-        return self.CATEGORY_BY_TITLE.get(topic.get("title", ""), "Cultura quotidiana")
+        category = topic.get("category")
+        if category in self.CATEGORY_ORDER:
+            return category
+        return "Cultura quotidiana"
 
     def _category_header(self, label: str) -> ft.Control:
         return ft.Container(
@@ -236,7 +213,7 @@ class CultureView:
             is_hover = e.data == "true"
             card.border = ft.border.all(1, T.GOLD) if is_hover else ft.border.all(1, T.BORDER)
             card.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-            card.update()
+            self._safe_control_update(card)
 
         hanko_stamp = ft.Container(
             width=34,

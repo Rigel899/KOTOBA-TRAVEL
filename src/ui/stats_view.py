@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import flet as ft
 
+from src.core.achievements import ACHIEVEMENTS
 from src.core.db_manager import DBManager
+from src.core.app_state import get_current_user
 from src.core.settings import KotobaTheme as T
 from src.ui.components.masthead import build_masthead
 from src.ui.components.stage import centered_stage
@@ -13,13 +15,13 @@ from src.ui.components.stage import centered_stage
 
 class StatsView:
     QUIZ_MODES = [
-        ("Hiragana", "hiragana", T.RED),
-        ("Katakana", "katakana", "#3b82f6"),
-        ("Misto Kana", "mixed", T.GOLD),
-        ("Kanji", "kanji", T.INDIGO),
-        ("Vocabolario", "vocab", T.GREEN),
-        ("Grammatica", "grammar", T.GOLD),
-        ("Esamone", "exam", T.RED),
+        ("Hiragana", "hiragana", T.BELT_KANA),
+        ("Katakana", "katakana", T.BELT_KANA),
+        ("Misto Kana", "mixed", T.BELT_KANA),
+        ("Kanji", "kanji", T.BELT_KANJI),
+        ("Vocabolario", "vocab", T.BELT_VOCAB),
+        ("Grammatica", "grammar", T.BELT_GRAMMAR),
+        ("Esamone", "exam", T.GOLD),
     ]
     MODE_DEFAULT_TOTALS = {"exam": 20}
 
@@ -27,8 +29,8 @@ class StatsView:
         self.page = page
         self.navigate = navigate
         self.state = state
-        self.username = state.get("user", DBManager.current_username)
-        self.user_data = DBManager.current_user_data()
+        self.username = get_current_user(state)
+        self.user_data = DBManager.get_user_data(self.username) or {}
 
     def _metric(self, label: str, value: str, icon, color: str) -> ft.Control:
         return ft.Container(
@@ -55,6 +57,51 @@ class StatsView:
                         ],
                         spacing=0,
                     ),
+                ],
+                spacing=12,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+        )
+
+    def _achievement_summary(self) -> ft.Control:
+        unlocked_ids = set(self.user_data.get("achievements", [])) if isinstance(self.user_data, dict) else set()
+        unlocked_count = len([ach_id for ach_id in ACHIEVEMENTS if ach_id in unlocked_ids])
+        total = len(ACHIEVEMENTS)
+        progress = unlocked_count / total if total else 0
+
+        return ft.Container(
+            bgcolor=T.BG_SURF,
+            border=ft.border.all(1, T.BORDER),
+            border_radius=T.RADIUS,
+            padding=ft.padding.symmetric(horizontal=16, vertical=14),
+            on_click=lambda e: self.navigate("achievements"),
+            content=ft.Row(
+                [
+                    ft.Container(
+                        width=42,
+                        height=42,
+                        alignment=ft.Alignment.CENTER,
+                        bgcolor=T.BG_CARD,
+                        border=ft.border.all(1.5, T.GOLD),
+                        border_radius=8,
+                        content=ft.Icon(ft.Icons.MILITARY_TECH_ROUNDED, color=T.GOLD, size=22),
+                    ),
+                    ft.Column(
+                        [
+                            ft.Row(
+                                [
+                                    ft.Text("Achievement", size=15, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
+                                    ft.Text(f"{unlocked_count}/{total}", size=13, color=T.GOLD, font_family=T.FONT_BODY, weight=ft.FontWeight.W_700),
+                                ],
+                                spacing=10,
+                                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                            ),
+                            ft.ProgressBar(value=progress, bar_height=6, color=T.GOLD, bgcolor=T.BORDER, border_radius=8),
+                        ],
+                        spacing=7,
+                        expand=True,
+                    ),
+                    ft.Icon(ft.Icons.CHEVRON_RIGHT_ROUNDED, color=T.TEXT_M, size=22),
                 ],
                 spacing=12,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -156,6 +203,7 @@ class StatsView:
         content = ft.Column(
             [
                 metrics,
+                self._achievement_summary(),
                 ft.Container(height=2),
                 ft.Text("Modalità Quiz", size=18, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
                 *mode_rows,

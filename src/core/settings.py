@@ -41,6 +41,7 @@ class KotobaTheme:
     GOLD      = "#D4AF5C"
     INDIGO    = "#7090C0"
     INDIGO_D  = "#1B3B6F"
+    PURPLE    = "#A77AE6"
     ERR       = "#E5544A"
 
     # Colori cintura per Dojo, quiz e percorsi di studio.
@@ -53,10 +54,11 @@ class KotobaTheme:
     BELT_MASTER_EDGE  = "#0A0908"
 
     # Achievement rarity colors
-    RARITY_COMUNE      = TEXT_M
-    RARITY_NON_COMUNE  = GREEN
-    RARITY_RARO        = INDIGO
-    RARITY_EPICO       = GOLD
+    RARITY_COMUNE      = TEXT
+    RARITY_RARO        = GREEN
+    RARITY_MOLTO_RARO  = INDIGO
+    RARITY_EPICO       = PURPLE
+    RARITY_LEGGENDARIO = GOLD
 
     # ── Tipografia ─────────────────────────────────────────────────────────
     FONT_DISPLAY = "Shippori Mincho"

@@ -5,105 +5,212 @@ Definizioni di tutti gli achievement sbloccabili in Kotoba Travel.
 
 from src.core.settings import KotobaTheme
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Dizionario principale degli achievement
-# ─────────────────────────────────────────────────────────────────────────────
+
+RARITY_ORDER: tuple[str, ...] = (
+    "comune",
+    "raro",
+    "molto raro",
+    "epico",
+    "leggendario",
+)
+
+MODULE_ORDER: tuple[str, ...] = (
+    "account",
+    "progress",
+    "dojo_kana",
+    "dojo_kanji",
+    "dojo_vocab",
+    "dojo_grammar",
+    "prova_kotoba",
+    "exploration",
+)
+
+MODULE_LABELS: dict[str, str] = {
+    "account": "Account",
+    "progress": "Progressi",
+    "dojo_kana": "Kana",
+    "dojo_kanji": "Kanji",
+    "dojo_vocab": "Vocabolario",
+    "dojo_grammar": "Grammatica",
+    "prova_kotoba": "Prova Kotoba",
+    "exploration": "Esplorazione",
+}
+
 ACHIEVEMENTS: dict[str, dict] = {
-    # Onboarding
     "first_steps": {
         "title": "Primo Passo",
         "description": "Hai creato il tuo account Kotoba Travel.",
         "emoji": "⛩️",
         "rarity": "comune",
+        "module": "account",
     },
-    # Kana quiz
-    "hiragana_perfect": {
-        "title": "Maestro Hiragana",
-        "description": "Punteggio perfetto (10/10) nel quiz Hiragana.",
-        "emoji": "あ",
-        "rarity": "raro",
-    },
-    "katakana_perfect": {
-        "title": "Maestro Katakana",
-        "description": "Punteggio perfetto (10/10) nel quiz Katakana.",
-        "emoji": "ア",
-        "rarity": "raro",
-    },
-    "mixed_perfect": {
-        "title": "Sensei dei Sillabari",
-        "description": "Punteggio perfetto nel quiz Misto Hiragana+Katakana.",
-        "emoji": "👑",
-        "rarity": "epico",
-    },
-    # Streak
     "streak_5": {
         "title": "Samurai Infallibile",
         "description": "5 risposte corrette consecutive in un quiz.",
         "emoji": "⚡",
         "rarity": "comune",
+        "module": "progress",
     },
     "streak_10": {
         "title": "Mente di Cristallo",
         "description": "10 risposte corrette consecutive in un quiz.",
         "emoji": "💎",
-        "rarity": "non comune",
+        "rarity": "raro",
+        "module": "progress",
     },
-    # Quiz count
     "quiz_5": {
         "title": "Allenato",
         "description": "Completati 5 quiz.",
         "emoji": "🎯",
         "rarity": "comune",
+        "module": "progress",
     },
     "quiz_25": {
         "title": "Guerriero della Conoscenza",
         "description": "Completati 25 quiz.",
         "emoji": "⚔️",
-        "rarity": "non comune",
+        "rarity": "raro",
+        "module": "progress",
     },
-    # Esplorazione
-    "food_10": {
-        "title": "Gourmet del Sol Levante",
-        "description": "Esplorati 10 piatti nella sezione Cibo.",
-        "emoji": "🍱",
-        "rarity": "comune",
+    "hiragana_perfect": {
+        "title": "Maestro Hiragana",
+        "description": "Punteggio perfetto nel quiz Hiragana.",
+        "emoji": "あ",
+        "rarity": "raro",
+        "module": "dojo_kana",
     },
-    "places_5": {
-        "title": "Viaggiatore Curioso",
-        "description": "Visitati 5 luoghi iconici.",
-        "emoji": "🗾",
-        "rarity": "comune",
+    "katakana_perfect": {
+        "title": "Maestro Katakana",
+        "description": "Punteggio perfetto nel quiz Katakana.",
+        "emoji": "ア",
+        "rarity": "raro",
+        "module": "dojo_kana",
     },
-    "culture_all": {
-        "title": "Anima Nipponica",
-        "description": "Esplorati tutti i moduli della sezione Cultura.",
-        "emoji": "🌸",
-        "rarity": "non comune",
+    "mixed_perfect": {
+        "title": "Sensei dei Sillabari",
+        "description": "Punteggio perfetto nel quiz Misto Hiragana+Katakana.",
+        "emoji": "仮",
+        "rarity": "molto raro",
+        "module": "dojo_kana",
     },
-    "history_all": {
-        "title": "Studioso della Storia",
-        "description": "Letti tutti gli episodi della sezione Storia.",
-        "emoji": "🏯",
-        "rarity": "non comune",
-    },
-    # Kanji (per quando sarà implementato)
     "kanji_first": {
         "title": "L'Inizio del Kanji",
         "description": "Completato il primo quiz Kanji.",
         "emoji": "漢",
-        "rarity": "non comune",
+        "rarity": "comune",
+        "module": "dojo_kanji",
+    },
+    "kanji_perfect": {
+        "title": "Custode dei Kanji",
+        "description": "Punteggio perfetto nel quiz Kanji.",
+        "emoji": "漢",
+        "rarity": "molto raro",
+        "module": "dojo_kanji",
+    },
+    "vocab_first": {
+        "title": "Prime Parole",
+        "description": "Completato il primo quiz Vocabolario.",
+        "emoji": "語",
+        "rarity": "comune",
+        "module": "dojo_vocab",
     },
     "vocab_50": {
         "title": "Dizionario Vivente",
-        "description": "Imparate 50 parole di vocabolario.",
-        "emoji": "📖",
+        "description": "Raggiunte 50 risposte corrette nel quiz Vocabolario.",
+        "emoji": "語",
+        "rarity": "molto raro",
+        "module": "dojo_vocab",
+    },
+    "vocab_perfect": {
+        "title": "Lessico Impeccabile",
+        "description": "Punteggio perfetto nel quiz Vocabolario.",
+        "emoji": "語",
         "rarity": "raro",
+        "module": "dojo_vocab",
+    },
+    "grammar_first": {
+        "title": "Prima Regola",
+        "description": "Completato il primo quiz Grammatica.",
+        "emoji": "文",
+        "rarity": "comune",
+        "module": "dojo_grammar",
+    },
+    "grammar_perfect": {
+        "title": "Architetto della Frase",
+        "description": "Punteggio perfetto nel quiz Grammatica.",
+        "emoji": "文",
+        "rarity": "raro",
+        "module": "dojo_grammar",
+    },
+    "exam_first": {
+        "title": "Prima Prova Kotoba",
+        "description": "Completata la prima Prova Kotoba.",
+        "emoji": "試",
+        "rarity": "comune",
+        "module": "prova_kotoba",
+    },
+    "exam_perfect_1": {
+        "title": "Prova Kotoba Perfetta",
+        "description": "Punteggio perfetto nella Prova Kotoba.",
+        "emoji": "試",
+        "rarity": "raro",
+        "module": "prova_kotoba",
+    },
+    "exam_perfect_5": {
+        "title": "Custode Kotoba",
+        "description": "5 Prove Kotoba perfette.",
+        "emoji": "極",
+        "rarity": "molto raro",
+        "module": "prova_kotoba",
+    },
+    "exam_perfect_10": {
+        "title": "Maestria Kotoba",
+        "description": "10 Prove Kotoba perfette.",
+        "emoji": "極",
+        "rarity": "epico",
+        "module": "prova_kotoba",
+    },
+    "exam_master": {
+        "title": "Cintura Nera Kotoba",
+        "description": "20 Prove Kotoba perfette.",
+        "emoji": "黒",
+        "rarity": "leggendario",
+        "module": "prova_kotoba",
+    },
+    "food_10": {
+        "title": "Gourmet del Sol Levante",
+        "description": "Esplorati 10 piatti nella sezione Cibo.",
+        "emoji": "弁",
+        "rarity": "comune",
+        "module": "exploration",
+    },
+    "places_5": {
+        "title": "Viaggiatore Curioso",
+        "description": "Visitati 5 luoghi iconici.",
+        "emoji": "旅",
+        "rarity": "comune",
+        "module": "exploration",
+    },
+    "culture_all": {
+        "title": "Anima Nipponica",
+        "description": "Esplorati tutti i moduli della sezione Cultura.",
+        "emoji": "桜",
+        "rarity": "raro",
+        "module": "exploration",
+    },
+    "history_all": {
+        "title": "Studioso della Storia",
+        "description": "Letti tutti gli episodi della sezione Storia.",
+        "emoji": "城",
+        "rarity": "raro",
+        "module": "exploration",
     },
 }
 
 RARITY_COLOR: dict[str, str] = {
-    "comune":      KotobaTheme.RARITY_COMUNE,
-    "non comune":  KotobaTheme.RARITY_NON_COMUNE,
-    "raro":        KotobaTheme.RARITY_RARO,
-    "epico":       KotobaTheme.RARITY_EPICO,
+    "comune": KotobaTheme.RARITY_COMUNE,
+    "raro": KotobaTheme.RARITY_RARO,
+    "molto raro": KotobaTheme.RARITY_MOLTO_RARO,
+    "epico": KotobaTheme.RARITY_EPICO,
+    "leggendario": KotobaTheme.RARITY_LEGGENDARIO,
 }

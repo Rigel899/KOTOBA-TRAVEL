@@ -2,161 +2,193 @@
   {
     "title": "Introduzione alla storia del Giappone",
     "subtitle": "Un percorso storico semplice da seguire.",
-    "content": "La storia del Giappone è lunga e ricca di cambiamenti politici, culturali e sociali. Per capirla bene conviene dividerla in grandi periodi, così da seguire l'evoluzione del paese dalle origini all'epoca contemporanea."
+    "content": "La storia del Giappone è lunga e ricca di cambiamenti politici, culturali e sociali. Per capirla bene conviene dividerla in grandi periodi, così da seguire l'evoluzione del paese dalle origini all'epoca contemporanea.",
+    "period": "Panoramica"
   },
   {
     "title": "Periodo Jomon",
     "subtitle": "Ceramiche, villaggi e società preistoriche.",
-    "content": "Il periodo Jomon è noto per le ceramiche decorate a corda e per comunità che vivevano di caccia, pesca, raccolta e primi insediamenti stabili. È una fase fondamentale per capire le radici più antiche dell'arcipelago."
+    "content": "Il periodo Jomon è noto per le ceramiche decorate a corda e per comunità che vivevano di caccia, pesca, raccolta e primi insediamenti stabili. È una fase fondamentale per capire le radici più antiche dell'arcipelago.",
+    "period": "Origini"
   },
   {
     "title": "Periodo Yayoi",
     "subtitle": "Riso, metalli e nuove strutture sociali.",
-    "content": "Nel periodo Yayoi si diffondono la coltivazione del riso, l'uso di metalli e comunità più gerarchiche. Le influenze dal continente asiatico diventano sempre più importanti."
+    "content": "Nel periodo Yayoi si diffondono la coltivazione del riso, l'uso di metalli e comunità più gerarchiche. Le influenze dal continente asiatico diventano sempre più importanti.",
+    "period": "Origini"
   },
   {
     "title": "Periodo Kofun",
     "subtitle": "Grandi tombe e nascita del potere Yamato.",
-    "content": "Il periodo Kofun prende il nome dalle grandi tombe monumentali. In questa fase si consolida il potere Yamato, che diventerà centrale nella formazione dello stato giapponese."
+    "content": "Il periodo Kofun prende il nome dalle grandi tombe monumentali. In questa fase si consolida il potere Yamato, che diventerà centrale nella formazione dello stato giapponese.",
+    "period": "Origini"
   },
   {
     "title": "Periodo Nara",
     "subtitle": "Capitale stabile, buddhismo e amministrazione.",
-    "content": "Con Nara il Giappone sviluppa una capitale pianificata, istituzioni ispirate alla Cina e un forte legame fra potere politico e buddhismo. Templi come Todai-ji mostrano l'ambizione religiosa e politica dell'epoca."
+    "content": "Con Nara il Giappone sviluppa una capitale pianificata, istituzioni ispirate alla Cina e un forte legame fra potere politico e buddhismo. Templi come Todai-ji mostrano l'ambizione religiosa e politica dell'epoca.",
+    "period": "Corte e Stato"
   },
   {
     "title": "Periodo Heian",
     "subtitle": "Corte imperiale e cultura aristocratica.",
-    "content": "Il periodo Heian è associato alla raffinatezza della corte di Kyoto, alla letteratura classica e alla nascita di forme culturali profondamente giapponesi. È l'epoca del Genji Monogatari e della scrittura kana."
+    "content": "Il periodo Heian è associato alla raffinatezza della corte di Kyoto, alla letteratura classica e alla nascita di forme culturali profondamente giapponesi. È l'epoca del Genji Monogatari e della scrittura kana.",
+    "period": "Corte e Stato"
   },
   {
     "title": "Periodo Kamakura",
     "subtitle": "Ascesa dei samurai e primo shogunato.",
-    "content": "Con Kamakura il potere militare dei samurai diventa dominante. Lo shogunato governa da Kamakura, mentre l'imperatore mantiene un ruolo simbolico e rituale."
+    "content": "Con Kamakura il potere militare dei samurai diventa dominante. Lo shogunato governa da Kamakura, mentre l'imperatore mantiene un ruolo simbolico e rituale.",
+    "period": "Eta samuraica"
   },
   {
     "title": "Periodo Muromachi",
     "subtitle": "Zen, arti e instabilità politica.",
-    "content": "Il periodo Muromachi vede lo sviluppo di arti come teatro Noh, giardini zen, cerimonia del tè e pittura a inchiostro. Allo stesso tempo il paese attraversa forti tensioni fra signori locali."
+    "content": "Il periodo Muromachi vede lo sviluppo di arti come teatro Noh, giardini zen, cerimonia del tè e pittura a inchiostro. Allo stesso tempo il paese attraversa forti tensioni fra signori locali.",
+    "period": "Eta samuraica"
   },
   {
     "title": "Periodo Sengoku",
     "subtitle": "L'epoca degli stati combattenti.",
-    "content": "Il Sengoku è un periodo di guerre civili e competizione fra daimyo. Figure come Oda Nobunaga, Toyotomi Hideyoshi e Tokugawa Ieyasu porteranno progressivamente alla riunificazione del paese."
+    "content": "Il Sengoku è un periodo di guerre civili e competizione fra daimyo. Figure come Oda Nobunaga, Toyotomi Hideyoshi e Tokugawa Ieyasu porteranno progressivamente alla riunificazione del paese.",
+    "period": "Eta samuraica"
   },
   {
     "title": "Periodo Edo",
     "subtitle": "Stabilità, controllo e cultura urbana.",
-    "content": "Durante il periodo Edo il Giappone vive una lunga stabilità sotto lo shogunato Tokugawa. Si sviluppano città, artigianato, teatro kabuki, stampe ukiyo-e e una cultura urbana molto vivace."
+    "content": "Durante il periodo Edo il Giappone vive una lunga stabilità sotto lo shogunato Tokugawa. Si sviluppano città, artigianato, teatro kabuki, stampe ukiyo-e e una cultura urbana molto vivace.",
+    "period": "Edo e contatti"
   },
   {
     "title": "Apertura al mondo",
     "subtitle": "La fine dell'isolamento.",
-    "content": "Nell'Ottocento il Giappone viene spinto ad aprirsi ai rapporti internazionali. La pressione delle potenze straniere accelera trasformazioni politiche, economiche e militari profonde."
+    "content": "Nell'Ottocento il Giappone viene spinto ad aprirsi ai rapporti internazionali. La pressione delle potenze straniere accelera trasformazioni politiche, economiche e militari profonde.",
+    "period": "Modernizzazione"
   },
   {
     "title": "Restaurazione Meiji",
     "subtitle": "Modernizzazione e stato nazionale.",
-    "content": "Dal 1868 il Giappone avvia una rapida modernizzazione: riforma istituzioni, esercito, scuola, industria e infrastrutture. È una fase decisiva per la nascita del Giappone moderno."
+    "content": "Dal 1868 il Giappone avvia una rapida modernizzazione: riforma istituzioni, esercito, scuola, industria e infrastrutture. È una fase decisiva per la nascita del Giappone moderno.",
+    "period": "Modernizzazione"
   },
   {
     "title": "Periodo Taisho",
     "subtitle": "Apertura culturale e prime tensioni democratiche.",
-    "content": "Il periodo Taisho è breve ma importante: cresce la vita urbana, si rafforzano movimenti politici e culturali, e il Giappone sperimenta forme di maggiore partecipazione pubblica."
+    "content": "Il periodo Taisho è breve ma importante: cresce la vita urbana, si rafforzano movimenti politici e culturali, e il Giappone sperimenta forme di maggiore partecipazione pubblica.",
+    "period": "Modernizzazione"
   },
   {
     "title": "Periodo Showa",
     "subtitle": "Guerra, ricostruzione e crescita economica.",
-    "content": "Il periodo Showa attraversa militarizzazione, Seconda guerra mondiale, sconfitta, occupazione, ricostruzione e grande crescita economica. È una fase complessa e decisiva per il Giappone contemporaneo."
+    "content": "Il periodo Showa attraversa militarizzazione, Seconda guerra mondiale, sconfitta, occupazione, ricostruzione e grande crescita economica. È una fase complessa e decisiva per il Giappone contemporaneo.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Periodo Heisei",
     "subtitle": "Crisi, tecnologia e società in cambiamento.",
-    "content": "Nel periodo Heisei il Giappone affronta stagnazione economica, trasformazioni sociali, invecchiamento della popolazione e nuove forme di cultura pop globale."
+    "content": "Nel periodo Heisei il Giappone affronta stagnazione economica, trasformazioni sociali, invecchiamento della popolazione e nuove forme di cultura pop globale.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Periodo Reiwa",
     "subtitle": "Il Giappone contemporaneo.",
-    "content": "L'epoca Reiwa racconta un Giappone che unisce tecnologia, memoria storica, turismo, cultura pop e tradizioni locali. Capire questa stratificazione aiuta a leggere meglio lingua, luoghi e comportamenti sociali."
+    "content": "L'epoca Reiwa racconta un Giappone che unisce tecnologia, memoria storica, turismo, cultura pop e tradizioni locali. Capire questa stratificazione aiuta a leggere meglio lingua, luoghi e comportamenti sociali.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Popoli Ainu",
     "subtitle": "Una storia del nord spesso dimenticata.",
-    "content": "Gli Ainu sono un popolo indigeno legato soprattutto a Hokkaido e ad altre aree del nord. La loro storia mostra che il Giappone non è culturalmente uniforme e aiuta a leggere temi di identità, lingua e riconoscimento."
+    "content": "Gli Ainu sono un popolo indigeno legato soprattutto a Hokkaido e ad altre aree del nord. La loro storia mostra che il Giappone non è culturalmente uniforme e aiuta a leggere temi di identità, lingua e riconoscimento.",
+    "period": "Popoli e regioni"
   },
   {
     "title": "Regno delle Ryukyu",
     "subtitle": "Okinawa prima dell'annessione moderna.",
-    "content": "Le isole Ryukyu svilupparono un regno con forti legami commerciali fra Cina, Giappone e Sud-est asiatico. La loro storia spiega perché Okinawa abbia lingua, musica, cucina e memoria storica molto particolari."
+    "content": "Le isole Ryukyu svilupparono un regno con forti legami commerciali fra Cina, Giappone e Sud-est asiatico. La loro storia spiega perché Okinawa abbia lingua, musica, cucina e memoria storica molto particolari.",
+    "period": "Popoli e regioni"
   },
   {
     "title": "Arrivo del buddhismo",
     "subtitle": "Religione, arte e potere.",
-    "content": "Il buddhismo arrivò dal continente e trasformò politica, arte, architettura e rituali. Templi, statue e testi buddhisti diventarono strumenti culturali centrali, spesso intrecciati con pratiche shintoiste locali."
+    "content": "Il buddhismo arrivò dal continente e trasformò politica, arte, architettura e rituali. Templi, statue e testi buddhisti diventarono strumenti culturali centrali, spesso intrecciati con pratiche shintoiste locali.",
+    "period": "Corte e Stato"
   },
   {
     "title": "Riforme Taika",
     "subtitle": "Verso uno stato centralizzato.",
-    "content": "Le riforme Taika del VII secolo cercarono di rafforzare il potere centrale, ispirandosi a modelli amministrativi cinesi. Sono importanti per capire la nascita di istituzioni, tasse e gerarchie più strutturate."
+    "content": "Le riforme Taika del VII secolo cercarono di rafforzare il potere centrale, ispirandosi a modelli amministrativi cinesi. Sono importanti per capire la nascita di istituzioni, tasse e gerarchie più strutturate.",
+    "period": "Corte e Stato"
   },
   {
     "title": "Potere dei Fujiwara",
     "subtitle": "Politica di corte nel periodo Heian.",
-    "content": "La famiglia Fujiwara dominò a lungo la corte tramite matrimoni, reggenze e controllo delle relazioni imperiali. Questo potere indiretto è una chiave per capire la raffinatezza e la complessità del mondo Heian."
+    "content": "La famiglia Fujiwara dominò a lungo la corte tramite matrimoni, reggenze e controllo delle relazioni imperiali. Questo potere indiretto è una chiave per capire la raffinatezza e la complessità del mondo Heian.",
+    "period": "Corte e Stato"
   },
   {
     "title": "Guerra Genpei",
     "subtitle": "La svolta verso il governo samuraico.",
-    "content": "La guerra Genpei oppose Taira e Minamoto alla fine del XII secolo. La vittoria dei Minamoto aprì la strada allo shogunato di Kamakura e al ruolo politico dominante della classe guerriera."
+    "content": "La guerra Genpei oppose Taira e Minamoto alla fine del XII secolo. La vittoria dei Minamoto aprì la strada allo shogunato di Kamakura e al ruolo politico dominante della classe guerriera.",
+    "period": "Eta samuraica"
   },
   {
     "title": "Invasioni mongole",
     "subtitle": "Crisi e difesa nel periodo Kamakura.",
-    "content": "Nel XIII secolo il Giappone respinse due tentativi di invasione mongola. Gli eventi rafforzarono il prestigio militare, ma crearono anche tensioni perché molti guerrieri non ricevettero ricompense adeguate."
+    "content": "Nel XIII secolo il Giappone respinse due tentativi di invasione mongola. Gli eventi rafforzarono il prestigio militare, ma crearono anche tensioni perché molti guerrieri non ricevettero ricompense adeguate.",
+    "period": "Eta samuraica"
   },
   {
     "title": "Commercio Nanban",
     "subtitle": "L'incontro con europei e missionari.",
-    "content": "Nel XVI secolo portoghesi e altri europei arrivarono in Giappone portando armi da fuoco, cristianesimo e nuove merci. Questo incontro ebbe effetti profondi sulle guerre, sui commerci e sulla politica religiosa."
+    "content": "Nel XVI secolo portoghesi e altri europei arrivarono in Giappone portando armi da fuoco, cristianesimo e nuove merci. Questo incontro ebbe effetti profondi sulle guerre, sui commerci e sulla politica religiosa.",
+    "period": "Edo e contatti"
   },
   {
     "title": "Politica sakoku",
     "subtitle": "Controllo dei contatti esterni.",
-    "content": "Durante il periodo Edo lo shogunato limitò fortemente i contatti con l'estero, pur mantenendo canali controllati con Olanda, Cina, Corea e Ryukyu. Non fu isolamento totale, ma gestione rigida degli scambi."
+    "content": "Durante il periodo Edo lo shogunato limitò fortemente i contatti con l'estero, pur mantenendo canali controllati con Olanda, Cina, Corea e Ryukyu. Non fu isolamento totale, ma gestione rigida degli scambi.",
+    "period": "Edo e contatti"
   },
   {
     "title": "Rangaku",
     "subtitle": "Studi olandesi e sapere occidentale.",
-    "content": "Rangaku indica lo studio delle conoscenze occidentali tramite fonti olandesi durante l'epoca Edo. Medicina, astronomia e tecnologia circolarono in modo limitato ma importante, preparando alcuni cambiamenti successivi."
+    "content": "Rangaku indica lo studio delle conoscenze occidentali tramite fonti olandesi durante l'epoca Edo. Medicina, astronomia e tecnologia circolarono in modo limitato ma importante, preparando alcuni cambiamenti successivi.",
+    "period": "Edo e contatti"
   },
   {
     "title": "Bakumatsu",
     "subtitle": "Gli ultimi anni dello shogunato.",
-    "content": "Bakumatsu indica la fase finale del periodo Edo, segnata da pressioni straniere, conflitti interni e richieste di cambiamento. È il passaggio turbolento che porta alla Restaurazione Meiji."
+    "content": "Bakumatsu indica la fase finale del periodo Edo, segnata da pressioni straniere, conflitti interni e richieste di cambiamento. È il passaggio turbolento che porta alla Restaurazione Meiji.",
+    "period": "Modernizzazione"
   },
   {
     "title": "Costituzione del dopoguerra",
     "subtitle": "Nuove istituzioni dopo il 1945.",
-    "content": "Dopo la Seconda guerra mondiale il Giappone adottò una nuova costituzione, con ruolo simbolico dell'imperatore, diritti civili e rinuncia alla guerra come strumento sovrano. È una base del Giappone contemporaneo."
+    "content": "Dopo la Seconda guerra mondiale il Giappone adottò una nuova costituzione, con ruolo simbolico dell'imperatore, diritti civili e rinuncia alla guerra come strumento sovrano. È una base del Giappone contemporaneo.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Miracolo economico",
     "subtitle": "Industria, tecnologia e crescita.",
-    "content": "Fra anni Cinquanta e Settanta il Giappone conobbe una crescita economica rapidissima. Automobili, elettronica, infrastrutture e istruzione contribuirono a trasformare il paese in una potenza industriale globale."
+    "content": "Fra anni Cinquanta e Settanta il Giappone conobbe una crescita economica rapidissima. Automobili, elettronica, infrastrutture e istruzione contribuirono a trasformare il paese in una potenza industriale globale.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Bolla economica",
     "subtitle": "Ricchezza, eccessi e crisi.",
-    "content": "Negli anni Ottanta la crescita dei prezzi immobiliari e finanziari creò una bolla enorme. Il suo scoppio all'inizio degli anni Novanta portò a stagnazione e cambiamenti profondi nella società."
+    "content": "Negli anni Ottanta la crescita dei prezzi immobiliari e finanziari creò una bolla enorme. Il suo scoppio all'inizio degli anni Novanta portò a stagnazione e cambiamenti profondi nella società.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Kobe 1995",
     "subtitle": "Terremoto e risposta civile.",
-    "content": "Il terremoto di Kobe del 1995 causò gravi danni e mise in evidenza problemi di prevenzione e gestione dell'emergenza. Stimolò anche una forte crescita del volontariato e della consapevolezza pubblica."
+    "content": "Il terremoto di Kobe del 1995 causò gravi danni e mise in evidenza problemi di prevenzione e gestione dell'emergenza. Stimolò anche una forte crescita del volontariato e della consapevolezza pubblica.",
+    "period": "Novecento e oggi"
   },
   {
     "title": "Tohoku 2011",
     "subtitle": "Terremoto, tsunami e Fukushima.",
-    "content": "Il disastro del Tohoku del 2011 unì terremoto, tsunami e crisi nucleare di Fukushima. È uno degli eventi più importanti del Giappone recente e continua a influenzare energia, memoria e politiche di sicurezza."
+    "content": "Il disastro del Tohoku del 2011 unì terremoto, tsunami e crisi nucleare di Fukushima. È uno degli eventi più importanti del Giappone recente e continua a influenzare energia, memoria e politiche di sicurezza.",
+    "period": "Novecento e oggi"
   }
 ]

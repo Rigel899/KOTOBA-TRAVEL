@@ -9,10 +9,19 @@ import random
 import flet as ft
 
 from src.core.settings import KotobaTheme as T
+from src.core.app_state import get_current_user
 from src.core.db_manager import DBManager
 from src.ui.components.loader import show_achievements
 from src.ui.components.stage import centered_stage
-from src.ui.yugi.quiz_utils import build_quiz_data_error, build_quiz_question_view, max_correct_streak, schedule_auto_next
+from src.ui.yugi.quiz_utils import (
+    answer_and_schedule_next,
+    build_quiz_data_error,
+    build_quiz_question_view,
+    count_correct_answers,
+    make_choice_options,
+    max_correct_streak,
+    percent_score,
+)
 
 TOTAL_QUESTIONS = 20
 
@@ -203,13 +212,7 @@ class DojoExam:
         )
 
     def _make_options(self, correct: str, all_values: list[str]) -> list[str]:
-        wrong_pool = [value for value in set(all_values) if value and value != correct]
-        wrong = random.sample(wrong_pool, min(3, len(wrong_pool)))
-        while len(wrong) < 3:
-            wrong.append("-")
-        options = [correct] + wrong
-        random.shuffle(options)
-        return options
+        return make_choice_options(correct, all_values)
 
     def _start_exam(self):
         candidates: list[dict] = []
@@ -308,16 +311,15 @@ class DojoExam:
         self._safe_update()
 
     def _check_answer(self, chosen: str):
-        idx_at_schedule = self.current_idx
-        self.user_answers[idx_at_schedule] = chosen
-        self._show_question()
-
-        schedule_auto_next(
+        answer_and_schedule_next(
             self.page,
-            0.65,
-            self._is_mounted,
-            lambda: self.current_idx == idx_at_schedule and self.user_answers.get(idx_at_schedule) == chosen,
-            self._next_q,
+            get_current_idx=lambda: self.current_idx,
+            user_answers=self.user_answers,
+            chosen=chosen,
+            render=self._show_question,
+            is_mounted=self._is_mounted,
+            advance=self._next_q,
+            delay=0.65,
         )
 
     def _next_q(self):
@@ -331,12 +333,12 @@ class DojoExam:
             self._show_question()
 
     def _show_results(self):
-        correct_count = sum(1 for i, q in enumerate(self.questions) if self.user_answers.get(i) == q["correct"])
-        pct = int(correct_count / len(self.questions) * 100) if self.questions else 0
+        correct_count = count_correct_answers(self.questions, self.user_answers, lambda question: question["correct"])
+        pct = percent_score(correct_count, len(self.questions))
         unlocked = []
         if self.questions:
             unlocked = DBManager.record_quiz_result(
-                DBManager.current_username,
+                get_current_user(self.state),
                 "exam",
                 correct_count,
                 total_questions=len(self.questions),
@@ -368,8 +370,8 @@ class DojoExam:
                 ft.Container(height=30),
                 ft.Row(
                     [
-                        ft.ElevatedButton("Riprova esamone", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_exam()),
-                        ft.ElevatedButton("Torna al Dojo", style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_INK), on_click=lambda e: self.navigate("dojo_hub")),
+                        ft.Button("Riprova esamone", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_exam()),
+                        ft.Button("Torna al Dojo", style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_INK), on_click=lambda e: self.navigate("dojo_hub")),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=16,
