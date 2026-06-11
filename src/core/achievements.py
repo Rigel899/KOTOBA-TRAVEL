@@ -6,6 +6,8 @@ Definizioni di tutti gli achievement sbloccabili in Kotoba Travel.
 from src.core.settings import KotobaTheme
 
 
+PLATINUM_ACHIEVEMENT = "kotoba_platinum"
+
 RARITY_ORDER: tuple[str, ...] = (
     "comune",
     "raro",
@@ -23,6 +25,7 @@ MODULE_ORDER: tuple[str, ...] = (
     "dojo_grammar",
     "prova_kotoba",
     "exploration",
+    "platinum",
 )
 
 MODULE_LABELS: dict[str, str] = {
@@ -34,6 +37,7 @@ MODULE_LABELS: dict[str, str] = {
     "dojo_grammar": "Grammatica",
     "prova_kotoba": "Prova Kotoba",
     "exploration": "Esplorazione",
+    "platinum": "Platino",
 }
 
 ACHIEVEMENTS: dict[str, dict] = {
@@ -205,6 +209,22 @@ ACHIEVEMENTS: dict[str, dict] = {
         "rarity": "raro",
         "module": "exploration",
     },
+    "exploration_all": {
+        "title": "Viaggio Completo",
+        "description": "Hai esplorato tutto: Cibo, Luoghi, Cultura e Storia.",
+        "emoji": "旅",
+        "rarity": "leggendario",
+        "module": "exploration",
+    },
+    PLATINUM_ACHIEVEMENT: {
+        "title": "Kotoba Platinato",
+        "description": "Hai conquistato tutti gli achievement di Kotoba Travel.",
+        "emoji": "白金",
+        "rarity": "leggendario",
+        "module": "platinum",
+        "secret": True,
+        "platinum": True,
+    },
 }
 
 RARITY_COLOR: dict[str, str] = {
@@ -214,3 +234,22 @@ RARITY_COLOR: dict[str, str] = {
     "epico": KotobaTheme.RARITY_EPICO,
     "leggendario": KotobaTheme.RARITY_LEGGENDARIO,
 }
+
+
+def platinum_required_achievement_ids() -> set[str]:
+    """Achievement richiesti per sbloccare il platino, escluso il platino stesso."""
+    return {achievement_id for achievement_id in ACHIEVEMENTS if achievement_id != PLATINUM_ACHIEVEMENT}
+
+
+def visible_achievement_items(unlocked_ids: set[str] | None = None) -> list[tuple[str, dict]]:
+    """Restituisce il catalogo visibile, nascondendo gli achievement segreti bloccati."""
+    unlocked = unlocked_ids or set()
+    return [
+        (achievement_id, data)
+        for achievement_id, data in ACHIEVEMENTS.items()
+        if not data.get("secret") or achievement_id in unlocked
+    ]
+
+
+def visible_achievement_ids(unlocked_ids: set[str] | None = None) -> list[str]:
+    return [achievement_id for achievement_id, _ in visible_achievement_items(unlocked_ids)]

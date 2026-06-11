@@ -175,13 +175,13 @@ class DojoHub:
                                 [
                                     ft.Row(
                                         [
-                                            ft.Text("Prova del Maestro", size=22, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.TEXT),
+                                            ft.Text("Prova Kotoba", size=22, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.TEXT),
                                         ],
                                         spacing=12,
                                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
                                     ),
                                     ft.Text(
-                                        "Esame completo su Kana, Kanji, Vocabolario e Grammatica.",
+                                        "Prova completa su Kana, Kanji, Vocabolario e Grammatica.",
                                         size=13,
                                         font_family=T.FONT_BODY,
                                         color=T.TEXT_M,

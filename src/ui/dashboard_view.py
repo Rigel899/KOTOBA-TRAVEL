@@ -20,7 +20,7 @@ class DashboardView:
         ("Kanji", "kanji"),
         ("Vocabolario", "vocab"),
         ("Grammatica", "grammar"),
-        ("Esamone", "exam"),
+        ("Prova Kotoba", "exam"),
     ]
     LEGACY_PERFECT_ACHIEVEMENTS = {
         "hiragana": "hiragana_perfect",
@@ -76,7 +76,7 @@ class DashboardView:
             return f"#{alpha:02X}{color[1:]}"
         return color
 
-    def _logo(self, size: int = 54) -> ft.Control:
+    def _logo_asset(self, size: int = 54) -> ft.Control:
         fallback = ft.Container(
             width=size,
             height=size,
@@ -91,6 +91,64 @@ class DashboardView:
             height=size,
             fit=ft.BoxFit.CONTAIN,
             error_content=fallback,
+        )
+
+    def _show_logo_preview(self, e=None) -> None:
+        def close_dialog(ev=None):
+            self._close_dialog(dialog)
+
+        preview_size = min(620, max(360, self._page_width() - 220))
+        dialog = ft.AlertDialog(
+            modal=True,
+            bgcolor=T.BG_CARD,
+            title=ft.Row(
+                [
+                    ft.IconButton(
+                        icon=ft.Icons.ARROW_BACK_ROUNDED,
+                        icon_color=T.TEXT_M,
+                        icon_size=22,
+                        tooltip="Torna alla dashboard",
+                        on_click=close_dialog,
+                    ),
+                    ft.Text("Kotoba Travel", size=22, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700),
+                ],
+                spacing=10,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            ),
+            content=ft.Container(
+                width=preview_size,
+                height=preview_size,
+                alignment=ft.Alignment.CENTER,
+                bgcolor=T.BG_INK,
+                border=ft.border.all(1, T.BORDER),
+                border_radius=T.RADIUS,
+                padding=ft.padding.all(24),
+                content=self._logo_asset(int(preview_size - 48)),
+            ),
+        )
+        self._open_dialog(dialog)
+
+    def _logo(self, size: int = 54) -> ft.Control:
+        def on_hover(e):
+            is_hover = e.data == "true"
+            e.control.border = ft.border.all(1.5, T.GOLD if is_hover else "transparent")
+            e.control.bgcolor = self._tint(T.GOLD, 12) if is_hover else "transparent"
+            e.control.update()
+
+        return ft.Container(
+            width=size + 10,
+            height=size + 10,
+            alignment=ft.Alignment.CENTER,
+            border=ft.border.all(1.5, "transparent"),
+            border_radius=max(12, size // 6),
+            bgcolor="transparent",
+            content=self._logo_asset(size),
+            tooltip="Ingrandisci immagine",
+            on_click=self._show_logo_preview,
+            on_hover=on_hover,
+            ink=False,
+            clip_behavior=ft.ClipBehavior.ANTI_ALIAS,
+            animate=ft.Animation(150, ft.AnimationCurve.EASE_OUT),
         )
 
     def _perfect_counts(self) -> dict[str, int]:

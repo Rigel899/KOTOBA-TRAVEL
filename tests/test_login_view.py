@@ -75,6 +75,21 @@ class LoginViewTests(unittest.TestCase):
         self.assertEqual(self.navigated, [("dashboard", {})])
         self.assertIn("first_steps", DBManager.get_user_data("nuovo")["achievements"])
 
+    def test_registration_still_navigates_if_first_achievement_unlock_fails(self):
+        self.view.user_field.value = "nuovo"
+        self.view.pwd_field.value = "password1"
+        self.view._on_login()
+        self.view.q_field.value = "Domanda?"
+        self.view.a_field.value = "Risposta"
+
+        with self.assertLogs("kotoba.ui.login", level="ERROR"):
+            with patch.object(DBManager, "unlock_achievement", side_effect=RuntimeError("achievement catalog error")):
+                self.view._on_register()
+
+        self.assertTrue(DBManager.user_exists("nuovo"))
+        self.assertEqual(get_current_user(self.state), "nuovo")
+        self.assertEqual(self.navigated, [("dashboard", {})])
+
     def test_existing_user_login_sets_session_updates_last_login_and_clears_attempts(self):
         DBManager.create_account("utente", "password1", "q", "a")
         DBManager.record_failed_attempt("utente", "login")

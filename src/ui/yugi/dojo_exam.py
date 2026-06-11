@@ -1,9 +1,10 @@
 """
-ui/yugi/dojo_exam.py - Esamone misto del Dojo.
+ui/yugi/dojo_exam.py - Prova Kotoba del Dojo.
 Combina Kana, Kanji, Vocabolario e Grammatica in una prova unica.
 """
 from __future__ import annotations
 
+import logging
 import random
 
 import flet as ft
@@ -24,6 +25,7 @@ from src.ui.yugi.quiz_utils import (
 )
 
 TOTAL_QUESTIONS = 20
+_log = logging.getLogger("kotoba.ui.dojo_exam")
 
 
 class DojoExam:
@@ -164,7 +166,7 @@ class DojoExam:
                     ft.Container(width=44),
                     ft.Column(
                         [
-                            ft.Text("La Prova del Maestro", size=28, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.GOLD, text_align=ft.TextAlign.CENTER),
+                            ft.Text("Prova Kotoba", size=28, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.GOLD, text_align=ft.TextAlign.CENTER),
                             ft.Text(
                                 "20 domande miste: lettura, significato e riconoscimento grammaticale.",
                                 size=14,
@@ -337,13 +339,16 @@ class DojoExam:
         pct = percent_score(correct_count, len(self.questions))
         unlocked = []
         if self.questions:
-            unlocked = DBManager.record_quiz_result(
-                get_current_user(self.state),
-                "exam",
-                correct_count,
-                total_questions=len(self.questions),
-                max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question["correct"]),
-            )
+            try:
+                unlocked = DBManager.record_quiz_result(
+                    get_current_user(self.state),
+                    "exam",
+                    correct_count,
+                    total_questions=len(self.questions),
+                    max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question["correct"]),
+                )
+            except Exception:
+                _log.exception("Prova Kotoba result tracking failed")
 
         if pct >= 90:
             grade, color, mark = "Maestro", T.GOLD, "極"
@@ -364,13 +369,13 @@ class DojoExam:
                     content=ft.Text(mark, size=42, font_family=T.FONT_JP, color=color, weight=ft.FontWeight.W_700),
                 ),
                 ft.Container(height=16),
-                ft.Text("Esamone completato", size=25, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.TEXT),
+                ft.Text("Prova Kotoba completata", size=25, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.TEXT),
                 ft.Text(f"Punteggio: {correct_count} / {len(self.questions)}", size=16, color=T.TEXT_M),
                 ft.Text(f"{grade} - {pct}%", size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=color),
                 ft.Container(height=30),
                 ft.Row(
                     [
-                        ft.Button("Riprova esamone", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_exam()),
+                        ft.Button("Riprova", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_exam()),
                         ft.Button("Torna al Dojo", style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_INK), on_click=lambda e: self.navigate("dojo_hub")),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
@@ -384,7 +389,10 @@ class DojoExam:
         )
         self.content_area.content = centered_stage(self.page, screen, max_width=920, min_width=720)
         self._safe_update()
-        show_achievements(self.page, unlocked)
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("Prova Kotoba achievement notification failed")
 
     def build(self) -> ft.Control:
         if not (self.kana_pool or self.kanji_pool or self.vocab_pool or self.grammar_pool):
@@ -397,7 +405,7 @@ class DojoExam:
                     ft.IconButton(icon=ft.Icons.ARROW_BACK_IOS_NEW_ROUNDED, icon_color=T.TEXT_M, icon_size=16, on_click=lambda e: self.navigate("dojo_hub")),
                     ft.Column(
                         [
-                            ft.Text("La Prova del Maestro", size=T.FS_TITLE, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.GOLD),
+                            ft.Text("Prova Kotoba", size=T.FS_TITLE, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.GOLD),
                             ft.Text("総合試験 - Sougou shiken", size=T.FS_SMALL, font_family=T.FONT_DISPLAY, italic=True, color=T.TEXT_M),
                         ],
                         spacing=2,

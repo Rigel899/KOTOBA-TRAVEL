@@ -16,6 +16,13 @@ EXPLORATION_ACHIEVEMENTS: dict[str, str] = {
     "culture_viewed": "culture_all",
     "history_viewed": "history_all",
 }
+EXPLORATION_COMPLETE_STATS: tuple[str, ...] = (
+    "food_viewed",
+    "places_viewed",
+    "culture_viewed",
+    "history_viewed",
+)
+EXPLORATION_ALL_ACHIEVEMENT = "exploration_all"
 
 QUIZ_FIRST_ACHIEVEMENTS: dict[str, str] = {
     "kanji": "kanji_first",
@@ -33,11 +40,13 @@ QUIZ_PERFECT_ACHIEVEMENTS: dict[str, str] = {
     "grammar": "grammar_perfect",
 }
 
-EXAM_PASS_ACHIEVEMENT = "exam_passed"
-EXAM_MASTER_ACHIEVEMENT = "exam_master"
-EXAM_PASS_THRESHOLD = 0.70
-EXAM_MASTER_THRESHOLD = 0.90
 EXAM_REQUIRED_QUESTIONS = 20
+EXAM_PERFECT_MILESTONES: tuple[tuple[int, str], ...] = (
+    (1, "exam_perfect_1"),
+    (5, "exam_perfect_5"),
+    (10, "exam_perfect_10"),
+    (20, "exam_master"),
+)
 
 
 class ProgressService:
@@ -50,29 +59,48 @@ class ProgressService:
         self._update_user_data = update_user_data
 
     def unlock_achievement(self, username: str, achievement_id: str) -> bool:
-        from src.core.achievements import ACHIEVEMENTS
+        return achievement_id in self.unlock_achievement_ids(username, achievement_id)
+
+    def unlock_achievement_ids(self, username: str, achievement_id: str) -> list[str]:
+        from src.core.achievements import ACHIEVEMENTS, PLATINUM_ACHIEVEMENT, platinum_required_achievement_ids
 
         if achievement_id not in ACHIEVEMENTS:
             _log.warning("refusing to unlock unknown achievement id: %s", achievement_id)
-            return False
+            return []
 
         data = self._get_user_data(username)
         if not data:
-            return False
-        if achievement_id not in data.get("achievements", []):
-            data.setdefault("achievements", []).append(achievement_id)
+            return []
+
+        achievements = data.setdefault("achievements", [])
+        if achievement_id == PLATINUM_ACHIEVEMENT:
+            if not platinum_required_achievement_ids().issubset(set(achievements)):
+                return []
+
+        newly_unlocked = []
+        if achievement_id not in achievements:
+            achievements.append(achievement_id)
+            newly_unlocked.append(achievement_id)
+
+        if achievement_id != PLATINUM_ACHIEVEMENT and PLATINUM_ACHIEVEMENT not in achievements:
+            if platinum_required_achievement_ids().issubset(set(achievements)):
+                achievements.append(PLATINUM_ACHIEVEMENT)
+                newly_unlocked.append(PLATINUM_ACHIEVEMENT)
+
+        if newly_unlocked:
             self._update_user_data(username, data)
-            return True
-        return False
+        return newly_unlocked
 
     def check_and_unlock(self, username: str, achievement_id: str, notify_fn=None) -> None:
-        if self.unlock_achievement(username, achievement_id):
+        newly_unlocked = self.unlock_achievement_ids(username, achievement_id)
+        if newly_unlocked and notify_fn:
             if notify_fn:
                 from src.core.achievements import ACHIEVEMENTS
 
-                ach = ACHIEVEMENTS.get(achievement_id)
-                if ach:
-                    notify_fn(ach)
+                for unlocked_id in newly_unlocked:
+                    ach = ACHIEVEMENTS.get(unlocked_id)
+                    if ach:
+                        notify_fn(ach)
 
     def increment_stat(
         self,
@@ -87,6 +115,9 @@ class ProgressService:
             return []
 
         stats = data.setdefault("stats", {})
+        exploration_totals = stats.setdefault("exploration_totals", {})
+        if total_items and total_items > 0:
+            exploration_totals[stat_key] = int(total_items)
 
         unique_count: int | None = None
         if unique_id:
@@ -118,10 +149,13 @@ class ProgressService:
             if total_items and value >= total_items:
                 checks.append(EXPLORATION_ACHIEVEMENTS["history_viewed"])
 
+        if all(exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):
+            if all(stats.get(key, 0) >= exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):
+                checks.append(EXPLORATION_ALL_ACHIEVEMENT)
+
         newly_unlocked = []
         for ach_id in checks:
-            if self.unlock_achievement(username, ach_id):
-                newly_unlocked.append(ach_id)
+            newly_unlocked.extend(self.unlock_achievement_ids(username, ach_id))
         return newly_unlocked
 
     def record_quiz_result(
@@ -141,7 +175,6 @@ class ProgressService:
         score_out_of_ten = round((correct_count / total_questions) * 10)
         streak_count = max(0, min(int(max_streak if max_streak is not None else correct_count), total_questions))
         is_perfect = correct_count == total_questions
-        accuracy = correct_count / total_questions
 
         score_key = mode_key
         legacy_score_key = f"score_{mode_key}"
@@ -174,7 +207,11 @@ class ProgressService:
         first_achievement = QUIZ_FIRST_ACHIEVEMENTS.get(mode_key)
         if first_achievement:
             checks.append(first_achievement)
-        if is_perfect and total_questions >= 10:
+        perfect_eligible = is_perfect and total_questions >= 10
+        if mode_key == "exam":
+            perfect_eligible = is_perfect and total_questions >= EXAM_REQUIRED_QUESTIONS
+
+        if perfect_eligible:
             perfect_achievement = QUIZ_PERFECT_ACHIEVEMENTS.get(mode_key)
             if perfect_achievement:
                 checks.append(perfect_achievement)
@@ -188,14 +225,13 @@ class ProgressService:
             checks.append("quiz_25")
         if mode_key == "vocab" and mode_correct.get("vocab", 0) >= 50:
             checks.append("vocab_50")
-        if mode_key == "exam":
-            if total_questions >= EXAM_REQUIRED_QUESTIONS and accuracy >= EXAM_PASS_THRESHOLD:
-                checks.append(EXAM_PASS_ACHIEVEMENT)
-            if total_questions >= EXAM_REQUIRED_QUESTIONS and accuracy >= EXAM_MASTER_THRESHOLD:
-                checks.append(EXAM_MASTER_ACHIEVEMENT)
+        if mode_key == "exam" and perfect_eligible:
+            perfect_count = int(stats.get("perfect_quiz_modes", {}).get("exam", 0) or 0)
+            for threshold, achievement_id in EXAM_PERFECT_MILESTONES:
+                if perfect_count >= threshold:
+                    checks.append(achievement_id)
 
         for ach_id in checks:
-            if self.unlock_achievement(username, ach_id):
-                newly_unlocked.append(ach_id)
+            newly_unlocked.extend(self.unlock_achievement_ids(username, ach_id))
 
         return newly_unlocked

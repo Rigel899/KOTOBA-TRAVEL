@@ -3,12 +3,15 @@ PlacesView – Esplorazione del Giappone: Luoghi Moderni, Antichi e Lavori Tipic
 (Design System Sumi-e: Colori dinamici corretti e Hover reattivi)
 """
 from __future__ import annotations
+import logging
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
+
+_log = logging.getLogger("kotoba.ui.places")
 
 class PlacesView:
     def __init__(self, page: ft.Page, navigate, state: dict):
@@ -67,10 +70,17 @@ class PlacesView:
         self._refresh_list_view()
         self._set_right_content(self._build_right_content(item))
         if track_view:
-            show_achievements(
-                self.page,
-                DBManager.increment_stat(self.username, "places_viewed", unique_id=item.get("name", "")),
-            )
+            item_id = item.get("name", "")
+            try:
+                unlocked = DBManager.increment_stat(
+                    self.username,
+                    "places_viewed",
+                    unique_id=item_id,
+                    total_items=len(self.explore_data),
+                )
+                show_achievements(self.page, unlocked)
+            except Exception:
+                _log.exception("place stat tracking failed for %s", item_id)
 
     def _get_category_style(self, category: str) -> tuple[str, str]:
         """Ritorna il Kanji e il colore tematico per la categoria specificata."""

@@ -4,6 +4,7 @@ FoodView – catalogo cucina giapponese.
 """
 from __future__ import annotations
 import asyncio
+import logging
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
@@ -19,6 +20,8 @@ FOOD_GRID_BREAKPOINTS = {
     ft.ResponsiveRowBreakpoint.MD: 1180,
     ft.ResponsiveRowBreakpoint.LG: 1560,
 }
+
+_log = logging.getLogger("kotoba.ui.food")
 
 class FoodView:
     def __init__(self, page: ft.Page, navigate, state: dict):
@@ -159,7 +162,16 @@ class FoodView:
                 pass
         self._set_right_content(self._build_right_content(item))
         food_id = item.get("word") or item.get("pronunciation") or item.get("meaning", "")
-        show_achievements(self.page, DBManager.increment_stat(self.username, "food_viewed", unique_id=food_id))
+        try:
+            unlocked = DBManager.increment_stat(
+                self.username,
+                "food_viewed",
+                unique_id=food_id,
+                total_items=len(self.food_data),
+            )
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("food stat tracking failed for %s", food_id)
 
     def _apply_food_card_style(self, card: ft.Container, item: dict) -> None:
         is_active = self.selected_item == item

@@ -1,6 +1,7 @@
 import unittest
 
 from src.core.profile_factory import build_default_profile
+from src.core.achievements import PLATINUM_ACHIEVEMENT, platinum_required_achievement_ids
 from src.core.progress_service import ProgressService
 
 
@@ -84,44 +85,63 @@ class ProgressServiceTests(unittest.TestCase):
             self.assertTrue(expected.issubset(unlocked))
             self.assertTrue(expected.issubset(set(self.profiles[username]["achievements"])))
 
-    def test_exam_unlocks_first_passed_and_master_by_real_accuracy(self):
-        self._add_profile("examstarter")
+    def test_exam_unlocks_first_completion_and_perfect_milestones(self):
+        self._add_profile("examuser")
+
         unlocked = self.service.record_quiz_result(
-            "examstarter",
+            "examuser",
             "exam",
             score=13,
             total_questions=20,
             max_streak=4,
         )
-        self.assertIn("exam_first", unlocked)
-        self.assertNotIn("exam_passed", unlocked)
-        self.assertNotIn("exam_master", unlocked)
 
-        self._add_profile("exampassed")
+        self.assertIn("exam_first", unlocked)
+        self.assertNotIn("exam_perfect_1", unlocked)
+
+        unlocked = []
+        for _ in range(4):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
+
+        self.assertIn("exam_perfect_1", self.profiles["examuser"]["achievements"])
+        self.assertNotIn("exam_perfect_5", unlocked)
+
         unlocked = self.service.record_quiz_result(
-            "exampassed",
+            "examuser",
             "exam",
-            score=14,
+            score=20,
             total_questions=20,
             max_streak=4,
         )
-        self.assertIn("exam_first", unlocked)
-        self.assertIn("exam_passed", unlocked)
-        self.assertNotIn("exam_master", unlocked)
+        self.assertIn("exam_perfect_5", unlocked)
 
-        self._add_profile("exammaster")
-        unlocked = self.service.record_quiz_result(
-            "exammaster",
-            "exam",
-            score=18,
-            total_questions=20,
-            max_streak=4,
-        )
-        self.assertIn("exam_first", unlocked)
-        self.assertIn("exam_passed", unlocked)
+        for _ in range(5):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
+        self.assertIn("exam_perfect_10", unlocked)
+
+        for _ in range(10):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
         self.assertIn("exam_master", unlocked)
 
-    def test_exam_passed_and_master_require_full_exam_length(self):
+    def test_exam_perfect_milestones_require_full_exam_length(self):
         self._add_profile("shortexam")
 
         unlocked = self.service.record_quiz_result(
@@ -133,7 +153,7 @@ class ProgressServiceTests(unittest.TestCase):
         )
 
         self.assertIn("exam_first", unlocked)
-        self.assertNotIn("exam_passed", unlocked)
+        self.assertNotIn("exam_perfect_1", unlocked)
         self.assertNotIn("exam_master", unlocked)
 
     def test_unknown_achievement_ids_are_not_saved(self):
@@ -143,6 +163,16 @@ class ProgressServiceTests(unittest.TestCase):
         self.assertFalse(unlocked)
         self.assertNotIn("missing_achievement", self.profiles["utente"]["achievements"])
         self.assertIn("missing_achievement", logs.output[0])
+
+    def test_platinum_unlocks_only_after_every_required_achievement(self):
+        self.assertFalse(self.service.unlock_achievement("utente", PLATINUM_ACHIEVEMENT))
+        self.assertNotIn(PLATINUM_ACHIEVEMENT, self.profiles["utente"]["achievements"])
+
+        required = sorted(platinum_required_achievement_ids())
+        for achievement_id in required:
+            self.service.unlock_achievement("utente", achievement_id)
+
+        self.assertIn(PLATINUM_ACHIEVEMENT, self.profiles["utente"]["achievements"])
 
 
 if __name__ == "__main__":

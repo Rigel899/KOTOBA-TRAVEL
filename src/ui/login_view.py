@@ -3,6 +3,7 @@ ui/login_view.py – Login con palette sumi-e.
 Spazi vuoti azzerati tramite margini negativi per compensare la trasparenza del logo.
 """
 import asyncio
+import logging
 
 import flet as ft
 from src.core.settings import KotobaTheme
@@ -10,6 +11,7 @@ from src.core.db_manager import DBManager
 from src.core.app_state import set_user
 
 T = KotobaTheme
+_log = logging.getLogger("kotoba.ui.login")
 
 class LoginView:
     def __init__(self, page: ft.Page, navigate, state: dict):
@@ -204,7 +206,10 @@ class LoginView:
             self.page.update(); return
         self._pending_pwd = ""
         set_user(self.state, self._pending_user)
-        DBManager.unlock_achievement(self._pending_user, "first_steps")
+        try:
+            DBManager.unlock_achievement(self._pending_user, "first_steps")
+        except Exception:
+            _log.exception("first_steps achievement unlock failed for %s", self._pending_user)
         self.state["just_registered"] = True
         self.navigate("dashboard")
 

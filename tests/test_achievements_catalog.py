@@ -1,13 +1,13 @@
 import unittest
 
-from src.core.achievements import ACHIEVEMENTS, RARITY_COLOR
+from src.core.achievements import ACHIEVEMENTS, MODULE_ORDER, RARITY_COLOR
 from src.core.progress_service import (
-    EXAM_MASTER_ACHIEVEMENT,
-    EXAM_PASS_ACHIEVEMENT,
+    EXAM_PERFECT_MILESTONES,
     EXPLORATION_ACHIEVEMENTS,
     QUIZ_FIRST_ACHIEVEMENTS,
     QUIZ_PERFECT_ACHIEVEMENTS,
 )
+from src.ui.achievements_view import AchievementsView
 
 
 class AchievementsCatalogTests(unittest.TestCase):
@@ -18,6 +18,7 @@ class AchievementsCatalogTests(unittest.TestCase):
                 self.assertTrue(data.get("description"))
                 self.assertTrue(data.get("emoji"))
                 self.assertIn(data.get("rarity"), RARITY_COLOR)
+                self.assertIn(data.get("module"), MODULE_ORDER)
 
     def test_progress_rules_only_reference_known_achievement_ids(self):
         generated_ids = {
@@ -27,14 +28,24 @@ class AchievementsCatalogTests(unittest.TestCase):
             "quiz_5",
             "quiz_25",
             "vocab_50",
-            EXAM_PASS_ACHIEVEMENT,
-            EXAM_MASTER_ACHIEVEMENT,
+            *(achievement_id for _, achievement_id in EXAM_PERFECT_MILESTONES),
             *EXPLORATION_ACHIEVEMENTS.values(),
             *QUIZ_FIRST_ACHIEVEMENTS.values(),
             *QUIZ_PERFECT_ACHIEVEMENTS.values(),
         }
 
         self.assertFalse(generated_ids - set(ACHIEVEMENTS))
+
+    def test_achievement_view_can_sort_by_module_or_rarity(self):
+        view = AchievementsView.__new__(AchievementsView)
+
+        view.sort_mode = "module"
+        module_sorted = view._sorted_items()
+        self.assertEqual(module_sorted[0][1]["module"], "account")
+
+        view.sort_mode = "rarity"
+        rarity_sorted = view._sorted_items()
+        self.assertEqual(rarity_sorted[0][1]["rarity"], "leggendario")
 
 
 if __name__ == "__main__":

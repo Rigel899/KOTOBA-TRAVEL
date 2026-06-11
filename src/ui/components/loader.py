@@ -73,11 +73,15 @@ def show_achievements(page: ft.Page, achievement_ids: list[str]) -> None:
     if not achievement_ids:
         return
 
-    from src.core.achievements import ACHIEVEMENTS
+    from src.core.achievements import ACHIEVEMENTS, PLATINUM_ACHIEVEMENT
 
     unknown_ids = [ach_id for ach_id in achievement_ids if ach_id not in ACHIEVEMENTS]
     for ach_id in unknown_ids:
         _log.warning("unknown achievement id returned by progress logic: %s", ach_id)
+
+    if PLATINUM_ACHIEVEMENT in achievement_ids:
+        show_achievement(page, ACHIEVEMENTS[PLATINUM_ACHIEVEMENT])
+        return
 
     unlocked = [ACHIEVEMENTS[ach_id] for ach_id in achievement_ids if ach_id in ACHIEVEMENTS]
     if not unlocked:

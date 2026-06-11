@@ -160,6 +160,18 @@ class DojoBehaviorTests(unittest.TestCase):
             "src.ui.yugi.dojo_exam.show_achievements",
         )
 
+    def test_exam_results_screen_is_shown_even_if_tracking_fails(self):
+        view = self._prepare_view(DojoExam(self.page, lambda *a, **k: None, self.state))
+        view._start_exam()
+        view.user_answers = {index: question["correct"] for index, question in enumerate(view.questions)}
+        view.current_idx = len(view.questions)
+
+        with self.assertLogs("kotoba.ui.dojo_exam", level="ERROR"):
+            with patch("src.ui.yugi.dojo_exam.DBManager.record_quiz_result", side_effect=RuntimeError("tracking failed")):
+                view._show_results()
+
+        self.assertIsNotNone(view.content_area.content)
+
 
 if __name__ == "__main__":
     unittest.main()
