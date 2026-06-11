@@ -227,21 +227,31 @@ class DashboardView:
             dialog.open = False
             self.page.update()
 
+    def _best_score_label(self, mode_key: str, stats: dict, scores: dict) -> str:
+        best = int(scores.get(mode_key, scores.get(f"score_{mode_key}", 0)) or 0)
+        best_correct = int(stats.get("quiz_mode_best_correct", {}).get(mode_key, 0) or 0)
+        best_total = int(stats.get("quiz_mode_best_total", {}).get(mode_key, 0) or 0)
+        if best_correct and best_total:
+            return f"PB {best_correct}/{best_total}"
+        if mode_key == "exam":
+            return f"PB {round(best * 2)}/20"
+        return f"PB {best}/10"
+
     def _show_trophy_progress(self, e=None) -> None:
         counts = self._perfect_counts()
         total, label, color, next_target = self._trophy_state()
         scores = self.user_data.get("scores", {}) if isinstance(self.user_data, dict) else {}
+        stats = self.user_data.get("stats", {}) if isinstance(self.user_data, dict) else {}
 
         rows: list[ft.Control] = []
         for mode_label, mode_key in self.QUIZ_MODES:
-            best = int(scores.get(mode_key, scores.get(f"score_{mode_key}", 0)) or 0)
             rows.append(
                 ft.Container(
                     content=ft.Row(
                         [
                             ft.Text(mode_label, size=13, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, expand=True),
                             ft.Text(f"{counts.get(mode_key, 0)} perfetti", size=12, color=color, font_family=T.FONT_BODY),
-                            ft.Text(f"best {best}/10", size=11, color=T.TEXT_M, font_family=T.FONT_BODY),
+                            ft.Text(self._best_score_label(mode_key, stats, scores), size=11, color=T.TEXT_M, font_family=T.FONT_BODY),
                         ],
                         spacing=10,
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,

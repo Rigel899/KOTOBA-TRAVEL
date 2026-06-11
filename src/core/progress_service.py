@@ -34,8 +34,14 @@ STUDY_REQUIRED_SECTIONS: tuple[str, ...] = (
 )
 STUDY_ACHIEVEMENTS: dict[str, str] = {
     "first": "study_first",
-    "all": "study_all",
 }
+STUDY_MASTERY_ACHIEVEMENT = "study_all"
+STUDY_MASTERY_REQUIRED_ACHIEVEMENTS: tuple[str, ...] = (
+    "mixed_perfect",
+    "kanji_perfect",
+    "vocab_perfect",
+    "grammar_perfect",
+)
 
 QUIZ_FIRST_ACHIEVEMENTS: dict[str, str] = {
     "kanji": "kanji_first",
@@ -86,6 +92,9 @@ class ProgressService:
             return []
 
         achievements = data.setdefault("achievements", [])
+        if achievement_id == STUDY_MASTERY_ACHIEVEMENT:
+            if not set(STUDY_MASTERY_REQUIRED_ACHIEVEMENTS).issubset(set(achievements)):
+                return []
         if achievement_id == PLATINUM_ACHIEVEMENT:
             if not platinum_required_achievement_ids().issubset(set(achievements)):
                 return []
@@ -94,6 +103,11 @@ class ProgressService:
         if achievement_id not in achievements:
             achievements.append(achievement_id)
             newly_unlocked.append(achievement_id)
+
+        if achievement_id != STUDY_MASTERY_ACHIEVEMENT and STUDY_MASTERY_ACHIEVEMENT not in achievements:
+            if set(STUDY_MASTERY_REQUIRED_ACHIEVEMENTS).issubset(set(achievements)):
+                achievements.append(STUDY_MASTERY_ACHIEVEMENT)
+                newly_unlocked.append(STUDY_MASTERY_ACHIEVEMENT)
 
         if achievement_id != PLATINUM_ACHIEVEMENT and PLATINUM_ACHIEVEMENT not in achievements:
             if platinum_required_achievement_ids().issubset(set(achievements)):
@@ -163,12 +177,6 @@ class ProgressService:
                 checks.append(EXPLORATION_ACHIEVEMENTS["history_viewed"])
         elif stat_key == STUDY_SECTION_STAT:
             checks.append(STUDY_ACHIEVEMENTS["first"])
-            viewed_sections = stats.get("unique_views", {}).get(STUDY_SECTION_STAT, {})
-            if isinstance(viewed_sections, dict):
-                if set(STUDY_REQUIRED_SECTIONS).issubset(viewed_sections):
-                    checks.append(STUDY_ACHIEVEMENTS["all"])
-            elif value >= len(STUDY_REQUIRED_SECTIONS):
-                checks.append(STUDY_ACHIEVEMENTS["all"])
 
         if all(exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):
             if all(stats.get(key, 0) >= exploration_totals.get(key, 0) for key in EXPLORATION_COMPLETE_STATS):
@@ -214,6 +222,17 @@ class ProgressService:
         mode_correct[mode_key] = mode_correct.get(mode_key, 0) + correct_count
         mode_total = stats.setdefault("quiz_mode_total", {})
         mode_total[mode_key] = mode_total.get(mode_key, 0) + total_questions
+        mode_best_correct = stats.setdefault("quiz_mode_best_correct", {})
+        mode_best_total = stats.setdefault("quiz_mode_best_total", {})
+        previous_best_correct = int(mode_best_correct.get(mode_key, 0) or 0)
+        previous_best_total = int(mode_best_total.get(mode_key, 0) or 0)
+        previous_ratio = (previous_best_correct / previous_best_total) if previous_best_total else -1
+        current_ratio = correct_count / total_questions
+        if current_ratio > previous_ratio or (
+            current_ratio == previous_ratio and correct_count > previous_best_correct
+        ):
+            mode_best_correct[mode_key] = correct_count
+            mode_best_total[mode_key] = total_questions
         if is_perfect:
             perfect_modes = stats.setdefault("perfect_quiz_modes", {})
             perfect_modes[mode_key] = perfect_modes.get(mode_key, 0) + 1

@@ -18,6 +18,7 @@ def build_masthead(
     on_back: Callable | None = None,
     leading: ft.Control | None = None,
     trailing: ft.Control | None = None,
+    trailing_expand: bool = False,
     title_color: str | None = None,
     title_weight: ft.FontWeight = ft.FontWeight.W_700,
 ) -> ft.Container:
@@ -59,7 +60,10 @@ def build_masthead(
     controls.append(ft.Column(title_controls, spacing=2))
 
     if trailing:
-        controls.extend([ft.Container(expand=True), trailing])
+        if trailing_expand:
+            controls.append(trailing)
+        else:
+            controls.extend([ft.Container(expand=True), trailing])
 
     return ft.Container(
         content=ft.Row(

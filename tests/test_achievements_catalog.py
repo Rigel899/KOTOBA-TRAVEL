@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 from src.core.achievements import ACHIEVEMENTS, MODULE_ORDER, RARITY_COLOR
 from src.core.progress_service import (
@@ -7,6 +8,8 @@ from src.core.progress_service import (
     QUIZ_FIRST_ACHIEVEMENTS,
     QUIZ_PERFECT_ACHIEVEMENTS,
     STUDY_ACHIEVEMENTS,
+    STUDY_MASTERY_ACHIEVEMENT,
+    STUDY_MASTERY_REQUIRED_ACHIEVEMENTS,
 )
 from src.ui.achievements_view import AchievementsView
 
@@ -34,9 +37,18 @@ class AchievementsCatalogTests(unittest.TestCase):
             *QUIZ_FIRST_ACHIEVEMENTS.values(),
             *QUIZ_PERFECT_ACHIEVEMENTS.values(),
             *STUDY_ACHIEVEMENTS.values(),
+            STUDY_MASTERY_ACHIEVEMENT,
+            *STUDY_MASTERY_REQUIRED_ACHIEVEMENTS,
         }
 
         self.assertFalse(generated_ids - set(ACHIEVEMENTS))
+
+    def test_custom_achievement_assets_exist(self):
+        asset_root = Path(__file__).resolve().parents[1] / "src" / "asset"
+
+        for asset_path in AchievementsView.ACHIEVEMENT_ASSETS.values():
+            with self.subTest(asset_path=asset_path):
+                self.assertTrue((asset_root / asset_path).exists())
 
     def test_achievement_view_can_sort_by_module_or_rarity(self):
         view = AchievementsView.__new__(AchievementsView)
@@ -47,7 +59,7 @@ class AchievementsCatalogTests(unittest.TestCase):
 
         view.sort_mode = "rarity"
         rarity_sorted = view._sorted_items()
-        self.assertEqual(rarity_sorted[0][1]["rarity"], "leggendario")
+        self.assertEqual(rarity_sorted[0][1]["rarity"], "platino")
 
 
 if __name__ == "__main__":

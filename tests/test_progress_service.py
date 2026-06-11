@@ -32,8 +32,31 @@ class ProgressServiceTests(unittest.TestCase):
         self.assertEqual(data["stats"]["total_questions"], 10)
         self.assertEqual(data["stats"]["total_correct"], 6)
         self.assertEqual(data["stats"]["max_streak"], 5)
+        self.assertEqual(data["stats"]["quiz_mode_best_correct"]["grammar"], 6)
+        self.assertEqual(data["stats"]["quiz_mode_best_total"]["grammar"], 10)
         self.assertIn("streak_5", unlocked)
         self.assertNotIn("streak_10", unlocked)
+
+    def test_quiz_best_score_keeps_real_best_result(self):
+        self.service.record_quiz_result(
+            "utente",
+            "exam",
+            score=15,
+            total_questions=20,
+            max_streak=4,
+        )
+        self.service.record_quiz_result(
+            "utente",
+            "exam",
+            score=12,
+            total_questions=20,
+            max_streak=4,
+        )
+
+        data = self.profiles["utente"]
+        self.assertEqual(data["scores"]["exam"], 8)
+        self.assertEqual(data["stats"]["quiz_mode_best_correct"]["exam"], 15)
+        self.assertEqual(data["stats"]["quiz_mode_best_total"]["exam"], 20)
 
     def test_unique_increment_ignores_duplicate_views(self):
         self.assertEqual(
@@ -164,7 +187,7 @@ class ProgressServiceTests(unittest.TestCase):
         self.assertNotIn("missing_achievement", self.profiles["utente"]["achievements"])
         self.assertIn("missing_achievement", logs.output[0])
 
-    def test_study_sections_unlock_first_and_all_consulted_achievements(self):
+    def test_study_sections_unlock_only_first_consulted_achievement(self):
         unlocked = self.service.increment_stat(
             "utente",
             STUDY_SECTION_STAT,
@@ -191,8 +214,38 @@ class ProgressServiceTests(unittest.TestCase):
             unique_id=STUDY_REQUIRED_SECTIONS[-1],
         )
 
-        self.assertIn("study_all", unlocked)
+        self.assertNotIn("study_all", unlocked)
+        self.assertNotIn("study_all", self.profiles["utente"]["achievements"])
         self.assertEqual(self.profiles["utente"]["stats"][STUDY_SECTION_STAT], len(STUDY_REQUIRED_SECTIONS))
+
+    def test_study_all_unlocks_after_required_quiz_mastery(self):
+        required_modes = ("mixed", "kanji", "vocab")
+        for mode_key in required_modes:
+            unlocked = self.service.record_quiz_result(
+                "utente",
+                mode_key,
+                score=10,
+                total_questions=10,
+                max_streak=4,
+            )
+            self.assertNotIn("study_all", unlocked)
+
+        unlocked = self.service.record_quiz_result(
+            "utente",
+            "grammar",
+            score=10,
+            total_questions=10,
+            max_streak=4,
+        )
+
+        self.assertIn("study_all", unlocked)
+        self.assertIn("study_all", self.profiles["utente"]["achievements"])
+
+    def test_study_all_cannot_be_unlocked_directly_before_quiz_mastery(self):
+        unlocked = self.service.unlock_achievement("utente", "study_all")
+
+        self.assertFalse(unlocked)
+        self.assertNotIn("study_all", self.profiles["utente"]["achievements"])
 
     def test_platinum_unlocks_only_after_every_required_achievement(self):
         self.assertFalse(self.service.unlock_achievement("utente", PLATINUM_ACHIEVEMENT))

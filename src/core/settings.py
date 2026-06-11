@@ -59,6 +59,7 @@ class KotobaTheme:
     RARITY_MOLTO_RARO  = INDIGO
     RARITY_EPICO       = PURPLE
     RARITY_LEGGENDARIO = GOLD
+    RARITY_PLATINO     = "#C7ECFF"
 
     # ── Tipografia ─────────────────────────────────────────────────────────
     FONT_DISPLAY = "Shippori Mincho"

@@ -14,6 +14,7 @@ RARITY_ORDER: tuple[str, ...] = (
     "molto raro",
     "epico",
     "leggendario",
+    "platino",
 )
 
 MODULE_ORDER: tuple[str, ...] = (
@@ -87,7 +88,7 @@ ACHIEVEMENTS: dict[str, dict] = {
     },
     "study_all": {
         "title": "Accademia Completa",
-        "description": "Hai consultato Hiragana, Katakana, Kanji, Vocabolario e Grammatica.",
+        "description": "Hai completato alla perfezione Misto, Kanji, Vocabolario e Grammatica.",
         "emoji": "学",
         "rarity": "epico",
         "module": "study",
@@ -236,12 +237,46 @@ ACHIEVEMENTS: dict[str, dict] = {
         "title": "Kotoba Platinato",
         "description": "Hai conquistato tutti gli achievement di Kotoba Travel.",
         "emoji": "白金",
-        "rarity": "leggendario",
+        "rarity": "platino",
         "module": "platinum",
-        "secret": True,
         "platinum": True,
     },
 }
+
+ACHIEVEMENT_EMOJI_OVERRIDES: dict[str, str] = {
+    "first_steps": "🧭",
+    "streak_5": "🔥",
+    "streak_10": "💎",
+    "quiz_5": "🎯",
+    "quiz_25": "🛡️",
+    "study_first": "📖",
+    "study_all": "🎓",
+    "hiragana_perfect": "🌸",
+    "katakana_perfect": "🧩",
+    "mixed_perfect": "🔤",
+    "kanji_first": "🖌️",
+    "kanji_perfect": "📜",
+    "vocab_first": "💬",
+    "vocab_50": "📚",
+    "vocab_perfect": "🪶",
+    "grammar_first": "🧵",
+    "grammar_perfect": "🏛️",
+    "exam_first": "🎫",
+    "exam_perfect_1": "💮",
+    "exam_perfect_5": "🏅",
+    "exam_perfect_10": "🎖️",
+    "exam_master": "🥷",
+    "food_10": "🍜",
+    "places_5": "🗺️",
+    "culture_all": "🎎",
+    "history_all": "🏯",
+    "exploration_all": "🧭",
+    PLATINUM_ACHIEVEMENT: "🏆",
+}
+
+for achievement_id, emoji in ACHIEVEMENT_EMOJI_OVERRIDES.items():
+    if achievement_id in ACHIEVEMENTS:
+        ACHIEVEMENTS[achievement_id]["emoji"] = emoji
 
 RARITY_COLOR: dict[str, str] = {
     "comune": KotobaTheme.RARITY_COMUNE,
@@ -249,6 +284,7 @@ RARITY_COLOR: dict[str, str] = {
     "molto raro": KotobaTheme.RARITY_MOLTO_RARO,
     "epico": KotobaTheme.RARITY_EPICO,
     "leggendario": KotobaTheme.RARITY_LEGGENDARIO,
+    "platino": KotobaTheme.RARITY_PLATINO,
 }
 
 

@@ -49,15 +49,15 @@ class AchievementsViewTests(unittest.TestCase):
         self.assertIsNotNone(view.grid)
         self.assertEqual(len(view.grid.controls), len(visible_achievement_ids(set())))
 
-    def test_platinum_is_hidden_until_unlocked(self):
+    def test_platinum_is_visible_even_when_locked(self):
         view = AchievementsView(DummyPage(), lambda *a, **k: None, self.state)
 
         locked_ids = visible_achievement_ids(set())
         unlocked_ids = visible_achievement_ids({PLATINUM_ACHIEVEMENT})
 
-        self.assertNotIn(PLATINUM_ACHIEVEMENT, locked_ids)
+        self.assertIn(PLATINUM_ACHIEVEMENT, locked_ids)
         self.assertIn(PLATINUM_ACHIEVEMENT, unlocked_ids)
-        self.assertGreater(len(unlocked_ids), len(locked_ids))
+        self.assertEqual(len(unlocked_ids), len(locked_ids))
 
 
 if __name__ == "__main__":

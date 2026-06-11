@@ -104,6 +104,8 @@ class DBManagerTests(unittest.TestCase):
         self.assertEqual(data["scores"]["exam"], 8)
         self.assertEqual(data["stats"]["quiz_mode_correct"]["exam"], 15)
         self.assertEqual(data["stats"]["quiz_mode_total"]["exam"], 20)
+        self.assertEqual(data["stats"]["quiz_mode_best_correct"]["exam"], 15)
+        self.assertEqual(data["stats"]["quiz_mode_best_total"]["exam"], 20)
 
     def test_unique_views_are_saved_as_dict_and_migrate_legacy_lists(self):
         DBManager.create_account("viewsuser", "password1", "q", "a")

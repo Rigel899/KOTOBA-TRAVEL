@@ -265,11 +265,21 @@ class StatsView:
             ),
         )
 
+    def _best_score_label(self, key: str, stats: dict, scores: dict) -> str:
+        best = self._safe_int(scores.get(key, scores.get(f"score_{key}", 0)))
+        best_correct = self._safe_int(stats.get("quiz_mode_best_correct", {}).get(key, 0))
+        best_total = self._safe_int(stats.get("quiz_mode_best_total", {}).get(key, 0))
+        if best_correct and best_total:
+            return f"PB {best_correct}/{best_total}"
+        if key == "exam":
+            return f"PB {round(best * 2)}/20"
+        return f"PB {best}/10"
+
     def _mode_row(self, label: str, key: str, color: str, stats: dict, scores: dict) -> ft.Control:
         attempts = int(stats.get("quiz_modes", {}).get(key, 0) or 0)
         correct = int(stats.get("quiz_mode_correct", {}).get(key, 0) or 0)
         perfect = int(stats.get("perfect_quiz_modes", {}).get(key, 0) or 0)
-        best = int(scores.get(key, scores.get(f"score_{key}", 0)) or 0)
+        best_label = self._best_score_label(key, stats, scores)
         fallback_total = attempts * self.MODE_DEFAULT_TOTALS.get(key, 10)
         total_questions = int(stats.get("quiz_mode_total", {}).get(key, fallback_total) or fallback_total)
         accuracy = int((correct / total_questions) * 100) if total_questions else 0
@@ -285,7 +295,7 @@ class StatsView:
                     ft.Row(
                         [
                             ft.Text(label, size=14, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, expand=True),
-                            ft.Text(f"best {best}/10", size=12, color=color, font_family=T.FONT_BODY, weight=ft.FontWeight.W_700),
+                            ft.Text(best_label, size=12, color=color, font_family=T.FONT_BODY, weight=ft.FontWeight.W_700),
                         ],
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     ),
