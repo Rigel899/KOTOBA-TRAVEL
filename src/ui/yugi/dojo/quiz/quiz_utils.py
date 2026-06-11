@@ -94,6 +94,108 @@ def percent_score(correct_count: int, total_questions: int) -> int:
     return int(correct_count / total_questions * 100) if total_questions else 0
 
 
+def color_with_alpha(color: str, alpha: str) -> str:
+    if isinstance(color, str) and color.startswith("#") and len(color) == 7:
+        return f"#{alpha}{color[1:]}"
+    return color
+
+
+def build_quiz_result_view(
+    *,
+    title: str,
+    module_label: str,
+    mark: str,
+    accent: str,
+    correct_count: int,
+    total_questions: int,
+    grade: str,
+    grade_color: str,
+    primary_label: str,
+    on_primary: Callable[[], None],
+    secondary_label: str,
+    on_secondary: Callable[[], None],
+) -> ft.Control:
+    pct = percent_score(correct_count, total_questions)
+    return ft.Column(
+        [
+            ft.Container(expand=True),
+            ft.Container(
+                width=112,
+                height=112,
+                alignment=ft.Alignment.CENTER,
+                bgcolor=color_with_alpha(accent, "22"),
+                border=ft.border.all(2.5, accent),
+                border_radius=18,
+                content=ft.Text(
+                    mark,
+                    size=54 if len(mark) == 1 else 36,
+                    font_family=T.FONT_JP,
+                    color=accent,
+                    weight=ft.FontWeight.W_800,
+                    text_align=ft.TextAlign.CENTER,
+                ),
+            ),
+            ft.Container(height=12),
+            ft.Text(
+                module_label,
+                size=12,
+                color=accent,
+                font_family=T.FONT_BODY,
+                weight=ft.FontWeight.W_700,
+                text_align=ft.TextAlign.CENTER,
+            ),
+            ft.Text(
+                title,
+                size=25,
+                font_family=T.FONT_DISPLAY,
+                weight=ft.FontWeight.W_800,
+                color=T.TEXT,
+                text_align=ft.TextAlign.CENTER,
+            ),
+            ft.Container(
+                width=360,
+                content=ft.Column(
+                    [
+                        ft.Row(
+                            [
+                                ft.Text(f"{correct_count}/{total_questions}", size=28, color=T.TEXT, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_800),
+                                ft.Container(expand=True),
+                                ft.Text(f"{pct}%", size=18, color=grade_color, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_800),
+                            ],
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                        ),
+                        ft.ProgressBar(value=pct / 100, bar_height=7, color=grade_color, bgcolor=T.BORDER, border_radius=8),
+                    ],
+                    spacing=6,
+                ),
+            ),
+            ft.Text(grade, size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_800, color=grade_color),
+            ft.Container(height=24),
+            ft.Row(
+                [
+                    ft.Button(
+                        primary_label,
+                        style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT),
+                        on_click=lambda e: on_primary(),
+                    ),
+                    ft.Button(
+                        secondary_label,
+                        style=ft.ButtonStyle(bgcolor=accent, color=T.BG_INK),
+                        on_click=lambda e: on_secondary(),
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                spacing=16,
+                wrap=True,
+            ),
+            ft.Container(expand=True),
+        ],
+        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+        spacing=8,
+        expand=True,
+    )
+
+
 def answer_and_schedule_next(
     page,
     *,

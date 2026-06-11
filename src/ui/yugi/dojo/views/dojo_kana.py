@@ -14,6 +14,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     build_quiz_data_error,
     build_quiz_question_view,
+    build_quiz_result_view,
     count_correct_answers,
     make_choice_options,
     max_correct_streak,
@@ -325,31 +326,29 @@ class DojoKana:
                 max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question[1]),
             )
 
+        result_mark = {"hiragana": "あ", "katakana": "ア", "mixed": "かな"}.get(self.mode, "仮")
+        module_label = {"hiragana": "Hiragana", "katakana": "Katakana", "mixed": "Kana Misto"}.get(self.mode, "Kana")
         if pct == 100:
-            grade, color, icon = "Perfezione", self.active_color, "極"
+            grade, color = "Perfezione", self.active_color
         elif pct >= 80:
-            grade, color, icon = "Ottimo lavoro", T.TEXT, "良"
+            grade, color = "Ottimo lavoro", self.active_color
         else:
-            grade, color, icon = "Devi allenarti", T.RED, "学"
+            grade, color = "Devi allenarti", T.RED
 
-        screen = ft.Column([
-            ft.Container(expand=True),
-            ft.Container(
-                width=80, height=80, alignment=ft.Alignment.CENTER,
-                border=ft.border.all(3, color), border_radius=12,
-                content=ft.Text(icon, size=40, font_family=T.FONT_DISPLAY, color=color, weight=ft.FontWeight.W_700),
-            ),
-            ft.Container(height=16),
-            ft.Text("Addestramento terminato", size=24, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
-            ft.Text(f"Punteggio: {correct_count} / {len(self.questions)}", size=16, color=T.TEXT_M),
-            ft.Text(grade, size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=color),
-            ft.Container(height=30),
-            ft.Row([
-                ft.Button("Riprova gruppo", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_quiz()),
-                ft.Button("Torna alle scelte", style=ft.ButtonStyle(bgcolor=self.active_color, color=T.BG_MAIN), on_click=lambda e: self._go_back_to_mode()),
-            ], alignment=ft.MainAxisAlignment.CENTER, spacing=16),
-            ft.Container(expand=True),
-        ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=8, expand=True)
+        screen = build_quiz_result_view(
+            title="Addestramento terminato",
+            module_label=module_label,
+            mark=result_mark,
+            accent=self.active_color,
+            correct_count=correct_count,
+            total_questions=len(self.questions),
+            grade=grade,
+            grade_color=color,
+            primary_label="Riprova gruppo",
+            on_primary=self._start_quiz,
+            secondary_label="Torna alle scelte",
+            on_secondary=self._go_back_to_mode,
+        )
 
         self.content_area.content = centered_stage(self.page, screen, max_width=820, min_width=640)
         self._safe_update()

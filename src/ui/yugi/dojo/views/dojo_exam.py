@@ -18,6 +18,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     build_quiz_data_error,
     build_quiz_question_view,
+    build_quiz_result_view,
     count_correct_answers,
     make_choice_options,
     max_correct_streak,
@@ -351,41 +352,25 @@ class DojoExam:
                 _log.exception("Prova Kotoba result tracking failed")
 
         if pct >= 90:
-            grade, color, mark = "Maestro", T.GOLD, "極"
+            grade, color = "Maestro", T.GOLD
         elif pct >= 70:
-            grade, color, mark = "Promosso", T.TEXT, "良"
+            grade, color = "Promosso", T.GOLD
         else:
-            grade, color, mark = "Riprova", T.RED, "学"
+            grade, color = "Riprova", T.RED
 
-        screen = ft.Column(
-            [
-                ft.Container(expand=True),
-                ft.Container(
-                    width=88,
-                    height=88,
-                    alignment=ft.Alignment.CENTER,
-                    border=ft.border.all(3, color),
-                    border_radius=12,
-                    content=ft.Text(mark, size=42, font_family=T.FONT_JP, color=color, weight=ft.FontWeight.W_700),
-                ),
-                ft.Container(height=16),
-                ft.Text("Prova Kotoba completata", size=25, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_900, color=T.TEXT),
-                ft.Text(f"Punteggio: {correct_count} / {len(self.questions)}", size=16, color=T.TEXT_M),
-                ft.Text(f"{grade} - {pct}%", size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=color),
-                ft.Container(height=30),
-                ft.Row(
-                    [
-                        ft.Button("Riprova", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_exam()),
-                        ft.Button("Torna al Dojo", style=ft.ButtonStyle(bgcolor=T.GOLD, color=T.BG_INK), on_click=lambda e: self.navigate("dojo_hub")),
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    spacing=16,
-                ),
-                ft.Container(expand=True),
-            ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=8,
-            expand=True,
+        screen = build_quiz_result_view(
+            title="Prova Kotoba completata",
+            module_label="Prova Kotoba",
+            mark="極",
+            accent=T.GOLD,
+            correct_count=correct_count,
+            total_questions=len(self.questions),
+            grade=grade,
+            grade_color=color,
+            primary_label="Riprova",
+            on_primary=self._start_exam,
+            secondary_label="Torna al Dojo",
+            on_secondary=lambda: self.navigate("dojo_hub"),
         )
         self.content_area.content = centered_stage(self.page, screen, max_width=920, min_width=720)
         self._safe_update()

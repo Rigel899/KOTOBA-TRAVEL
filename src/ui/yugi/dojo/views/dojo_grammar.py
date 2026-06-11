@@ -17,6 +17,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     build_quiz_data_error,
     build_quiz_question_view,
+    build_quiz_result_view,
     count_correct_answers,
     make_choice_options,
     max_correct_streak,
@@ -282,11 +283,11 @@ class DojoGrammar:
         correct_count = count_correct_answers(self.questions, self.user_answers, lambda question: question["correct"])
         pct = percent_score(correct_count, len(self.questions))
         if pct == 100:
-            grade, color, mark = "Perfezione", T.BELT_GRAMMAR, "極"
+            grade, color = "Perfezione", T.BELT_GRAMMAR
         elif pct >= 80:
-            grade, color, mark = "Ottimo lavoro", T.TEXT, "良"
+            grade, color = "Ottimo lavoro", T.BELT_GRAMMAR
         else:
-            grade, color, mark = "Da ripassare", T.RED, "学"
+            grade, color = "Da ripassare", T.RED
 
         unlocked = []
         if self.questions:
@@ -298,35 +299,19 @@ class DojoGrammar:
                 max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question["correct"]),
             )
 
-        screen = ft.Column(
-            [
-                ft.Container(expand=True),
-                ft.Container(
-                    width=80,
-                    height=80,
-                    alignment=ft.Alignment.CENTER,
-                    border=ft.border.all(3, color),
-                    border_radius=12,
-                    content=ft.Text(mark, size=40, font_family=T.FONT_JP, color=color, weight=ft.FontWeight.W_700),
-                ),
-                ft.Container(height=16),
-                ft.Text("Addestramento terminato", size=24, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=T.TEXT),
-                ft.Text(f"Punteggio: {correct_count} / {len(self.questions)}", size=16, color=T.TEXT_M),
-                ft.Text(grade, size=18, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700, color=color),
-                ft.Container(height=30),
-                ft.Row(
-                    [
-                        ft.Button("Riprova", style=ft.ButtonStyle(bgcolor=T.BG_CARD, color=T.TEXT), on_click=lambda e: self._start_quiz()),
-                        ft.Button("Torna alla bacheca", style=ft.ButtonStyle(bgcolor=T.BELT_GRAMMAR, color=T.TEXT), on_click=lambda e: self._go_back_to_start()),
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    spacing=16,
-                ),
-                ft.Container(expand=True),
-            ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=8,
-            expand=True,
+        screen = build_quiz_result_view(
+            title="Addestramento terminato",
+            module_label="Grammatica",
+            mark="文",
+            accent=T.BELT_GRAMMAR,
+            correct_count=correct_count,
+            total_questions=len(self.questions),
+            grade=grade,
+            grade_color=color,
+            primary_label="Riprova",
+            on_primary=self._start_quiz,
+            secondary_label="Torna alla bacheca",
+            on_secondary=self._go_back_to_start,
         )
         self.content_area.content = centered_stage(self.page, screen, max_width=820, min_width=640)
         self._safe_update()

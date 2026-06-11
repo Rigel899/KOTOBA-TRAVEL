@@ -1,7 +1,11 @@
 import unittest
 
+import flet as ft
+
 from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
+    build_quiz_result_view,
+    color_with_alpha,
     count_correct_answers,
     make_choice_options,
     max_correct_streak,
@@ -54,6 +58,10 @@ class QuizUtilsTests(unittest.TestCase):
         self.assertEqual(percent_score(0, 0), 0)
         self.assertEqual(max_correct_streak(questions, answers, lambda q: q["correct"]), 2)
 
+    def test_color_with_alpha_uses_flet_argb_format(self):
+        self.assertEqual(color_with_alpha("#7FA88F", "22"), "#227FA88F")
+        self.assertEqual(color_with_alpha("not-a-hex", "22"), "not-a-hex")
+
     def test_answer_and_schedule_next_records_answer_renders_and_schedules(self):
         page = DummyPage()
         answers = {}
@@ -74,6 +82,24 @@ class QuizUtilsTests(unittest.TestCase):
         self.assertEqual(answers, {1: "risposta"})
         self.assertEqual(calls, ["render"])
         self.assertEqual(len(page.tasks), 1)
+
+    def test_build_quiz_result_view_returns_control(self):
+        control = build_quiz_result_view(
+            title="Addestramento terminato",
+            module_label="Kanji",
+            mark="漢",
+            accent="#7FA88F",
+            correct_count=8,
+            total_questions=10,
+            grade="Ottimo lavoro",
+            grade_color="#7FA88F",
+            primary_label="Riprova",
+            on_primary=lambda: None,
+            secondary_label="Torna",
+            on_secondary=lambda: None,
+        )
+
+        self.assertIsInstance(control, ft.Control)
 
 
 if __name__ == "__main__":
