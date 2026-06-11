@@ -1,5 +1,5 @@
 """
-ui/yugi/dojo_grammar.py - Addestramento Grammatica (Dojo).
+ui/yugi/dojo/views/dojo_grammar.py - Addestramento Grammatica (Dojo).
 Quiz rapido sulle particelle e sulle strutture base.
 """
 from __future__ import annotations
@@ -13,7 +13,7 @@ from src.core.db_manager import DBManager
 from src.core.settings import KotobaTheme as T
 from src.ui.components.loader import show_achievements
 from src.ui.components.stage import centered_stage
-from src.ui.yugi.quiz_utils import (
+from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     build_quiz_data_error,
     build_quiz_question_view,

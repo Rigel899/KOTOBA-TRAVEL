@@ -1,5 +1,5 @@
 """
-ui/yugi/yugi_hub.py - Bivio del gioco: allenamento e giochi futuri.
+ui/yugi/games/yugi_hub.py - Bivio del gioco: allenamento e giochi futuri.
 """
 from __future__ import annotations
 

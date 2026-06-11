@@ -1,6 +1,6 @@
 import unittest
 
-from src.ui.yugi.quiz_utils import (
+from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     count_correct_answers,
     make_choice_options,

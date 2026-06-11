@@ -14,22 +14,22 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ASSETS_DIR = os.path.join(BASE_DIR, "asset")
 ROUTES = {
     "splash": ("src.ui.splash_view", "SplashView"),
-    "dashboard": ("src.ui.dashboard_view", "DashboardView"),
+    "dashboard": ("src.ui.home.dashboard_view", "DashboardView"),
     "study": ("src.ui.study.study_hub", "StudyHub"),
-    "yugi": ("src.ui.yugi.yugi_hub", "YugiHub"),
-    "dojo_hub": ("src.ui.yugi.dojo_hub", "DojoHub"),
-    "dojo_kana": ("src.ui.yugi.dojo_kana", "DojoKana"),
-    "dojo_kanji": ("src.ui.yugi.dojo_kanji", "DojoKanji"),
-    "dojo_vocab": ("src.ui.yugi.dojo_vocab", "DojoVocab"),
-    "dojo_grammar": ("src.ui.yugi.dojo_grammar", "DojoGrammar"),
-    "dojo_exam": ("src.ui.yugi.dojo_exam", "DojoExam"),
-    "achievements": ("src.ui.achievements_view", "AchievementsView"),
-    "stats": ("src.ui.stats_view", "StatsView"),
-    "settings": ("src.ui.settings_view", "SettingsView"),
-    "food": ("src.ui.food_view", "FoodView"),
-    "culture": ("src.ui.culture_view", "CultureView"),
-    "history": ("src.ui.history_view", "HistoryView"),
-    "places": ("src.ui.places_view", "PlacesView"),
+    "yugi": ("src.ui.yugi.games.yugi_hub", "YugiHub"),
+    "dojo_hub": ("src.ui.yugi.dojo.views.dojo_hub", "DojoHub"),
+    "dojo_kana": ("src.ui.yugi.dojo.views.dojo_kana", "DojoKana"),
+    "dojo_kanji": ("src.ui.yugi.dojo.views.dojo_kanji", "DojoKanji"),
+    "dojo_vocab": ("src.ui.yugi.dojo.views.dojo_vocab", "DojoVocab"),
+    "dojo_grammar": ("src.ui.yugi.dojo.views.dojo_grammar", "DojoGrammar"),
+    "dojo_exam": ("src.ui.yugi.dojo.views.dojo_exam", "DojoExam"),
+    "achievements": ("src.ui.achievements.achievements_view", "AchievementsView"),
+    "stats": ("src.ui.progress.stats_view", "StatsView"),
+    "settings": ("src.ui.settings.settings_view", "SettingsView"),
+    "food": ("src.ui.explore.food_view", "FoodView"),
+    "culture": ("src.ui.explore.culture_view", "CultureView"),
+    "history": ("src.ui.explore.history_view", "HistoryView"),
+    "places": ("src.ui.explore.places_view", "PlacesView"),
 }
 
 
@@ -354,7 +354,7 @@ def main(page: ft.Page):
         route = prepare_route_state(app_state, route, kwargs, clear_session=clear_user)
 
         if route == "/":
-            from src.ui.login_view import LoginView
+            from src.ui.auth.login_view import LoginView
             view = LoginView(page, navigate, app_state)
             root.content = view.build()
             page.update()

@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from src.core.app_state import GUEST_USERNAME, get_current_user
 from src.core.db_manager import DBManager
-from src.ui.login_view import LoginView
+from src.ui.auth.login_view import LoginView
 
 
 class DummyPage:

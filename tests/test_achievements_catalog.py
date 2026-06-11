@@ -11,7 +11,7 @@ from src.core.progress_service import (
     STUDY_MASTERY_ACHIEVEMENT,
     STUDY_MASTERY_REQUIRED_ACHIEVEMENTS,
 )
-from src.ui.achievements_view import AchievementsView
+from src.ui.achievements.achievements_view import AchievementsView
 
 
 class AchievementsCatalogTests(unittest.TestCase):

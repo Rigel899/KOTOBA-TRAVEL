@@ -6,7 +6,7 @@ from unittest.mock import patch
 from src.core.achievements import PLATINUM_ACHIEVEMENT, visible_achievement_ids
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
-from src.ui.achievements_view import AchievementsView
+from src.ui.achievements.achievements_view import AchievementsView
 
 
 class DummyPage:

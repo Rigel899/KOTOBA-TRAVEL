@@ -5,11 +5,11 @@ from unittest.mock import patch
 
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
-from src.ui.yugi.dojo_exam import DojoExam
-from src.ui.yugi.dojo_grammar import DojoGrammar
-from src.ui.yugi.dojo_kana import DojoKana
-from src.ui.yugi.dojo_kanji import DojoKanji
-from src.ui.yugi.dojo_vocab import DojoVocab
+from src.ui.yugi.dojo.views.dojo_exam import DojoExam
+from src.ui.yugi.dojo.views.dojo_grammar import DojoGrammar
+from src.ui.yugi.dojo.views.dojo_kana import DojoKana
+from src.ui.yugi.dojo.views.dojo_kanji import DojoKanji
+from src.ui.yugi.dojo.views.dojo_vocab import DojoVocab
 
 
 class DummyPage:
@@ -107,7 +107,7 @@ class DojoBehaviorTests(unittest.TestCase):
             view,
             view._start_quiz,
             "hiragana",
-            "src.ui.yugi.dojo_kana.show_achievements",
+            "src.ui.yugi.dojo.views.dojo_kana.show_achievements",
         )
 
     def test_kanji_quiz_flow_records_perfect_result(self):
@@ -117,7 +117,7 @@ class DojoBehaviorTests(unittest.TestCase):
             view,
             lambda: view._start_quiz_with_group("Tutti"),
             "kanji",
-            "src.ui.yugi.dojo_kanji.show_achievements",
+            "src.ui.yugi.dojo.views.dojo_kanji.show_achievements",
         )
 
     def test_vocab_quiz_flow_records_perfect_result(self):
@@ -127,7 +127,7 @@ class DojoBehaviorTests(unittest.TestCase):
             view,
             lambda: view._start_quiz_with_group("Tutti"),
             "vocab",
-            "src.ui.yugi.dojo_vocab.show_achievements",
+            "src.ui.yugi.dojo.views.dojo_vocab.show_achievements",
         )
 
     def test_grammar_quiz_flow_records_perfect_result(self):
@@ -137,7 +137,7 @@ class DojoBehaviorTests(unittest.TestCase):
             view,
             view._start_quiz,
             "grammar",
-            "src.ui.yugi.dojo_grammar.show_achievements",
+            "src.ui.yugi.dojo.views.dojo_grammar.show_achievements",
         )
 
     def test_grammar_start_card_click_starts_quiz(self):
@@ -157,7 +157,7 @@ class DojoBehaviorTests(unittest.TestCase):
             view,
             view._start_exam,
             "exam",
-            "src.ui.yugi.dojo_exam.show_achievements",
+            "src.ui.yugi.dojo.views.dojo_exam.show_achievements",
         )
 
     def test_exam_results_screen_is_shown_even_if_tracking_fails(self):
@@ -167,7 +167,7 @@ class DojoBehaviorTests(unittest.TestCase):
         view.current_idx = len(view.questions)
 
         with self.assertLogs("kotoba.ui.dojo_exam", level="ERROR"):
-            with patch("src.ui.yugi.dojo_exam.DBManager.record_quiz_result", side_effect=RuntimeError("tracking failed")):
+            with patch("src.ui.yugi.dojo.views.dojo_exam.DBManager.record_quiz_result", side_effect=RuntimeError("tracking failed")):
                 view._show_results()
 
         self.assertIsNotNone(view.content_area.content)

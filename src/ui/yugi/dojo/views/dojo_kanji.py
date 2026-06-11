@@ -1,5 +1,5 @@
 """
-ui/yugi/dojo_kanji.py – Addestramento Kanji (Dojo) 
+ui/yugi/dojo/views/dojo_kanji.py – Addestramento Kanji (Dojo)
 Griglia a 4 colonne, protezione IndexError, card dorata e navigazione.
 """
 from __future__ import annotations
@@ -10,7 +10,7 @@ from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.stage import centered_stage
-from src.ui.yugi.quiz_utils import (
+from src.ui.yugi.dojo.quiz.quiz_utils import (
     answer_and_schedule_next,
     build_quiz_data_error,
     build_quiz_question_view,

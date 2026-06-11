@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
-from src.ui.dashboard_view import DashboardView
+from src.ui.home.dashboard_view import DashboardView
 
 
 class DummyPage:

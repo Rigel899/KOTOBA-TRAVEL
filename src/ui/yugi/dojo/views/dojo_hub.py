@@ -1,5 +1,5 @@
 """
-ui/yugi/dojo_hub.py - Il percorso del Dojo.
+ui/yugi/dojo/views/dojo_hub.py - Il percorso del Dojo.
 """
 from __future__ import annotations
 

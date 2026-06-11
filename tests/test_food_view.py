@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
-from src.ui.food_view import FoodView
+from src.ui.explore.food_view import FoodView
 
 
 class DummyPage:
