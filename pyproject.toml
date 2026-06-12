@@ -1,3 +1,7 @@
+[project]
+name = "kotoba-travel"
+version = "1.0.0"
+
 [tool.flet]
 app.name = "Kotoba Travel"
 app.module_name = "run"
