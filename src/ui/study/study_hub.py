@@ -13,6 +13,7 @@ from src.core.progress_service import STUDY_REQUIRED_SECTIONS, STUDY_SECTION_STA
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
 from src.ui.components.stage import centered_stage
+from src.core.compat import open_dialog, close_dialog
 
 _log = logging.getLogger("kotoba.ui.study")
 
@@ -50,9 +51,14 @@ class StudyHub:
                 STUDY_SECTION_STAT,
                 unique_id=key,
             )
-            show_achievements(self.page, unlocked)
         except Exception:
             _log.exception("study section tracking failed for %s", key)
+            return
+
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("study achievement notification failed for %s", key)
 
     def _tf_search(self) -> ft.TextField:
         return ft.TextField(
@@ -70,6 +76,7 @@ class StudyHub:
             hint_style=ft.TextStyle(color=T.TEXT_M, font_family=T.FONT_BODY),
             text_style=ft.TextStyle(font_family=T.FONT_BODY, size=T.FS_BODY),
             on_change=lambda e: self._on_search(e.control.value),
+            max_length=100,
         )
 
     def _on_search(self, value: str):
@@ -140,23 +147,10 @@ class StudyHub:
         )
 
     def _open_dialog(self, dialog: ft.AlertDialog) -> None:
-        if hasattr(self.page, "open"):
-            self.page.open(dialog)
-        elif hasattr(self.page, "show_dialog"):
-            self.page.show_dialog(dialog)
-        else:
-            self.page.dialog = dialog
-            dialog.open = True
-            self.page.update()
+        open_dialog(self.page, dialog)
 
     def _close_dialog(self, dialog: ft.AlertDialog) -> None:
-        if hasattr(self.page, "close"):
-            self.page.close(dialog)
-        elif hasattr(self.page, "pop_dialog"):
-            self.page.pop_dialog()
-        else:
-            dialog.open = False
-            self.page.update()
+        close_dialog(self.page, dialog)
 
     def _kana_cell(self, item: dict | None, accent: str, *, expand: bool = True) -> ft.Container:
         if not item:

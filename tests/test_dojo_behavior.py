@@ -98,6 +98,48 @@ class DojoBehaviorTests(unittest.TestCase):
         self.assertEqual(data["stats"]["quiz_mode_total"][mode_key], len(view.questions))
         self.assertEqual(data["stats"]["quiz_mode_correct"][mode_key], len(view.questions))
 
+    def _assert_results_screen_survives_tracking_failure(
+        self,
+        view,
+        start_fn,
+        correct_fn,
+        patch_target: str,
+        logger_name: str,
+    ):
+        start_fn()
+        view.user_answers = {
+            index: correct_fn(question)
+            for index, question in enumerate(view.questions)
+        }
+        view.current_idx = len(view.questions)
+
+        with self.assertLogs(logger_name, level="ERROR"):
+            with patch(patch_target, side_effect=RuntimeError("tracking failed")):
+                view._show_results()
+
+        self.assertIsNotNone(view.content_area.content)
+
+    def _assert_results_screen_survives_achievement_notification_failure(
+        self,
+        view,
+        start_fn,
+        correct_fn,
+        patch_target: str,
+        logger_name: str,
+    ):
+        start_fn()
+        view.user_answers = {
+            index: correct_fn(question)
+            for index, question in enumerate(view.questions)
+        }
+        view.current_idx = len(view.questions)
+
+        with self.assertLogs(logger_name, level="ERROR"):
+            with patch(patch_target, side_effect=RuntimeError("toast failed")):
+                view._show_results()
+
+        self.assertIsNotNone(view.content_area.content)
+
     def test_kana_quiz_flow_records_perfect_result(self):
         view = self._prepare_view(DojoKana(self.page, lambda *a, **k: None, self.state))
         view.mode = "hiragana"
@@ -110,6 +152,32 @@ class DojoBehaviorTests(unittest.TestCase):
             "src.ui.yugi.dojo.views.dojo_kana.show_achievements",
         )
 
+    def test_kana_results_screen_is_shown_even_if_tracking_fails(self):
+        view = self._prepare_view(DojoKana(self.page, lambda *a, **k: None, self.state))
+        view.mode = "hiragana"
+        view.selected_group = "Tutte"
+
+        self._assert_results_screen_survives_tracking_failure(
+            view,
+            view._start_quiz,
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_kana.DBManager.record_quiz_result",
+            "kotoba.ui.dojo_kana",
+        )
+
+    def test_kana_results_screen_is_shown_even_if_achievement_notification_fails(self):
+        view = self._prepare_view(DojoKana(self.page, lambda *a, **k: None, self.state))
+        view.mode = "hiragana"
+        view.selected_group = "Tutte"
+
+        self._assert_results_screen_survives_achievement_notification_failure(
+            view,
+            view._start_quiz,
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_kana.show_achievements",
+            "kotoba.ui.dojo_kana",
+        )
+
     def test_kanji_quiz_flow_records_perfect_result(self):
         view = self._prepare_view(DojoKanji(self.page, lambda *a, **k: None, self.state))
 
@@ -118,6 +186,28 @@ class DojoBehaviorTests(unittest.TestCase):
             lambda: view._start_quiz_with_group("Tutti"),
             "kanji",
             "src.ui.yugi.dojo.views.dojo_kanji.show_achievements",
+        )
+
+    def test_kanji_results_screen_is_shown_even_if_tracking_fails(self):
+        view = self._prepare_view(DojoKanji(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_tracking_failure(
+            view,
+            lambda: view._start_quiz_with_group("Tutti"),
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_kanji.DBManager.record_quiz_result",
+            "kotoba.ui.dojo_kanji",
+        )
+
+    def test_kanji_results_screen_is_shown_even_if_achievement_notification_fails(self):
+        view = self._prepare_view(DojoKanji(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_achievement_notification_failure(
+            view,
+            lambda: view._start_quiz_with_group("Tutti"),
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_kanji.show_achievements",
+            "kotoba.ui.dojo_kanji",
         )
 
     def test_vocab_quiz_flow_records_perfect_result(self):
@@ -130,6 +220,28 @@ class DojoBehaviorTests(unittest.TestCase):
             "src.ui.yugi.dojo.views.dojo_vocab.show_achievements",
         )
 
+    def test_vocab_results_screen_is_shown_even_if_tracking_fails(self):
+        view = self._prepare_view(DojoVocab(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_tracking_failure(
+            view,
+            lambda: view._start_quiz_with_group("Tutti"),
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_vocab.DBManager.record_quiz_result",
+            "kotoba.ui.dojo_vocab",
+        )
+
+    def test_vocab_results_screen_is_shown_even_if_achievement_notification_fails(self):
+        view = self._prepare_view(DojoVocab(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_achievement_notification_failure(
+            view,
+            lambda: view._start_quiz_with_group("Tutti"),
+            lambda question: question[1],
+            "src.ui.yugi.dojo.views.dojo_vocab.show_achievements",
+            "kotoba.ui.dojo_vocab",
+        )
+
     def test_grammar_quiz_flow_records_perfect_result(self):
         view = self._prepare_view(DojoGrammar(self.page, lambda *a, **k: None, self.state))
 
@@ -138,6 +250,28 @@ class DojoBehaviorTests(unittest.TestCase):
             view._start_quiz,
             "grammar",
             "src.ui.yugi.dojo.views.dojo_grammar.show_achievements",
+        )
+
+    def test_grammar_results_screen_is_shown_even_if_tracking_fails(self):
+        view = self._prepare_view(DojoGrammar(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_tracking_failure(
+            view,
+            view._start_quiz,
+            lambda question: question["correct"],
+            "src.ui.yugi.dojo.views.dojo_grammar.DBManager.record_quiz_result",
+            "kotoba.ui.dojo_grammar",
+        )
+
+    def test_grammar_results_screen_is_shown_even_if_achievement_notification_fails(self):
+        view = self._prepare_view(DojoGrammar(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_achievement_notification_failure(
+            view,
+            view._start_quiz,
+            lambda question: question["correct"],
+            "src.ui.yugi.dojo.views.dojo_grammar.show_achievements",
+            "kotoba.ui.dojo_grammar",
         )
 
     def test_grammar_start_card_click_starts_quiz(self):
@@ -171,6 +305,17 @@ class DojoBehaviorTests(unittest.TestCase):
                 view._show_results()
 
         self.assertIsNotNone(view.content_area.content)
+
+    def test_exam_results_screen_is_shown_even_if_achievement_notification_fails(self):
+        view = self._prepare_view(DojoExam(self.page, lambda *a, **k: None, self.state))
+
+        self._assert_results_screen_survives_achievement_notification_failure(
+            view,
+            view._start_exam,
+            lambda question: question["correct"],
+            "src.ui.yugi.dojo.views.dojo_exam.show_achievements",
+            "kotoba.ui.dojo_exam",
+        )
 
 
 if __name__ == "__main__":

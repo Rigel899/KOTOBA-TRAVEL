@@ -18,7 +18,8 @@ _log = logging.getLogger("kotoba.lockout")
 
 class LockoutStore:
     MAX_FAILED_ATTEMPTS: int = 5
-    LOCKOUT_SECONDS: int = 30
+    LOCKOUT_SECONDS: int = 60   # base del backoff esponenziale
+    MAX_LOCKOUT_SECONDS: int = 3600  # tetto massimo: 1 ora
 
     def __init__(
         self,
@@ -31,6 +32,7 @@ class LockoutStore:
         self._normalize_username = normalize_username
         self.max_failed_attempts = max_failed_attempts or self.MAX_FAILED_ATTEMPTS
         self.lockout_seconds = lockout_seconds or self.LOCKOUT_SECONDS
+        self.max_lockout_seconds = self.MAX_LOCKOUT_SECONDS
         self._lock = threading.Lock()
 
     def path(self) -> str:
@@ -40,7 +42,13 @@ class LockoutStore:
         try:
             with open(self.path(), "r", encoding="utf-8") as f:
                 return json.load(f)
-        except (OSError, json.JSONDecodeError):
+        except FileNotFoundError:
+            return {}
+        except json.JSONDecodeError as exc:
+            _log.warning("lockouts read failed: invalid json: %s", exc)
+            return {}
+        except OSError as exc:
+            _log.warning("lockouts read failed: %s", exc)
             return {}
 
     def write(self, data: dict) -> None:
@@ -63,8 +71,8 @@ class LockoutStore:
             if tmp_path and os.path.exists(tmp_path):
                 try:
                     os.remove(tmp_path)
-                except OSError:
-                    pass
+                except OSError as exc:
+                    _log.debug("lockouts temp cleanup failed: %s", exc)
 
     def is_locked_out(self, username: str, context: str = "login") -> tuple[bool, int]:
         username = self._normalize_username(username)
@@ -102,7 +110,13 @@ class LockoutStore:
                 entry["attempts"] = 0
             entry["attempts"] = entry.get("attempts", 0) + 1
             if entry["attempts"] >= self.max_failed_attempts:
-                entry["locked_until"] = time.time() + self.lockout_seconds
+                lockout_count = entry.get("lockout_count", 0) + 1
+                entry["lockout_count"] = lockout_count
+                duration = min(
+                    self.lockout_seconds * (2 ** (lockout_count - 1)),
+                    self.max_lockout_seconds,
+                )
+                entry["locked_until"] = time.time() + duration
                 entry["attempts"] = 0
                 lockouts[key] = entry
                 self.write(lockouts)

@@ -3,12 +3,16 @@ HistoryView – vera timeline verticale interattiva con layout split-screen
 (Rifattorizzato con Design System Sumi-e e asse cronologico continuo)
 """
 from __future__ import annotations
+import logging
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
+from src.ui.components.stage import scrollable_split_stage
+
+_log = logging.getLogger("kotoba.ui.history")
 
 class HistoryView:
     PERIOD_ORDER = [
@@ -97,15 +101,21 @@ class HistoryView:
         era = self.history_data[index]
         self._set_right_content(self._build_right_content(era))
         
-        show_achievements(
-            self.page,
-            DBManager.increment_stat(
+        try:
+            unlocked = DBManager.increment_stat(
                 self.username,
                 "history_viewed",
                 unique_id=era.get("title", ""),
                 total_items=len(self.history_data),
-            ),
-        )
+            )
+        except Exception:
+            _log.exception("history stat tracking failed for %s", era.get("title", ""))
+            return
+
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("history achievement notification failed for %s", era.get("title", ""))
 
     def _build_right_content(self, era: dict) -> ft.Control:
         return ft.Column([
@@ -194,7 +204,10 @@ class HistoryView:
             is_hover = e.data == "true"
             card.border = ft.border.all(1, T.GOLD) if is_hover else ft.border.all(1, T.BORDER)
             card.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
-            card.update()
+            try:
+                card.update()
+            except RuntimeError:
+                pass
 
         # La Card interattiva
         card = ft.Container(
@@ -312,13 +325,17 @@ class HistoryView:
             expand=True,
             content=ft.Column([
                 masthead,
-                ft.Row([
-                    ft.Container(
-                        content=left_content,
-                        expand=4,
-                        border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
-                    ),
-                    self.right_panel
-                ], expand=True, spacing=0)
+                scrollable_split_stage(
+                    self.page,
+                    ft.Row([
+                        ft.Container(
+                            content=left_content,
+                            expand=4,
+                            border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
+                        ),
+                        self.right_panel
+                    ], expand=True, spacing=0),
+                    min_width=1060,
+                )
             ], spacing=0, expand=True)
         )

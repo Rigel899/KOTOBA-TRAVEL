@@ -228,6 +228,86 @@ class DBManagerTests(unittest.TestCase):
                 DBManager.clear_json_cache("sillabari.json")
                 self.assertEqual(DBManager.load_json("sillabari.json"), payload)
 
+    def test_load_json_rejects_known_files_with_wrong_field_type(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            path = Path(data_dir) / "sillabari.json"
+            payload = [{"word": 123, "pronunciation": "a", "category": "Hiragana", "group": "vocali"}]
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=data_dir):
+                DBManager.clear_json_cache("sillabari.json")
+                with self.assertLogs("kotoba.content", level="WARNING") as logs:
+                    self.assertIsNone(DBManager.load_json("sillabari.json"))
+                self.assertIn("expected string", logs.output[0])
+
+    def test_load_json_rejects_known_files_with_unsupported_enum(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            path = Path(data_dir) / "sillabari.json"
+            payload = [{"word": "あ", "pronunciation": "a", "category": "Kana", "group": "vocali"}]
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=data_dir):
+                DBManager.clear_json_cache("sillabari.json")
+                with self.assertLogs("kotoba.content", level="WARNING") as logs:
+                    self.assertIsNone(DBManager.load_json("sillabari.json"))
+                self.assertIn("unsupported value", logs.output[0])
+
+    def test_load_json_rejects_food_with_missing_image_asset(self):
+        with tempfile.TemporaryDirectory() as root_dir:
+            data_dir = Path(root_dir) / "data"
+            data_dir.mkdir()
+            path = data_dir / "food.json"
+            payload = [{
+                "word": "ラーメン",
+                "pronunciation": "ramen",
+                "meaning": "ramen",
+                "category": "Primo",
+                "description": "Zuppa di noodle.",
+                "image": "image/food/missing.jpg",
+            }]
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=str(data_dir)):
+                DBManager.clear_json_cache("food.json")
+                with self.assertLogs("kotoba.content", level="WARNING") as logs:
+                    self.assertIsNone(DBManager.load_json("food.json"))
+                self.assertIn("missing asset", logs.output[0])
+
+    def test_load_json_accepts_food_with_existing_image_asset(self):
+        with tempfile.TemporaryDirectory() as root_dir:
+            data_dir = Path(root_dir) / "data"
+            image_dir = Path(root_dir) / "image" / "food"
+            data_dir.mkdir()
+            image_dir.mkdir(parents=True)
+            (image_dir / "ramen.jpg").write_bytes(b"fake image")
+            path = data_dir / "food.json"
+            payload = [{
+                "word": "ラーメン",
+                "pronunciation": "ramen",
+                "meaning": "ramen",
+                "category": "Primo",
+                "description": "Zuppa di noodle.",
+                "image": "image/food/ramen.jpg",
+                "allergens": ["glutine"],
+            }]
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=str(data_dir)):
+                DBManager.clear_json_cache("food.json")
+                self.assertEqual(DBManager.load_json("food.json"), payload)
+
+    def test_load_json_accepts_topic_wrapped_culture_files(self):
+        with tempfile.TemporaryDirectory() as data_dir:
+            path = Path(data_dir) / "culture.json"
+            payload = {
+                "topics": [{
+                    "title": "Lingua",
+                    "subtitle": "言語",
+                    "content": "Testo",
+                    "category": "Lingua e scrittura",
+                }]
+            }
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            with patch.object(DBManager, "data_dir", return_value=data_dir):
+                DBManager.clear_json_cache("culture.json")
+                self.assertEqual(DBManager.load_json("culture.json"), payload)
+
     def test_app_state_keeps_session_sources_in_sync(self):
         state = {}
         set_user(state, "syncuser")

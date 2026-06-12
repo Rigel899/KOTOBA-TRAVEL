@@ -1,10 +1,11 @@
 """
 core/app_paths.py
-Percorsi dati dell'applicazione.
+Percorsi dati dell'applicazione — Windows, Linux (XDG), macOS.
 """
 from __future__ import annotations
 
 import os
+import platform
 
 
 class AppPaths:
@@ -19,10 +20,21 @@ class AppPaths:
 
     @classmethod
     def user_data_dir(cls) -> str:
-        appdata = os.environ.get("APPDATA")
-        if appdata:
-            path = os.path.join(appdata, cls.APP_DIR_NAME)
+        system = platform.system()
+        if system == "Windows":
+            appdata = os.environ.get("APPDATA")
+            base = appdata if appdata else os.path.expanduser("~")
+            path = os.path.join(base, cls.APP_DIR_NAME)
+        elif system == "Darwin":
+            path = os.path.join(
+                os.path.expanduser("~"), "Library", "Application Support", cls.APP_DIR_NAME
+            )
         else:
-            path = os.path.join(os.path.expanduser("~"), ".kotoba_travel")
+            # Linux: rispetta XDG_DATA_HOME, default ~/.local/share
+            xdg_data = os.environ.get(
+                "XDG_DATA_HOME",
+                os.path.join(os.path.expanduser("~"), ".local", "share"),
+            )
+            path = os.path.join(xdg_data, cls.APP_DIR_NAME)
         os.makedirs(path, exist_ok=True)
         return path

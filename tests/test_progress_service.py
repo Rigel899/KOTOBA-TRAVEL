@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 
 from src.core.profile_factory import build_default_profile
 from src.core.achievements import PLATINUM_ACHIEVEMENT, platinum_required_achievement_ids
@@ -16,6 +17,17 @@ class ProgressServiceTests(unittest.TestCase):
 
     def _add_profile(self, username: str) -> None:
         self.profiles[username] = build_default_profile(username, "password-hash", "q", "answer-hash")
+
+    def _copying_service(self) -> tuple[ProgressService, dict]:
+        persisted = deepcopy(self.profiles)
+
+        return (
+            ProgressService(
+                lambda username: deepcopy(persisted.get(username)),
+                lambda username, data: persisted.__setitem__(username, deepcopy(data)),
+            ),
+            persisted,
+        )
 
     def test_record_quiz_result_updates_stats_scores_and_achievements(self):
         unlocked = self.service.record_quiz_result(
@@ -71,6 +83,34 @@ class ProgressServiceTests(unittest.TestCase):
         data = self.profiles["utente"]
         self.assertEqual(data["stats"]["places_viewed"], 1)
         self.assertEqual(list(data["stats"]["unique_views"]["places_viewed"]), ["tokyo"])
+
+    def test_duplicate_unique_view_still_updates_exploration_total(self):
+        service, persisted = self._copying_service()
+        service.increment_stat("utente", "food_viewed", unique_id="ramen", total_items=1)
+
+        self.assertEqual(
+            service.increment_stat("utente", "food_viewed", unique_id="ramen", total_items=2),
+            [],
+        )
+
+        data = persisted["utente"]
+        self.assertEqual(data["stats"]["food_viewed"], 1)
+        self.assertEqual(data["stats"]["exploration_totals"]["food_viewed"], 2)
+
+    def test_duplicate_unique_view_persists_legacy_unique_view_migration(self):
+        service, persisted = self._copying_service()
+        data = persisted["utente"]
+        data["stats"]["food_viewed"] = 1
+        data["stats"]["unique_views"] = {"food_viewed": ["ramen"]}
+
+        self.assertEqual(
+            service.increment_stat("utente", "food_viewed", unique_id="ramen"),
+            [],
+        )
+
+        persisted_data = persisted["utente"]
+        self.assertEqual(persisted_data["stats"]["food_viewed"], 1)
+        self.assertEqual(persisted_data["stats"]["unique_views"]["food_viewed"], {"ramen": 1})
 
     def test_unique_increment_unlocks_when_threshold_is_reached(self):
         unlocked = []

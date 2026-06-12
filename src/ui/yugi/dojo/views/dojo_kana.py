@@ -4,6 +4,7 @@ Layout 4 colonne, Nomenclatura Elegante e Dinamicità 3 Colori Totale (Titoli in
 """
 from __future__ import annotations
 import flet as ft
+import logging
 import random
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
@@ -22,6 +23,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
 )
 
 TOTAL_QUESTIONS = 10
+_log = logging.getLogger("kotoba.ui.dojo_kana")
 
 GROUP_INFO: dict[str, str] = {
     "vocali":    "Vocali — 母音",
@@ -318,13 +320,16 @@ class DojoKana:
         pct = percent_score(correct_count, len(self.questions))
         unlocked = []
         if self.questions:
-            unlocked = DBManager.record_quiz_result(
-                get_current_user(self.state),
-                self.mode,
-                correct_count,
-                total_questions=len(self.questions),
-                max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question[1]),
-            )
+            try:
+                unlocked = DBManager.record_quiz_result(
+                    get_current_user(self.state),
+                    self.mode,
+                    correct_count,
+                    total_questions=len(self.questions),
+                    max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question[1]),
+                )
+            except Exception:
+                _log.exception("Kana result tracking failed for mode %s", self.mode)
 
         result_mark = {"hiragana": "あ", "katakana": "ア", "mixed": "かな"}.get(self.mode, "仮")
         module_label = {"hiragana": "Hiragana", "katakana": "Katakana", "mixed": "Kana Misto"}.get(self.mode, "Kana")
@@ -352,7 +357,10 @@ class DojoKana:
 
         self.content_area.content = centered_stage(self.page, screen, max_width=820, min_width=640)
         self._safe_update()
-        show_achievements(self.page, unlocked)
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("Kana achievement notification failed for mode %s", self.mode)
 
     def build(self) -> ft.Control:
         if not (self.hiragana_pool or self.katakana_pool):

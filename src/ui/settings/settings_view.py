@@ -150,9 +150,12 @@ class SettingsView:
         os.makedirs(export_dir, exist_ok=True)
         stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         path = os.path.join(export_dir, f"kotoba_profile_{self.username}_{stamp}.json")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(export_data, f, ensure_ascii=False, indent=2)
-        self._set_msg(f"Profilo esportato in {path}", T.GREEN)
+        try:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(export_data, f, ensure_ascii=False, indent=2)
+            self._set_msg(f"Profilo esportato in {path}", T.GREEN)
+        except OSError as exc:
+            self._set_msg(f"Errore durante l'esportazione: {exc}", T.ERR)
 
     def _delete_account(self, password_field: ft.TextField, confirm_field: ft.TextField):
         password = password_field.value or ""
@@ -168,20 +171,23 @@ class SettingsView:
         clear_user(self.state)
         self.navigate("/")
 
+    async def _redirect_to_login(self):
+        self.navigate("/")
+
     def build(self) -> ft.Control:
         if not self.user_data:
-            self.navigate("/")
+            self.page.run_task(self._redirect_to_login)
             return ft.Container(expand=True, bgcolor=T.BG_MAIN)
 
-        current_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True)
-        new_pwd = self._tf(hint_text="Nuova password", password=True, can_reveal_password=True)
-        confirm_pwd = self._tf(hint_text="Ripeti nuova password", password=True, can_reveal_password=True)
+        current_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True, max_length=128)
+        new_pwd = self._tf(hint_text="Nuova password", password=True, can_reveal_password=True, max_length=128)
+        confirm_pwd = self._tf(hint_text="Ripeti nuova password", password=True, can_reveal_password=True, max_length=128)
 
-        recovery_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True)
-        recovery_q = self._tf(hint_text="Nuova domanda di sicurezza")
-        recovery_a = self._tf(hint_text="Nuova risposta di sicurezza", password=True)
+        recovery_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True, max_length=128)
+        recovery_q = self._tf(hint_text="Nuova domanda di sicurezza", max_length=200)
+        recovery_a = self._tf(hint_text="Nuova risposta di sicurezza", password=True, max_length=200)
 
-        delete_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True)
+        delete_pwd = self._tf(hint_text="Password corrente", password=True, can_reveal_password=True, max_length=128)
         delete_confirm = self._tf(hint_text=f"Scrivi {self.username} per confermare")
 
         created_at = self._format_profile_date(self.user_data.get("created_at"))

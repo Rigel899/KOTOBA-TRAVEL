@@ -9,6 +9,7 @@ import logging
 import flet as ft
 
 from src.core.settings import KotobaTheme
+from src.core.compat import show_snack
 
 
 _log = logging.getLogger("kotoba.ui.loader")
@@ -30,7 +31,7 @@ def show_achievement(page: ft.Page, ach_data: dict) -> None:
     title = ach_data.get("title", "Achievement sbloccato!")
     desc = ach_data.get("description", "")
 
-    page.snack_bar = ft.SnackBar(
+    snack = ft.SnackBar(
         content=ft.Row(
             [
                 ft.Container(
@@ -64,8 +65,7 @@ def show_achievement(page: ft.Page, ach_data: dict) -> None:
         show_close_icon=True,
         close_icon_color=KotobaTheme.TEXT_M,
     )
-    page.snack_bar.open = True
-    page.update()
+    show_snack(page, snack)
 
 
 def show_achievements(page: ft.Page, achievement_ids: list[str]) -> None:

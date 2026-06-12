@@ -16,6 +16,14 @@ class ProjectConfigTests(unittest.TestCase):
         self.assertTrue(flet.__version__)
         self.assertTrue(Image)
 
+    def test_runtime_dependencies_are_pinned(self):
+        requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8").splitlines()
+        runtime_lines = [line.strip() for line in requirements if line.strip() and not line.startswith("#")]
+
+        self.assertIn("flet==0.85.1", runtime_lines)
+        self.assertIn("pillow==12.2.0", runtime_lines)
+        self.assertFalse(any(">=" in line or "~=" in line for line in runtime_lines))
+
     def test_flet_project_metadata_and_icon_exist(self):
         data = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
         app = data["tool"]["flet"]["app"]

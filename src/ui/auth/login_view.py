@@ -53,16 +53,16 @@ class LoginView:
         )
 
     def _build_controls(self):
-        self.user_field = self._tf(hint_text="Nome utente (lettere, numeri, _)", on_submit=self._on_login)
-        self.pwd_field  = self._tf(hint_text="Password (min. 8 caratteri)", password=True, can_reveal_password=True, on_submit=self._on_login)
+        self.user_field = self._tf(hint_text="Nome utente (lettere, numeri, _)", on_submit=self._on_login, max_length=30)
+        self.pwd_field  = self._tf(hint_text="Password (min. 8 caratteri)", password=True, can_reveal_password=True, on_submit=self._on_login, max_length=128)
 
         self.reg_label = ft.Text("Nuovo guerriero? Imposta il recupero password:", size=T.FS_SMALL, color=T.TEXT_M, visible=False, font_family=T.FONT_BODY, italic=True)
-        self.q_field = self._tf(hint_text="Domanda di sicurezza (es: animale?)", visible=False, on_submit=self._on_register)
-        self.a_field = self._tf(hint_text="Risposta segreta", password=True, visible=False, on_submit=self._on_register)
+        self.q_field = self._tf(hint_text="Domanda di sicurezza (es: animale?)", visible=False, on_submit=self._on_register, max_length=200)
+        self.a_field = self._tf(hint_text="Risposta segreta", password=True, visible=False, on_submit=self._on_register, max_length=200)
 
         self.rec_q_label = ft.Text("", size=T.FS_BODY, color=T.GOLD, weight=ft.FontWeight.BOLD, visible=False, font_family=T.FONT_DISPLAY)
-        self.rec_ans_field = self._tf(hint_text="Risposta di sicurezza", password=True, visible=False)
-        self.new_pwd_field = self._tf(hint_text="Nuova password", password=True, can_reveal_password=True, visible=False, on_submit=self._on_save_password)
+        self.rec_ans_field = self._tf(hint_text="Risposta di sicurezza", password=True, visible=False, max_length=200)
+        self.new_pwd_field = self._tf(hint_text="Nuova password", password=True, can_reveal_password=True, visible=False, on_submit=self._on_save_password, max_length=128)
 
         self.msg = ft.Text("", size=T.FS_SMALL, text_align=ft.TextAlign.CENTER, font_family=T.FONT_BODY)
 

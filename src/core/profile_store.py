@@ -73,8 +73,8 @@ class ProfileStore:
                 continue
             try:
                 shutil.copy2(src, dst)
-            except OSError:
-                pass
+            except OSError as exc:
+                _log.warning("legacy profile migration failed for %s: %s", filename, exc)
 
     def profile_path(self, username: str) -> str:
         self.migrate_legacy_profiles()
@@ -140,8 +140,8 @@ class ProfileStore:
                         if os.path.exists(path):
                             try:
                                 os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
-                            except OSError:
-                                pass
+                            except OSError as exc:
+                                _log.debug("profile chmod before replace failed for %s: %s", username, exc)
                         os.replace(tmp_path, path)
                         return
                     except PermissionError:
@@ -155,13 +155,13 @@ class ProfileStore:
                 if fd is not None:
                     try:
                         os.close(fd)
-                    except OSError:
-                        pass
+                    except OSError as exc:
+                        _log.debug("profile temp fd close failed for %s: %s", username, exc)
                 if tmp_path and os.path.exists(tmp_path):
                     try:
                         os.remove(tmp_path)
-                    except OSError:
-                        pass
+                    except OSError as exc:
+                        _log.debug("profile temp cleanup failed for %s: %s", username, exc)
 
     def create_user_data(self, username: str, data: dict) -> None:
         path = self.profile_path(username)

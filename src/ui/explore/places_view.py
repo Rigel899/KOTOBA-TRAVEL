@@ -10,6 +10,7 @@ from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
+from src.ui.components.stage import scrollable_split_stage
 
 _log = logging.getLogger("kotoba.ui.places")
 
@@ -24,6 +25,7 @@ class PlacesView:
         self.active_category = "Giappone Moderno"
         self.selected_item: dict | None = None
         self.card_containers: list[ft.Container] = []
+        self._item_to_card: dict[int, ft.Container] = {}
         self.explore_data: list[dict] = []
         
         self._load_data()
@@ -65,9 +67,33 @@ class PlacesView:
         if isinstance(museums, list):
             self.explore_data.extend(museums)
 
+    def _apply_place_card_style(self, card: ft.Container, item: dict) -> None:
+        kanji, stamp_color = self._get_category_style(item.get("category", ""))
+        is_active = self.selected_item is item
+        card.border = ft.border.all(1.5, stamp_color) if is_active else ft.border.all(1, T.BORDER)
+        card.bgcolor = T.BG_SURF if is_active else T.BG_CARD
+
     def _select_item(self, item: dict, track_view: bool = True):
+        prev_item = self.selected_item
         self.selected_item = item
-        self._refresh_list_view()
+        # O(1): aggiorna solo la card precedente e quella nuova
+        if prev_item is not None and prev_item is not item:
+            prev_card = self._item_to_card.get(id(prev_item))
+            if prev_card is not None:
+                self._apply_place_card_style(prev_card, prev_item)
+                try:
+                    if prev_card.page:
+                        prev_card.update()
+                except RuntimeError:
+                    pass
+        new_card = self._item_to_card.get(id(item))
+        if new_card is not None:
+            self._apply_place_card_style(new_card, item)
+            try:
+                if new_card.page:
+                    new_card.update()
+            except RuntimeError:
+                pass
         self._set_right_content(self._build_right_content(item))
         if track_view:
             item_id = item.get("name", "")
@@ -78,9 +104,14 @@ class PlacesView:
                     unique_id=item_id,
                     total_items=len(self.explore_data),
                 )
-                show_achievements(self.page, unlocked)
             except Exception:
                 _log.exception("place stat tracking failed for %s", item_id)
+                return
+
+            try:
+                show_achievements(self.page, unlocked)
+            except Exception:
+                _log.exception("place achievement notification failed for %s", item_id)
 
     def _get_category_style(self, category: str) -> tuple[str, str]:
         """Ritorna il Kanji e il colore tematico per la categoria specificata."""
@@ -143,18 +174,16 @@ class PlacesView:
         )
 
     def _place_card(self, item: dict, index: int) -> ft.Container:
-        is_active = (self.selected_item == item)
         kanji, stamp_color = self._get_category_style(item.get("category", ""))
-        
+        is_active = self.selected_item is item
+
         default_border = ft.border.all(1.5, stamp_color) if is_active else ft.border.all(1, T.BORDER)
         default_bg = T.BG_SURF if is_active else T.BG_CARD
 
-        # Animazione di Hover per le Card
         def on_hover(e):
-            if is_active:
+            if self.selected_item is item:
                 return
             is_hover = e.data == "true"
-            # Usare e.control risolve il bug di mancato aggiornamento
             e.control.border = ft.border.all(1, stamp_color if is_hover else T.BORDER)
             e.control.bgcolor = T.BG_HOVER if is_hover else T.BG_CARD
             e.control.update()
@@ -168,7 +197,7 @@ class PlacesView:
             content=ft.Text(kanji, size=11, color=stamp_color, font_family=T.FONT_DISPLAY, weight=ft.FontWeight.W_700)
         )
 
-        return ft.Container(
+        card = ft.Container(
             on_click=lambda e: self._select_item(item),
             on_hover=on_hover,
             bgcolor=default_bg,
@@ -187,11 +216,13 @@ class PlacesView:
                         ft.Container(expand=True),
                         ft.Text(item.get("tag", ""), size=10, color=T.TEXT_M, font_family=T.FONT_BODY)
                     ], vertical_alignment=ft.CrossAxisAlignment.CENTER),
-                    ft.Text(f"{item.get('jp', '')} · {item.get('city', '')}", size=T.FS_SMALL, font_family=T.FONT_BODY, color=stamp_color if is_active else T.TEXT_M),
+                    ft.Text(f"{item.get('jp', '')} · {item.get('city', '')}", size=T.FS_SMALL, font_family=T.FONT_BODY, color=stamp_color),
                 ], expand=True, spacing=2),
                 ft.Icon(ft.Icons.CHEVRON_RIGHT_ROUNDED, size=16, color=T.TEXT_M)
             ], spacing=12, vertical_alignment=ft.CrossAxisAlignment.CENTER)
         )
+        self._item_to_card[id(item)] = card
+        return card
 
     def _build_right_content(self, item: dict) -> ft.Control:
         _, stamp_color = self._get_category_style(item.get("category", ""))
@@ -270,7 +301,8 @@ class PlacesView:
         filtered_items = [x for x in self.explore_data if x.get("category") == self.active_category]
         if filtered_items and self.selected_item not in filtered_items:
             self.selected_item = filtered_items[0]
-        
+
+        self._item_to_card.clear()
         if not filtered_items:
             self.left_list_container.content = self._build_empty_list_message()
         else:
@@ -296,6 +328,7 @@ class PlacesView:
         filtered_items = [x for x in self.explore_data if x.get("category") == self.active_category]
         if filtered_items and self.selected_item not in filtered_items:
             self.selected_item = filtered_items[0]
+        self._item_to_card.clear()
         if not filtered_items:
             self.left_list_container.content = self._build_empty_list_message()
         else:
@@ -306,7 +339,7 @@ class PlacesView:
                 spacing=0,
                 padding=ft.padding.only(left=0, right=0, bottom=14, top=8)
             )
-            
+
         if self.selected_item:
             self._set_right_content(self._build_right_content(self.selected_item), update=False)
         else:
@@ -327,17 +360,21 @@ class PlacesView:
             expand=True,
             content=ft.Column([
                 masthead,
-                ft.Row([
-                    ft.Container(
-                        content=ft.Column([
-                            ft.Container(content=self.tab_row, padding=ft.padding.only(top=12, bottom=8)),
-                            self.left_list_container
-                        ], spacing=0, expand=True),
-                        expand=4,
-                        padding=ft.padding.only(left=20, right=14, bottom=0, top=0),
-                        border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
-                    ),
-                    self.right_panel
-                ], expand=True, spacing=0)
+                scrollable_split_stage(
+                    self.page,
+                    ft.Row([
+                        ft.Container(
+                            content=ft.Column([
+                                ft.Container(content=self.tab_row, padding=ft.padding.only(top=12, bottom=8)),
+                                self.left_list_container
+                            ], spacing=0, expand=True),
+                            expand=4,
+                            padding=ft.padding.only(left=20, right=14, bottom=0, top=0),
+                            border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
+                        ),
+                        self.right_panel
+                    ], expand=True, spacing=0),
+                    min_width=1060,
+                )
             ], spacing=0, expand=True)
         )

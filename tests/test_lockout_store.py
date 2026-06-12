@@ -1,5 +1,6 @@
 import tempfile
 import unittest
+from pathlib import Path
 
 from src.core.lockout_store import LockoutStore
 
@@ -50,6 +51,14 @@ class LockoutStoreTests(unittest.TestCase):
 
         self.assertEqual(self.store.remaining_attempts("utente", "login"), 2)
         self.assertEqual(self.store.remaining_attempts("utente", "recovery"), 1)
+
+    def test_corrupt_lockout_file_returns_empty_data_and_logs_warning(self):
+        Path(self.store.path()).write_text("{not-json", encoding="utf-8")
+
+        with self.assertLogs("kotoba.lockout", level="WARNING"):
+            data = self.store.read()
+
+        self.assertEqual(data, {})
 
 
 if __name__ == "__main__":

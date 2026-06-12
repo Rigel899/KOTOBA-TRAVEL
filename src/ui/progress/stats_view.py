@@ -316,9 +316,12 @@ class StatsView:
             ),
         )
 
+    async def _redirect_to_login(self):
+        self.navigate("/")
+
     def build(self) -> ft.Control:
         if not self.user_data:
-            self.navigate("/")
+            self.page.run_task(self._redirect_to_login)
             return ft.Container(expand=True, bgcolor=T.BG_MAIN)
 
         stats = self.user_data.get("stats", {})

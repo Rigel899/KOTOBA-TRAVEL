@@ -78,3 +78,34 @@ if not hasattr(ft, "colors"):
 
 if not hasattr(ft, "icons"):
     ft.icons = ft.Icons
+
+
+# ── snackbar / dialog helpers ─────────────────────────────────────────────────
+
+def show_snack(page: ft.Page, snack: ft.SnackBar) -> None:
+    """Mostra uno SnackBar compatibile con Flet 0.80+ e versioni precedenti."""
+    try:
+        page.open(snack)
+    except AttributeError:
+        page.snack_bar = snack
+        snack.open = True
+        page.update()
+
+
+def open_dialog(page: ft.Page, dialog) -> None:
+    """Apre un dialogo compatibile con Flet 0.80+ e versioni precedenti."""
+    try:
+        page.open(dialog)
+    except AttributeError:
+        page.dialog = dialog
+        dialog.open = True
+        page.update()
+
+
+def close_dialog(page: ft.Page, dialog) -> None:
+    """Chiude un dialogo compatibile con Flet 0.80+ e versioni precedenti."""
+    try:
+        page.close(dialog)
+    except AttributeError:
+        dialog.open = False
+        page.update()

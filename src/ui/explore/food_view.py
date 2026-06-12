@@ -11,6 +11,7 @@ from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
+from src.ui.components.stage import scrollable_split_stage
 
 CATEGORIES = ["Tutte", "Primo", "Pesce", "Fritto", "Zuppa", "Street food", "Carne", "Dolce", "Bevanda"]
 FOOD_CARD_COL = {"xs": 12, "sm": 6, "md": 4, "lg": 3}
@@ -169,9 +170,14 @@ class FoodView:
                 unique_id=food_id,
                 total_items=len(self.food_data),
             )
-            show_achievements(self.page, unlocked)
         except Exception:
             _log.exception("food stat tracking failed for %s", food_id)
+            return
+
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("food achievement notification failed for %s", food_id)
 
     def _apply_food_card_style(self, card: ft.Container, item: dict) -> None:
         is_active = self.selected_item == item
@@ -311,7 +317,7 @@ class FoodView:
                 
                 ft.Container(
                     content=ft.Text(cat.upper(), size=9, color=T.TEXT, weight=ft.FontWeight.W_700, font_family=T.FONT_BODY),
-                    bgcolor=ft.colors.with_opacity(0.85, T.BG_INK),
+                    bgcolor=ft.Colors.with_opacity(0.85, T.BG_INK),
                     padding=ft.padding.only(left=10, right=10, top=4, bottom=4),
                     border_radius=4,
                     right=8, top=8,
@@ -462,6 +468,7 @@ class FoodView:
             height=44,
             content_padding=ft.padding.only(left=16, right=16, top=0, bottom=0),
             on_change=lambda e: self._on_search(e.control.value),
+            max_length=100,
         )
 
         masthead = build_masthead(
@@ -500,15 +507,18 @@ class FoodView:
                     content=self.chips_row,
                     padding=ft.padding.only(left=20, right=20, top=10, bottom=10),
                 ),
-                # Il corpo dell'interfaccia si divide in due!
-                ft.Row([
-                    ft.Container(
-                        content=self.grid_scroll,
-                        expand=True,
-                        padding=ft.padding.only(left=20, right=20, top=0, bottom=18),
-                        border=ft.border.only(right=ft.BorderSide(1, T.BORDER)),
-                    ),
-                    self.right_panel
-                ], expand=True, spacing=0)
+                scrollable_split_stage(
+                    self.page,
+                    ft.Row([
+                        ft.Container(
+                            content=self.grid_scroll,
+                            expand=True,
+                            padding=ft.padding.only(left=20, right=20, top=0, bottom=18),
+                            border=ft.border.only(right=ft.BorderSide(1, T.BORDER)),
+                        ),
+                        self.right_panel
+                    ], expand=True, spacing=0),
+                    min_width=1120,
+                )
             ], spacing=0, expand=True)
         )

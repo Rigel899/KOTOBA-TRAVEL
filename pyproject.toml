@@ -9,3 +9,6 @@ app.bundle_id = "com.kotoba.travel"
 icon = "src/asset/image/icons/icona.ico"
 file_version = "1.0.0.0"
 product_name = "Kotoba Travel"
+
+[tool.flet.app.linux]
+icon = "src/asset/image/icons/icona.png"

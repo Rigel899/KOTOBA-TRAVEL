@@ -121,13 +121,12 @@ class ProgressService:
     def check_and_unlock(self, username: str, achievement_id: str, notify_fn=None) -> None:
         newly_unlocked = self.unlock_achievement_ids(username, achievement_id)
         if newly_unlocked and notify_fn:
-            if notify_fn:
-                from src.core.achievements import ACHIEVEMENTS
+            from src.core.achievements import ACHIEVEMENTS
 
-                for unlocked_id in newly_unlocked:
-                    ach = ACHIEVEMENTS.get(unlocked_id)
-                    if ach:
-                        notify_fn(ach)
+            for unlocked_id in newly_unlocked:
+                ach = ACHIEVEMENTS.get(unlocked_id)
+                if ach:
+                    notify_fn(ach)
 
     def increment_stat(
         self,
@@ -143,17 +142,25 @@ class ProgressService:
 
         stats = data.setdefault("stats", {})
         exploration_totals = stats.setdefault("exploration_totals", {})
+        totals_changed = False
         if total_items and total_items > 0:
-            exploration_totals[stat_key] = int(total_items)
+            normalized_total = int(total_items)
+            if exploration_totals.get(stat_key) != normalized_total:
+                exploration_totals[stat_key] = normalized_total
+                totals_changed = True
 
         unique_count: int | None = None
         if unique_id:
             unique_views = stats.setdefault("unique_views", {})
             viewed_ids = unique_views.setdefault(stat_key, {})
+            unique_views_changed = False
             if isinstance(viewed_ids, list):
                 viewed_ids = {item: 1 for item in viewed_ids}
                 unique_views[stat_key] = viewed_ids
+                unique_views_changed = True
             if unique_id in viewed_ids:
+                if totals_changed or unique_views_changed:
+                    self._update_user_data(username, data)
                 return []
             viewed_ids[unique_id] = 1
             unique_count = len(viewed_ids)

@@ -4,8 +4,8 @@ Home compatta: due porte principali e sezioni viaggio centrate.
 """
 from __future__ import annotations
 
-import src.core.compat
 import flet as ft
+from src.core.compat import open_dialog, close_dialog
 
 from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
@@ -209,23 +209,10 @@ class DashboardView:
         )
 
     def _open_dialog(self, dialog: ft.AlertDialog) -> None:
-        if hasattr(self.page, "open"):
-            self.page.open(dialog)
-        elif hasattr(self.page, "show_dialog"):
-            self.page.show_dialog(dialog)
-        else:
-            self.page.dialog = dialog
-            dialog.open = True
-            self.page.update()
+        open_dialog(self.page, dialog)
 
     def _close_dialog(self, dialog: ft.AlertDialog) -> None:
-        if hasattr(self.page, "close"):
-            self.page.close(dialog)
-        elif hasattr(self.page, "pop_dialog"):
-            self.page.pop_dialog()
-        else:
-            dialog.open = False
-            self.page.update()
+        close_dialog(self.page, dialog)
 
     def _best_score_label(self, mode_key: str, stats: dict, scores: dict) -> str:
         best = int(scores.get(mode_key, scores.get(f"score_{mode_key}", 0)) or 0)

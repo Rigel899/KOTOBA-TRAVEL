@@ -25,9 +25,10 @@ FILES_TO_PRELOAD: list[tuple[str, str]] = [
     ("culture.json",     "Esploro la cultura"),
     ("history.json",     "Sfoglio i secoli"),
     ("explore.json",     "Preparo i luoghi"),
+    ("museums.json",     "Apro i musei"),
 ]
 
-STEP_DELAY  = 0.55  # durata minima per ogni passo (8 × 0.55 ≈ 4.4s)
+STEP_DELAY  = 0.45  # durata minima per ogni passo (9 × 0.45 ≈ 4.0s)
 MIN_VISIBLE = 5.0   # durata minima totale dello splash
 
 
@@ -37,6 +38,7 @@ class SplashView:
         self.navigate = navigate
         self.state    = state
         self._msg_ref = ft.Ref[ft.Text]()
+        self._task_started = False
 
     async def _run(self):
         start = time.monotonic()
@@ -65,7 +67,9 @@ class SplashView:
         self.navigate("/")
 
     def build(self) -> ft.Control:
-        self.page.run_task(self._run)
+        if not self._task_started:
+            self._task_started = True
+            self.page.run_task(self._run)
 
         logo_path = os.path.join(ASSET_DIR, "image", "icons", "icona.png")
         if os.path.exists(logo_path):

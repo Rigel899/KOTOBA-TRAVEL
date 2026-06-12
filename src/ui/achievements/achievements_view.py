@@ -310,8 +310,8 @@ class AchievementsView:
 
         self.grid = ft.GridView(
             controls=self._grid_controls(unlocked_ids),
-            max_extent=430,
-            child_aspect_ratio=2.2,
+            max_extent=520,
+            child_aspect_ratio=2.45,
             spacing=12,
             run_spacing=12,
             expand=True,

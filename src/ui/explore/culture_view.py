@@ -3,12 +3,16 @@ CultureView – cultura giapponese in layout split-screen a due colonne
 (Rifattorizzato con Design System Sumi-e, Hanko stamps, Kintsugi hover ed ergonomia desktop)
 """
 from __future__ import annotations
+import logging
 import flet as ft
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
 from src.core.app_state import get_current_user
 from src.ui.components.loader import show_achievements
 from src.ui.components.masthead import build_masthead
+from src.ui.components.stage import scrollable_split_stage
+
+_log = logging.getLogger("kotoba.ui.culture")
 
 class CultureView:
     CATEGORY_ORDER = [
@@ -110,15 +114,21 @@ class CultureView:
         self._set_right_content(self._build_right_content(topic))
         
         # Incrementa le statistiche di lettura
-        show_achievements(
-            self.page,
-            DBManager.increment_stat(
+        try:
+            unlocked = DBManager.increment_stat(
                 self.username,
                 "culture_viewed",
                 unique_id=topic.get("title", ""),
                 total_items=len(self.culture_data),
-            ),
-        )
+            )
+        except Exception:
+            _log.exception("culture stat tracking failed for %s", topic.get("title", ""))
+            return
+
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("culture achievement notification failed for %s", topic.get("title", ""))
 
     def _topic_category(self, topic: dict) -> str:
         category = topic.get("category")
@@ -318,13 +328,17 @@ class CultureView:
             expand=True,
             content=ft.Column([
                 masthead,
-                ft.Row([
-                    ft.Container(
-                        content=left_content,
-                        expand=4,
-                        border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
-                    ),
-                    self.right_panel
-                ], expand=True, spacing=0)
+                scrollable_split_stage(
+                    self.page,
+                    ft.Row([
+                        ft.Container(
+                            content=left_content,
+                            expand=4,
+                            border=ft.border.only(right=ft.BorderSide(1, T.BORDER))
+                        ),
+                        self.right_panel
+                    ], expand=True, spacing=0),
+                    min_width=1060,
+                )
             ], spacing=0, expand=True)
         )

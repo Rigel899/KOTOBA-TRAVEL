@@ -47,6 +47,7 @@ class AchievementsViewTests(unittest.TestCase):
 
         self.assertIsNotNone(control)
         self.assertIsNotNone(view.grid)
+        self.assertGreaterEqual(view.grid.max_extent, 500)
         self.assertEqual(len(view.grid.controls), len(visible_achievement_ids(set())))
 
     def test_platinum_is_visible_even_when_locked(self):

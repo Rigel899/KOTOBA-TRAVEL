@@ -154,6 +154,8 @@ class DBManager:
     @staticmethod
     def _get_profile_integrity() -> ProfileIntegrity:
         if DBManager._profile_integrity is None:
+            # Compatibilita con profili creati prima della firma HMAC.
+            # Dopo il primo update, ProfileStore riscrive il profilo firmato.
             DBManager._profile_integrity = ProfileIntegrity(allow_unsigned_profiles=True)
         return DBManager._profile_integrity
 

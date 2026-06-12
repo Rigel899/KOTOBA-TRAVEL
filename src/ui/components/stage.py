@@ -40,3 +40,28 @@ def centered_stage(
             content=content,
         ),
     )
+
+
+def scrollable_split_stage(
+    page: ft.Page,
+    content: ft.Control,
+    *,
+    min_width: int = 1100,
+) -> ft.Control:
+    """Mantiene leggibili i layout a due colonne sulle finestre strette."""
+    width = max(
+        min_width,
+        stage_width(page, max_width=10000, gutter=0, min_width=min_width),
+    )
+    return ft.Row(
+        [
+            ft.Container(
+                width=width,
+                expand=False,
+                content=content,
+            )
+        ],
+        spacing=0,
+        expand=True,
+        scroll=ft.ScrollMode.AUTO,
+    )

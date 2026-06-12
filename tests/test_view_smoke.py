@@ -9,6 +9,7 @@ import flet as ft
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
 from src.main import ROUTES
+from src.ui.components.stage import scrollable_split_stage
 
 
 class DummyPage:
@@ -70,6 +71,19 @@ class ViewSmokeTests(unittest.TestCase):
                 control = view_cls(self.page, navigate, self.state).build()
 
                 self.assertIsInstance(control, ft.Control)
+
+    def test_scrollable_split_stage_keeps_minimum_width_on_narrow_pages(self):
+        self.page.width = 900
+        self.page.window.width = 900
+
+        control = scrollable_split_stage(
+            self.page,
+            ft.Container(),
+            min_width=1060,
+        )
+
+        self.assertEqual(control.scroll, ft.ScrollMode.AUTO)
+        self.assertEqual(control.controls[0].width, 1060)
 
 
 if __name__ == "__main__":

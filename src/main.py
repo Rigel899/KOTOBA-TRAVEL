@@ -31,6 +31,7 @@ ROUTES = {
     "history": ("src.ui.explore.history_view", "HistoryView"),
     "places": ("src.ui.explore.places_view", "PlacesView"),
 }
+_log = logging.getLogger("kotoba.main")
 
 
 def normalize_route(route) -> str:
@@ -100,6 +101,7 @@ def _screen_size() -> tuple[int | None, int | None]:
         user32 = ctypes.windll.user32
         return user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
     except Exception:
+        _log.debug("screen size detection failed", exc_info=True)
         return None, None
 
 
@@ -119,7 +121,7 @@ def _primary_work_area() -> tuple[int, int, int, int] | None:
         if ctypes.windll.user32.SystemParametersInfoW(SPI_GETWORKAREA, 0, ctypes.byref(rect), 0):
             return rect.left, rect.top, rect.right, rect.bottom
     except Exception:
-        pass
+        _log.debug("primary work area detection failed", exc_info=True)
     return None
 
 
@@ -153,7 +155,7 @@ def _current_monitor_work_area() -> tuple[int, int, int, int] | None:
             rect = info.rcWork
             return rect.left, rect.top, rect.right, rect.bottom
     except Exception:
-        pass
+        _log.debug("current monitor work area detection failed", exc_info=True)
     return None
 
 
@@ -191,7 +193,7 @@ def _set_window(page: ft.Page, w: int, h: int, min_w: int, min_h: int, resizable
         page.window.maximized = False
         page.window.full_screen = False
     except Exception:
-        pass
+        _log.debug("window state reset failed", exc_info=True)
     page.window.max_width = None
     page.window.max_height = None
     page.window.maximizable = resizable
@@ -303,7 +305,7 @@ def main(page: ft.Page):
             encoding="utf-8",
         )
     except Exception:
-        pass  # log setup failure must never crash the app
+        logging.getLogger("kotoba.main").warning("log setup failed", exc_info=True)
 
     def _error_view(route_name: str) -> ft.Control:
         message = "Non sono riuscito a caricare questa vista. I dettagli tecnici sono stati salvati nel log dell'app."

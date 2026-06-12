@@ -4,6 +4,7 @@ Griglia a 4 colonne, protezione IndexError, card dorata e navigazione.
 """
 from __future__ import annotations
 import flet as ft
+import logging
 import random
 from src.core.settings import KotobaTheme as T
 from src.core.db_manager import DBManager
@@ -22,6 +23,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
 )
 
 TOTAL_QUESTIONS = 10
+_log = logging.getLogger("kotoba.ui.dojo_vocab")
 
 class DojoVocab:
     def __init__(self, page: ft.Page, navigate, state: dict):
@@ -196,13 +198,16 @@ class DojoVocab:
         pct = percent_score(correct_count, len(self.questions))
         unlocked = []
         if self.questions:
-            unlocked = DBManager.record_quiz_result(
-                get_current_user(self.state),
-                "vocab",
-                correct_count,
-                total_questions=len(self.questions),
-                max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question[1]),
-            )
+            try:
+                unlocked = DBManager.record_quiz_result(
+                    get_current_user(self.state),
+                    "vocab",
+                    correct_count,
+                    total_questions=len(self.questions),
+                    max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question[1]),
+                )
+            except Exception:
+                _log.exception("Vocabolario result tracking failed")
         if pct == 100:
             grade, color = "Perfezione", T.BELT_VOCAB
         elif pct >= 80:
@@ -227,7 +232,10 @@ class DojoVocab:
 
         self.content_area.content = centered_stage(self.page, screen, max_width=820, min_width=640)
         self._safe_update()
-        show_achievements(self.page, unlocked)
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("Vocabolario achievement notification failed")
 
     def _go_back_to_mode(self):
         self.content_area.content = centered_stage(self.page, self._setup_screen_group(), max_width=1040)

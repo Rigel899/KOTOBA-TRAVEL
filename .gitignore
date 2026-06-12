@@ -21,6 +21,7 @@ build/
 dist/
 *.spec
 .flet/
+*.egg-info/
 
 # File temporanei generati durante review asset
 tmp_*.jpg

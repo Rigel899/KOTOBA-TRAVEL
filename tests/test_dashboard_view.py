@@ -6,6 +6,7 @@ from unittest.mock import patch
 from src.core.app_state import GUEST_USERNAME, set_user
 from src.core.db_manager import DBManager
 from src.ui.home.dashboard_view import DashboardView
+from src.ui.progress.stats_view import StatsView
 
 
 class DummyPage:
@@ -60,6 +61,20 @@ class DashboardViewTests(unittest.TestCase):
 
         self.assertIsNotNone(self.page.dialog)
         self.assertEqual(self.page.dialog.title.controls[1].value, "Kotoba Travel")
+
+    def test_exam_best_score_label_uses_twenty_question_total(self):
+        stats = {
+            "quiz_mode_best_correct": {"exam": 15},
+            "quiz_mode_best_total": {"exam": 20},
+        }
+
+        dashboard = DashboardView.__new__(DashboardView)
+        stats_view = StatsView.__new__(StatsView)
+
+        self.assertEqual(dashboard._best_score_label("exam", stats, {}), "PB 15/20")
+        self.assertEqual(stats_view._best_score_label("exam", stats, {}), "PB 15/20")
+        self.assertEqual(dashboard._best_score_label("exam", {}, {"exam": 8}), "PB 16/20")
+        self.assertEqual(stats_view._best_score_label("exam", {}, {"exam": 8}), "PB 16/20")
 
 
 if __name__ == "__main__":

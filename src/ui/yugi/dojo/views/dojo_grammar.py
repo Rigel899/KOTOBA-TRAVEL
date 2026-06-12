@@ -4,6 +4,7 @@ Quiz rapido sulle particelle e sulle strutture base.
 """
 from __future__ import annotations
 
+import logging
 import random
 
 import flet as ft
@@ -25,6 +26,7 @@ from src.ui.yugi.dojo.quiz.quiz_utils import (
 )
 
 TOTAL_QUESTIONS = 10
+_log = logging.getLogger("kotoba.ui.dojo_grammar")
 
 
 class DojoGrammar:
@@ -291,13 +293,16 @@ class DojoGrammar:
 
         unlocked = []
         if self.questions:
-            unlocked = DBManager.record_quiz_result(
-                get_current_user(self.state),
-                "grammar",
-                correct_count,
-                total_questions=len(self.questions),
-                max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question["correct"]),
-            )
+            try:
+                unlocked = DBManager.record_quiz_result(
+                    get_current_user(self.state),
+                    "grammar",
+                    correct_count,
+                    total_questions=len(self.questions),
+                    max_streak=max_correct_streak(self.questions, self.user_answers, lambda question: question["correct"]),
+                )
+            except Exception:
+                _log.exception("Grammatica result tracking failed")
 
         screen = build_quiz_result_view(
             title="Addestramento terminato",
@@ -315,7 +320,10 @@ class DojoGrammar:
         )
         self.content_area.content = centered_stage(self.page, screen, max_width=820, min_width=640)
         self._safe_update()
-        show_achievements(self.page, unlocked)
+        try:
+            show_achievements(self.page, unlocked)
+        except Exception:
+            _log.exception("Grammatica achievement notification failed")
 
     def _go_back_to_start(self):
         self.content_area.content = centered_stage(self.page, self._setup_screen(), max_width=1040)

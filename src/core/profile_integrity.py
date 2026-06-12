@@ -11,6 +11,13 @@ import json
 
 
 class ProfileIntegrity:
+    """Firma tamper-evident per i profili locali.
+
+    La chiave applicativa è distribuita insieme al codice, quindi questa
+    protezione rileva modifiche manuali accidentali o grossolane ma non va
+    trattata come anti-cheat forte contro un utente che controlla la macchina.
+    """
+
     SIGNATURE_FIELD = "_integrity"
     VERSION = "hmac_sha256_v1"
     APP_SECRET = "kotoba_travel_profile_integrity_v1"
