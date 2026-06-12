@@ -23,7 +23,7 @@ jobs:
 
       - name: Build Windows
         shell: cmd
-        run: echo y | flet build windows --no-rich-output
+        run: echo y | flet build windows --module-name run --no-rich-output
         env:
           PYTHONUTF8: "1"
           PYTHONIOENCODING: "utf-8"
@@ -54,7 +54,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build Linux
-        run: echo "y" | flet build linux --no-rich-output
+        run: echo "y" | flet build linux --module-name run --no-rich-output
 
       - name: Tar artifact
         run: tar -czf kotoba-travel-linux.tar.gz -C build/linux .
