@@ -22,7 +22,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build Windows
-        run: flet build windows --no-rich-output
+        shell: cmd
+        run: echo y | flet build windows --no-rich-output
         env:
           PYTHONUTF8: "1"
           PYTHONIOENCODING: "utf-8"
