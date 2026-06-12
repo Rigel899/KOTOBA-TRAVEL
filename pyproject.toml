@@ -1,5 +1,6 @@
 [tool.flet]
 app.name = "Kotoba Travel"
+app.module_name = "run"
 app.version = "1.0.0"
 app.author = "Kotoba Travel"
 app.description = "Impara il giapponese viaggiando"
