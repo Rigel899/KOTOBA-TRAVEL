@@ -1,0 +1,88 @@
+﻿[
+    {
+        "word":  "こんにちは",
+        "reading":  "konnichiwa",
+        "meaning":  "buongiorno",
+        "category":  "Saluti",
+        "group":  "Saluti",
+        "example":  "こんにちは。いい天気ですね。\nKonnichiwa. Ii tenki desu ne.\n= Buongiorno. Bel tempo, vero?"
+    },
+    {
+        "word":  "ありがとう",
+        "reading":  "arigatou",
+        "meaning":  "grazie",
+        "category":  "Saluti",
+        "group":  "Saluti",
+        "example":  "手伝ってくれてありがとう。\nTetsudatte kurete arigatou.\n= Grazie per avermi aiutato."
+    },
+    {
+        "word":  "一",
+        "reading":  "ichi",
+        "meaning":  "uno",
+        "category":  "Numeri",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "二",
+        "reading":  "ni",
+        "meaning":  "due",
+        "category":  "Numeri",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "水",
+        "reading":  "mizu",
+        "meaning":  "acqua",
+        "category":  "Cibo e Bevande",
+        "group":  "Cibo e Bevande"
+    },
+    {
+        "word":  "お茶",
+        "reading":  "ocha",
+        "meaning":  "te",
+        "category":  "Cibo e Bevande",
+        "group":  "Cibo e Bevande"
+    },
+    {
+        "word":  "食べる",
+        "reading":  "taberu",
+        "meaning":  "mangiare",
+        "category":  "Verbi base",
+        "group":  "Verbi base"
+    },
+    {
+        "word":  "飲む",
+        "reading":  "nomu",
+        "meaning":  "bere",
+        "category":  "Verbi base",
+        "group":  "Verbi base"
+    },
+    {
+        "word":  "学校",
+        "reading":  "gakkou",
+        "meaning":  "scuola",
+        "category":  "Luoghi",
+        "group":  "Luoghi"
+    },
+    {
+        "word":  "寺",
+        "reading":  "tera",
+        "meaning":  "tempio",
+        "category":  "Luoghi",
+        "group":  "Luoghi"
+    },
+    {
+        "word":  "家族",
+        "reading":  "kazoku",
+        "meaning":  "famiglia",
+        "category":  "Famiglia",
+        "group":  "Famiglia"
+    },
+    {
+        "word":  "父",
+        "reading":  "chichi",
+        "meaning":  "mio padre",
+        "category":  "Famiglia",
+        "group":  "Famiglia"
+    }
+]

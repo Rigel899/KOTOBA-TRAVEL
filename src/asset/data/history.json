@@ -1,0 +1,26 @@
+﻿[
+    {
+        "title":  "Introduzione alla storia del Giappone",
+        "subtitle":  "Un percorso storico semplice da seguire.",
+        "content":  "La storia del Giappone è lunga e ricca di cambiamenti politici, culturali e sociali. Per capirla bene conviene dividerla in grandi periodi, così da seguire l\u0027evoluzione del paese dalle origini all\u0027epoca contemporanea.",
+        "period":  "Panoramica"
+    },
+    {
+        "title":  "Periodo Jomon",
+        "subtitle":  "Ceramiche, villaggi e società preistoriche.",
+        "content":  "Il periodo Jomon è noto per le ceramiche decorate a corda e per comunità che vivevano di caccia, pesca, raccolta e primi insediamenti stabili. È una fase fondamentale per capire le radici più antiche dell\u0027arcipelago.",
+        "period":  "Origini"
+    },
+    {
+        "title":  "Periodo Yayoi",
+        "subtitle":  "Riso, metalli e nuove strutture sociali.",
+        "content":  "Nel periodo Yayoi si diffondono la coltivazione del riso, l\u0027uso di metalli e comunità più gerarchiche. Le influenze dal continente asiatico diventano sempre più importanti.",
+        "period":  "Origini"
+    },
+    {
+        "title":  "Periodo Kofun",
+        "subtitle":  "Grandi tombe e nascita del potere Yamato.",
+        "content":  "Il periodo Kofun prende il nome dalle grandi tombe monumentali. In questa fase si consolida il potere Yamato, che diventerà centrale nella formazione dello stato giapponese.",
+        "period":  "Origini"
+    }
+]

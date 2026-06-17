@@ -1,0 +1,71 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ambienti locali
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+.mypy_cache/
+.ruff_cache/
+
+# Build / packaging
+build/
+dist/
+*.spec
+.flet/
+*.egg-info/
+
+# File temporanei generati durante review asset
+tmp_*.jpg
+tmp_*.png
+
+# Dati locali utente / export
+profiles/
+**/profiles/
+exports/
+**/exports/
+*.log
+
+# Dati reali (non pubblici — backup locale dello sviluppatore)
+_dati_reali/
+
+# Immagini cibo reali (solo le 8 demo restano nel repo, una per categoria)
+src/asset/image/food/*.jpg
+!src/asset/image/food/tamagoyaki.jpg
+!src/asset/image/food/sushi.jpg
+!src/asset/image/food/yakitori.jpg
+!src/asset/image/food/tempura.jpg
+!src/asset/image/food/mochi.jpg
+!src/asset/image/food/ramen.jpg
+!src/asset/image/food/takoyaki.jpg
+!src/asset/image/food/matcha.jpg
+
+# Backup temporaneo creato da build_release.py
+_demo_backup/
+
+# Tool di build Linux (scaricati da setup_linux.sh, non vanno in repo)
+linuxdeploy-x86_64.AppImage
+linuxdeploy-plugin-gtk.sh
+AppDir/
+*.AppImage
+
+# Output installer Windows generato da Inno Setup
+KotobaTravel-Setup.exe
+
+# File temporanei generati da flet pack (conversione icona)
+generated-*.ico
+
+# IDE (configurazioni locali dello sviluppatore)
+.vscode/
+.idea/
+
+# macOS
+.DS_Store

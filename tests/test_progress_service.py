@@ -1,0 +1,302 @@
+import unittest
+from copy import deepcopy
+
+from src.core.profile_factory import build_default_profile
+from src.core.achievements import PLATINUM_ACHIEVEMENT, platinum_required_achievement_ids
+from src.core.progress_service import ProgressService, STUDY_REQUIRED_SECTIONS, STUDY_SECTION_STAT
+
+
+class ProgressServiceTests(unittest.TestCase):
+    def setUp(self):
+        self.profiles = {}
+        self._add_profile("utente")
+        self.service = ProgressService(
+            lambda username: self.profiles.get(username),
+            lambda username, data: self.profiles.__setitem__(username, data),
+        )
+
+    def _add_profile(self, username: str) -> None:
+        self.profiles[username] = build_default_profile(username, "password-hash", "q", "answer-hash")
+
+    def _copying_service(self) -> tuple[ProgressService, dict]:
+        persisted = deepcopy(self.profiles)
+
+        return (
+            ProgressService(
+                lambda username: deepcopy(persisted.get(username)),
+                lambda username, data: persisted.__setitem__(username, deepcopy(data)),
+            ),
+            persisted,
+        )
+
+    def test_record_quiz_result_updates_stats_scores_and_achievements(self):
+        unlocked = self.service.record_quiz_result(
+            "utente",
+            "grammar",
+            score=6,
+            total_questions=10,
+            max_streak=5,
+        )
+        data = self.profiles["utente"]
+
+        self.assertEqual(data["scores"]["grammar"], 6)
+        self.assertEqual(data["stats"]["total_quizzes"], 1)
+        self.assertEqual(data["stats"]["total_questions"], 10)
+        self.assertEqual(data["stats"]["total_correct"], 6)
+        self.assertEqual(data["stats"]["max_streak"], 5)
+        self.assertEqual(data["stats"]["quiz_mode_best_correct"]["grammar"], 6)
+        self.assertEqual(data["stats"]["quiz_mode_best_total"]["grammar"], 10)
+        self.assertIn("streak_5", unlocked)
+        self.assertNotIn("streak_10", unlocked)
+
+    def test_quiz_best_score_keeps_real_best_result(self):
+        self.service.record_quiz_result(
+            "utente",
+            "exam",
+            score=15,
+            total_questions=20,
+            max_streak=4,
+        )
+        self.service.record_quiz_result(
+            "utente",
+            "exam",
+            score=12,
+            total_questions=20,
+            max_streak=4,
+        )
+
+        data = self.profiles["utente"]
+        self.assertEqual(data["scores"]["exam"], 8)
+        self.assertEqual(data["stats"]["quiz_mode_best_correct"]["exam"], 15)
+        self.assertEqual(data["stats"]["quiz_mode_best_total"]["exam"], 20)
+
+    def test_unique_increment_ignores_duplicate_views(self):
+        self.assertEqual(
+            self.service.increment_stat("utente", "places_viewed", unique_id="tokyo"),
+            [],
+        )
+        self.assertEqual(
+            self.service.increment_stat("utente", "places_viewed", unique_id="tokyo"),
+            [],
+        )
+
+        data = self.profiles["utente"]
+        self.assertEqual(data["stats"]["places_viewed"], 1)
+        self.assertEqual(list(data["stats"]["unique_views"]["places_viewed"]), ["tokyo"])
+
+    def test_duplicate_unique_view_still_updates_exploration_total(self):
+        service, persisted = self._copying_service()
+        service.increment_stat("utente", "food_viewed", unique_id="ramen", total_items=1)
+
+        self.assertEqual(
+            service.increment_stat("utente", "food_viewed", unique_id="ramen", total_items=2),
+            [],
+        )
+
+        data = persisted["utente"]
+        self.assertEqual(data["stats"]["food_viewed"], 1)
+        self.assertEqual(data["stats"]["exploration_totals"]["food_viewed"], 2)
+
+    def test_duplicate_unique_view_persists_legacy_unique_view_migration(self):
+        service, persisted = self._copying_service()
+        data = persisted["utente"]
+        data["stats"]["food_viewed"] = 1
+        data["stats"]["unique_views"] = {"food_viewed": ["ramen"]}
+
+        self.assertEqual(
+            service.increment_stat("utente", "food_viewed", unique_id="ramen"),
+            [],
+        )
+
+        persisted_data = persisted["utente"]
+        self.assertEqual(persisted_data["stats"]["food_viewed"], 1)
+        self.assertEqual(persisted_data["stats"]["unique_views"]["food_viewed"], {"ramen": 1})
+
+    def test_unique_increment_unlocks_when_threshold_is_reached(self):
+        unlocked = []
+        for index in range(5):
+            unlocked = self.service.increment_stat(
+                "utente",
+                "places_viewed",
+                unique_id=f"place-{index}",
+            )
+
+        self.assertEqual(unlocked, ["places_5"])
+        self.assertIn("places_5", self.profiles["utente"]["achievements"])
+
+    def test_advanced_quiz_modes_unlock_first_and_perfect_achievements(self):
+        cases = [
+            ("kanji", {"kanji_first", "kanji_perfect"}),
+            ("vocab", {"vocab_first", "vocab_perfect", "vocab_50"}),
+            ("grammar", {"grammar_first", "grammar_perfect"}),
+        ]
+
+        for mode_key, expected in cases:
+            username = f"{mode_key}user"
+            self._add_profile(username)
+
+            unlocked = set(
+                self.service.record_quiz_result(
+                    username,
+                    mode_key,
+                    score=50 if mode_key == "vocab" else 10,
+                    total_questions=50 if mode_key == "vocab" else 10,
+                    max_streak=4,
+                )
+            )
+
+            self.assertTrue(expected.issubset(unlocked))
+            self.assertTrue(expected.issubset(set(self.profiles[username]["achievements"])))
+
+    def test_exam_unlocks_first_completion_and_perfect_milestones(self):
+        self._add_profile("examuser")
+
+        unlocked = self.service.record_quiz_result(
+            "examuser",
+            "exam",
+            score=13,
+            total_questions=20,
+            max_streak=4,
+        )
+
+        self.assertIn("exam_first", unlocked)
+        self.assertNotIn("exam_perfect_1", unlocked)
+
+        unlocked = []
+        for _ in range(4):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
+
+        self.assertIn("exam_perfect_1", self.profiles["examuser"]["achievements"])
+        self.assertNotIn("exam_perfect_5", unlocked)
+
+        unlocked = self.service.record_quiz_result(
+            "examuser",
+            "exam",
+            score=20,
+            total_questions=20,
+            max_streak=4,
+        )
+        self.assertIn("exam_perfect_5", unlocked)
+
+        for _ in range(5):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
+        self.assertIn("exam_perfect_10", unlocked)
+
+        for _ in range(10):
+            unlocked = self.service.record_quiz_result(
+                "examuser",
+                "exam",
+                score=20,
+                total_questions=20,
+                max_streak=4,
+            )
+        self.assertIn("exam_master", unlocked)
+
+    def test_exam_perfect_milestones_require_full_exam_length(self):
+        self._add_profile("shortexam")
+
+        unlocked = self.service.record_quiz_result(
+            "shortexam",
+            "exam",
+            score=9,
+            total_questions=10,
+            max_streak=4,
+        )
+
+        self.assertIn("exam_first", unlocked)
+        self.assertNotIn("exam_perfect_1", unlocked)
+        self.assertNotIn("exam_master", unlocked)
+
+    def test_unknown_achievement_ids_are_not_saved(self):
+        with self.assertLogs("kotoba.progress", level="WARNING") as logs:
+            unlocked = self.service.unlock_achievement("utente", "missing_achievement")
+
+        self.assertFalse(unlocked)
+        self.assertNotIn("missing_achievement", self.profiles["utente"]["achievements"])
+        self.assertIn("missing_achievement", logs.output[0])
+
+    def test_study_sections_unlock_only_first_consulted_achievement(self):
+        unlocked = self.service.increment_stat(
+            "utente",
+            STUDY_SECTION_STAT,
+            unique_id=STUDY_REQUIRED_SECTIONS[0],
+        )
+
+        self.assertEqual(unlocked, ["study_first"])
+        self.assertEqual(self.profiles["utente"]["stats"][STUDY_SECTION_STAT], 1)
+
+        self.assertEqual(
+            self.service.increment_stat(
+                "utente",
+                STUDY_SECTION_STAT,
+                unique_id=STUDY_REQUIRED_SECTIONS[0],
+            ),
+            [],
+        )
+
+        for section in STUDY_REQUIRED_SECTIONS[1:-1]:
+            self.service.increment_stat("utente", STUDY_SECTION_STAT, unique_id=section)
+        unlocked = self.service.increment_stat(
+            "utente",
+            STUDY_SECTION_STAT,
+            unique_id=STUDY_REQUIRED_SECTIONS[-1],
+        )
+
+        self.assertNotIn("study_all", unlocked)
+        self.assertNotIn("study_all", self.profiles["utente"]["achievements"])
+        self.assertEqual(self.profiles["utente"]["stats"][STUDY_SECTION_STAT], len(STUDY_REQUIRED_SECTIONS))
+
+    def test_study_all_unlocks_after_required_quiz_mastery(self):
+        required_modes = ("mixed", "kanji", "vocab")
+        for mode_key in required_modes:
+            unlocked = self.service.record_quiz_result(
+                "utente",
+                mode_key,
+                score=10,
+                total_questions=10,
+                max_streak=4,
+            )
+            self.assertNotIn("study_all", unlocked)
+
+        unlocked = self.service.record_quiz_result(
+            "utente",
+            "grammar",
+            score=10,
+            total_questions=10,
+            max_streak=4,
+        )
+
+        self.assertIn("study_all", unlocked)
+        self.assertIn("study_all", self.profiles["utente"]["achievements"])
+
+    def test_study_all_cannot_be_unlocked_directly_before_quiz_mastery(self):
+        unlocked = self.service.unlock_achievement("utente", "study_all")
+
+        self.assertFalse(unlocked)
+        self.assertNotIn("study_all", self.profiles["utente"]["achievements"])
+
+    def test_platinum_unlocks_only_after_every_required_achievement(self):
+        self.assertFalse(self.service.unlock_achievement("utente", PLATINUM_ACHIEVEMENT))
+        self.assertNotIn(PLATINUM_ACHIEVEMENT, self.profiles["utente"]["achievements"])
+
+        required = sorted(platinum_required_achievement_ids())
+        for achievement_id in required:
+            self.service.unlock_achievement("utente", achievement_id)
+
+        self.assertIn(PLATINUM_ACHIEVEMENT, self.profiles["utente"]["achievements"])
+
+
+if __name__ == "__main__":
+    unittest.main()

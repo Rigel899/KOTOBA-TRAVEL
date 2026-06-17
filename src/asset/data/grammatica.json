@@ -1,0 +1,32 @@
+﻿[
+    {
+        "title":  "Struttura base: S + O + V",
+        "emoji":  "文",
+        "explanation":  "In giapponese il verbo arriva quasi sempre alla fine della frase. L\u0027ordine più comune è soggetto, oggetto e verbo.",
+        "example":  "私は寿司を食べます。\nWatashi wa sushi o tabemasu.\n= Io mangio sushi."
+    },
+    {
+        "title":  "La particella は",
+        "emoji":  "は",
+        "explanation":  "は si legge wa quando è particella e marca il tema della frase, cioè l\u0027argomento di cui stai parlando.",
+        "example":  "私はマルコです。\nWatashi wa Maruko desu.\n= Io sono Marco."
+    },
+    {
+        "title":  "La particella が",
+        "emoji":  "が",
+        "explanation":  "が marca spesso il soggetto grammaticale o mette in evidenza chi compie o possiede una qualità.",
+        "example":  "猫がいます。\nNeko ga imasu.\n= C\u0027è un gatto."
+    },
+    {
+        "title":  "La particella を",
+        "emoji":  "を",
+        "explanation":  "を si legge o e marca l\u0027oggetto diretto dell\u0027azione: ciò che viene mangiato, visto, comprato o fatto.",
+        "example":  "水を飲みます。\nMizu o nomimasu.\n= Bevo acqua."
+    },
+    {
+        "title":  "La particella に",
+        "emoji":  "に",
+        "explanation":  "に indica destinazione, punto nel tempo o presenza in un luogo. Risponde spesso a dove vai, quando o dove si trova qualcosa.",
+        "example":  "駅に行きます。\nEki ni ikimasu.\n= Vado alla stazione."
+    }
+]

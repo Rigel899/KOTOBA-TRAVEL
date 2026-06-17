@@ -1,0 +1,62 @@
+﻿[
+    {
+        "category":  "Giappone Moderno",
+        "name":  "Akihabara",
+        "jp":  "秋葉原",
+        "city":  "Tokyo",
+        "description":  "Il paradiso dell\u0027elettronica, manga, anime e cultura otaku del mondo.",
+        "detail":  "Una volta mercato dell\u0027elettronica di seconda mano nel dopoguerra, oggi è la mecca globale della cultura pop giapponese. Multi-piano di arcade, figurine rare, café a tema e negozi di retro-gaming.",
+        "tag":  "Cultura pop",
+        "image":  ""
+    },
+    {
+        "category":  "Giappone Moderno",
+        "name":  "Shibuya",
+        "jp":  "渋谷",
+        "city":  "Tokyo",
+        "description":  "Il quartiere più frenetico di Tokyo, famoso per il celeberrimo incrocio pedonale e lo shopping.",
+        "detail":  "Ogni volta che il semaforo diventa verde, centinaia di persone attraversano da ogni direzione. Shibuya è anche il centro della moda giovane giapponese, con Takeshita Street e Harajuku a due passi.",
+        "tag":  "Metropoli",
+        "image":  ""
+    },
+    {
+        "category":  "Giappone Antico",
+        "name":  "Fushimi Inari",
+        "jp":  "伏見稲荷大社",
+        "city":  "Kyoto",
+        "description":  "Il santuario shintoista con migliaia di torii arancioni che risalgono il monte Inari.",
+        "detail":  "Fondato nell\u0027711 d.C., Fushimi Inari è dedicato a Inari, divinità del riso e della prosperità. I torii arancioni sono donati da imprese e privati come offerta votiva.",
+        "tag":  "Santuario",
+        "image":  ""
+    },
+    {
+        "category":  "Giappone Antico",
+        "name":  "Kinkaku-ji",
+        "jp":  "金閣寺",
+        "city":  "Kyoto",
+        "description":  "Il Padiglione d\u0027Oro, tempio zen completamente ricoperto di foglie d\u0027oro specchiato nel lago.",
+        "detail":  "Originariamente villa del shogun Ashikaga Yoshimitsu (1397), divenne tempio alla sua morte. Il padiglione attuale è una ricostruzione del 1955.",
+        "tag":  "Tempio",
+        "image":  ""
+    },
+    {
+        "category":  "Lavori Tipici",
+        "name":  "Miko",
+        "jp":  "巫女",
+        "city":  "Spiritualità",
+        "description":  "Le miko sono giovani donne che lavorano nei santuari scintoisti. Indossano una veste tradizionale composta da casacca bianca e hakama rosso.",
+        "detail":  "In passato erano considerate sciamane e intermediarie tra kami e uomini. Oggi assistono i sacerdoti nelle funzioni del santuario, vendono amuleti e curano l\u0027ordine degli spazi sacri.",
+        "tag":  "Santuario",
+        "image":  ""
+    },
+    {
+        "category":  "Lavori Tipici",
+        "name":  "Sushi Shokunin",
+        "jp":  "寿司職人",
+        "city":  "Tradizione",
+        "description":  "Il cuoco specializzato nella preparazione del sushi è una figura di grande precisione e disciplina. La formazione richiede molti anni di pratica costante.",
+        "detail":  "Anticamente l\u0027apprendistato poteva durare anche dieci anni solo per imparare a cuocere il riso alla perfezione. Competenze richieste: selezione del pesce fresco, taglio millimetrico e controllo della temperatura manuale.",
+        "tag":  "Maestria",
+        "image":  ""
+    }
+]

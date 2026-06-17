@@ -1,0 +1,32 @@
+﻿[
+    {
+        "name":  "Museo Nazionale di Tokyo",
+        "jp":  "東京国立博物館",
+        "city":  "Tokyo",
+        "tag":  "Museo",
+        "category":  "Musei",
+        "description":  "Il più antico museo nazionale giapponese, dedicato ad arte, archeologia e cultura materiale.",
+        "detail":  "Perfetto per un percorso culturale: spade, ceramiche, calligrafia, buddhismo e oggetti della vita quotidiana mostrano molte epoche della storia giapponese.",
+        "image":  ""
+    },
+    {
+        "name":  "Museo Ghibli",
+        "jp":  "三鷹の森ジブリ美術館",
+        "city":  "Mitaka",
+        "tag":  "Animazione",
+        "category":  "Musei",
+        "description":  "Museo dedicato all\u0027immaginario dello Studio Ghibli e ai processi dell\u0027animazione.",
+        "detail":  "È utile per testare contenuti pop-culturali e descrizioni meno accademiche, mantenendo comunque un tono curato e narrativo.",
+        "image":  ""
+    },
+    {
+        "name":  "Kyoto Railway Museum",
+        "jp":  "京都鉄道博物館",
+        "city":  "Kyoto",
+        "tag":  "Tecnologia",
+        "category":  "Musei",
+        "description":  "Museo ferroviario con locomotive storiche, shinkansen e simulatori.",
+        "detail":  "Collega viaggio, tecnologia e storia moderna. Può diventare un ponte naturale fra la sezione luoghi e il vocabolario di viaggio.",
+        "image":  ""
+    }
+]

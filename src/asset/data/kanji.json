@@ -1,0 +1,152 @@
+﻿[
+    {
+        "word":  "一",
+        "reading":  "ichi",
+        "meaning":  "uno",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "二",
+        "reading":  "ni",
+        "meaning":  "due",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "三",
+        "reading":  "san",
+        "meaning":  "tre",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "四",
+        "reading":  "yon / shi",
+        "meaning":  "quattro",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "五",
+        "reading":  "go",
+        "meaning":  "cinque",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "六",
+        "reading":  "roku",
+        "meaning":  "sei",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "七",
+        "reading":  "nana / shichi",
+        "meaning":  "sette",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "八",
+        "reading":  "hachi",
+        "meaning":  "otto",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "九",
+        "reading":  "kyuu / ku",
+        "meaning":  "nove",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "十",
+        "reading":  "juu",
+        "meaning":  "dieci",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "百",
+        "reading":  "hyaku",
+        "meaning":  "cento",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "千",
+        "reading":  "sen",
+        "meaning":  "mille",
+        "group":  "Numeri"
+    },
+    {
+        "word":  "日",
+        "reading":  "hi / nichi",
+        "meaning":  "sole / giorno",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "月",
+        "reading":  "tsuki / getsu",
+        "meaning":  "luna / mese",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "火",
+        "reading":  "hi / ka",
+        "meaning":  "fuoco",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "水",
+        "reading":  "mizu / sui",
+        "meaning":  "acqua",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "木",
+        "reading":  "ki / moku",
+        "meaning":  "albero / legno",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "金",
+        "reading":  "kane / kin",
+        "meaning":  "oro / denaro",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "土",
+        "reading":  "tsuchi / do",
+        "meaning":  "terra",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "山",
+        "reading":  "yama / san",
+        "meaning":  "montagna",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "川",
+        "reading":  "kawa / sen",
+        "meaning":  "fiume",
+        "group":  "Natura e tempo"
+    },
+    {
+        "word":  "人",
+        "reading":  "hito / jin",
+        "meaning":  "persona",
+        "group":  "Persone"
+    },
+    {
+        "word":  "子",
+        "reading":  "ko / shi",
+        "meaning":  "bambino",
+        "group":  "Persone"
+    },
+    {
+        "word":  "女",
+        "reading":  "onna / jo",
+        "meaning":  "donna",
+        "group":  "Persone"
+    },
+    {
+        "word":  "男",
+        "reading":  "otoko / dan",
+        "meaning":  "uomo",
+        "group":  "Persone"
+    }
+]

@@ -1,0 +1,19 @@
+[project]
+name = "kotoba-travel"
+version = "1.0.0"
+
+[tool.flet]
+assets_dir = "src/asset"
+app.name = "Kotoba Travel"
+app.version = "1.0.0"
+app.author = "Kotoba Travel"
+app.description = "Impara il giapponese viaggiando"
+app.bundle_id = "com.kotoba.travel"
+
+[tool.flet.app.windows]
+icon = "src/asset/image/icons/icona.ico"
+file_version = "1.0.0.0"
+product_name = "Kotoba Travel"
+
+[tool.flet.app.linux]
+icon = "src/asset/image/icons/icona.png"
